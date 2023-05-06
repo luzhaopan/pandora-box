@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>css设置水平垂直居中</title>
+</head>
+<style>
+    .center1 {
+        width: 200px;
+        height: 200px;
+        background: rgb(103, 79, 153);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .center2 {
+        width: 100px;
+        height: 100px;
+        background-color: rgb(42, 78, 154);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+    }
+
+    .center3 {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        background-color: rgb(42, 78, 154);
+    }
+
+    .center4 {
+        background: red;
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* margin: -50px 0 0 -50px; */
+        margin: auto;
+    }
+
+    .container5 {
+        width: 500px;
+        height: 500px;
+        background-color: rgb(78, 134, 103);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .center5 {
+        width: 100px;
+        height: 100px;
+        background-color: rgb(125, 67, 67);
+    }
+
+    .container6 {
+        width: 500px;
+        height: 500px;
+        background-color: rgb(47, 143, 167);
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .center6 {
+        background-color: rgb(36, 50, 128);
+        vertical-align: middle
+    }
+</style>
+
+<body>
+    <!--1 position + margin子元素设置为absolute定位，top、left、right、bottom属性全部设置为0，margin属性设置为auto即可进行垂直水平居中定位。-->
+    <!-- <div class="center1">我是一个居中元素</div> -->
+
+    <!--2 position: absolute + transform-->
+    <!-- <div class="center2">我是一个居中元素</div> -->
+
+    <!--3 position: fixed + transform-->
+    <!-- <div class="center3">我是一个居中元素</div> -->
+
+    <!--4 position + margin 创建一个块级元素，给定宽度和高度。将其position属性设置为absolute，top或者left属性设置为50%，margin-top或margin-left属性设置为负的高的一半或者负的宽的一半，即可实现垂直或者水平方向上的居中定位-->
+    <!-- <div class="center4">我是一个居中元素</div> -->
+
+    <!--5 flex-->
+    <!-- <div class="container5">
+        <div class="center5">
+            我是一个居中元素
+        </div>
+    </div> -->
+
+    <!--6 table-cell  设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中-->
+    <div class="container6">
+        <span class="center6">
+            我是一个居中元素
+        </span>
+    </div>
+</body>
+
+</html>
