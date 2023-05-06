@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>九宫格</title>
+</head>
+<style>
+    .item1 {
+        float: left;
+        width: 33.3%;
+        box-sizing: border-box;
+        border: 1px solid blue;
+        height: 200px;
+    }
+
+    .lottery-draw-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 300px;
+        border: 1px solid #000;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #000;
+    }
+
+    .active {
+        background-color: red;
+    }
+</style>
+
+<body>
+    <!--1 width+box-sizing+float-->
+    <!-- <div>
+        <div class='item1'>
+        </div>
+        <div class='item1'>
+        </div>
+        <div class='item1'>
+        </div>
+        <div class='item1'>
+        </div>
+        <div class='item1'>
+        </div>
+        <div class='item1'>
+        </div>
+        <div class='item1'>
+        </div>
+        <div class='item1'>
+        </div>
+        <div class='item1'>
+        </div>
+    </div> -->
+
+    <!--2 每一行都为一个等分布局-->
+    <div class="lottery-draw-container">
+        <div style="display: flex;flex:1;">
+            <div class="item active"><span>一等奖</span></div>
+            <div class="item"><span>二等奖</span></div>
+            <div class="item"><span>三等奖</span></div>
+        </div>
+        <div style="display: flex;flex:1;">
+            <div class="item"><span>四等奖</span></div>
+            <span class="item"><span>开始</span></span>
+            <div class="item"><span>五等奖</span></div>
+        </div>
+        <div style="display: flex;flex:1;">
+            <div class="item"><span>六等奖</span></div>
+            <div class="item"><span>七等奖</span></div>
+            <div class="item"><span>八等奖</span></div>
+        </div>
+    </div>
+</body>
+
+</html>

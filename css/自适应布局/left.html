@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>左固右自适应布局</title>
+</head>
+<style>
+
+.left1{
+  width:100px;
+  float:left;
+  background-color: aquamarine;
+  min-height:200px;
+}
+.right1{
+   margin-left:100px;
+   background-color: rgb(18, 87, 64);
+   min-height:200px;
+}
+
+.left2{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width:100px;
+  border:1px solid red;
+  min-height:200px;
+}
+.right2{
+  margin-left: 100px;
+  border:1px solid blue;
+  min-height:200px;
+}
+
+.container{
+    display: flex
+ }
+.left3{
+    flex: 0 0 100px;
+    border: 1px solid red;
+    min-height: 500px;
+}
+.right3{
+    flex: 1;
+    border:1px solid blue;
+    min-height:500px;
+}
+
+</style>
+<body>
+    <!--1 左边div定宽+左浮动，右边div用margin-left等于左边div宽度实现-->
+    <!--（顺序不能换）-->
+    <!-- <div>
+        <div class='left1'></div>
+        <div class='right1'></div>
+    </div> -->
+
+    <!--2 左边div定宽+绝对定位，右边div用margin-left等于左边div宽度实现-->
+    <!--（顺序可换）-->
+    <!-- <div>
+        <div class='left2'></div>
+        <div class='right2'></div>
+    </div> -->
+
+    <!--3 弹性布局,IE10以下不兼容-->
+    <div class="container">
+        <div class='left3'></div>
+        <div class='right3'></div>
+    </div>
+</body>
+
+</html>

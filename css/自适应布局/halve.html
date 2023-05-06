@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>左固右固中间自适应布局</title>
+</head>
+<style>
+    .left1 {
+        float: left;
+        width: 100px;
+        border: 1px solid blue;
+        min-height: 500px;
+    }
+
+    .middle1 {
+        border: 1px solid blue;
+        min-height: 500px;
+        margin: 0 100px 0 100px;
+    }
+
+    .right1 {
+        width: 100px;
+        float: right;
+        border: 1px solid red;
+        min-height: 500px;
+    }
+
+    .left2 {
+        position: absolute;
+        width: 100px;
+        left: 0px;
+        top: 0px;
+        border: 1px solid blue;
+        min-height: 500px;
+    }
+
+    .middle2 {
+        border: 1px solid blue;
+        min-height: 500px;
+        margin: 0 100px 0 100px;
+    }
+
+    .right2 {
+        width: 100px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        border: 1px solid red;
+        min-height: 500px;
+    }
+
+    .container {
+        display: flex;
+    }
+
+    .left3 {
+        flex: 0 0 100px;
+        border: 1px solid blue;
+        min-height: 500px;
+    }
+
+    .middle3 {
+        flex: 1;
+        border: 1px solid blue;
+        min-height: 500px;
+    }
+
+    .right3 {
+        flex: 0 0 100px;
+        float: right;
+        border: 1px solid red;
+        min-height: 500px;
+    }
+</style>
+
+<body>
+    <!--1 浮动-->
+    <!--左边div定宽+左浮动，右边div定宽+右浮动，中间div左边距等于左边div宽度，右边距为右边div宽度-->
+    <div>
+        <div class='left1'>
+        </div>
+        <div class='right1'>
+        </div>
+        <div class='middle1'>
+        </div>
+    </div>
+
+    <!--2 绝对定位-->
+    <!--左边div绝对定位+左浮动，右边div绝对定位+右浮动，中间div左边距等于左边div宽度，右边距为右边div宽度-->
+    <div>
+        <div class='left'>
+        </div>
+        <div class='middle'>
+        </div>
+        <div class='right'>
+        </div>
+    </div>
+
+    <!--3 弹性布局,IE10以下不兼容-->
+    <div>
+        <div class='left'>
+        </div>
+        <div class='middle'>
+        </div>
+        <div class='right'>
+        </div>
+    </div>
+</body>
+
+</html>
