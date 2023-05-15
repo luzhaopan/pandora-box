@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>获取数组的最大值</title>
+</head>
+
+<script>
+    // ES5 的写法
+    Math.max.apply(null, [14, 3, 77, 30]);
+
+    // ES6 的写法
+    Math.max(...[14, 3, 77, 30]);
+
+    // reduce
+    [14, 3, 77, 30].reduce((accumulator, currentValue) => {
+        return accumulator = accumulator > currentValue ? accumulator : currentValue
+    });
+</script>
+
+</html>
