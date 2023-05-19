@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>手动实现call、apply、bind实现</title>
+</head>
+
+<script>
+
+    //1. call()
+    //语法： call(thisArgs, args1, args2,...),其中，thisArgs指的是函数运行时指向的this，arg1, arg2, ...指的是调用的参数；
+    //返回值： 返回的是指定的this调用该函数以后的结果;
+    //示例 
+
+    function say(name, hobby) {
+        console.log(this)
+        console.log(`my name is ${name}, my age is ${this.age},my hobby is ${hobby}`)
+    }
+    let obj1 = {
+        age: 18
+    }
+    say('hellow', 'ball')
+    say.call(obj1, 'hellow', 'ball')
+
+    // Window {window: Window, self: Window, document: document, name: '', location: Location, …}
+    // my name is hellow, my age is undefined,my hobby is ball
+    // {age: 18}
+    // my name is hellow, my age is 18,my hobby is ball
+
+    // 由于window上没有定义age属性，所以打印出的age结果为undefined；
+    // 而第二次使用call方法，将函数的this指向转为obj这个对象，this指向obj
+
+    // 2. apply()
+    // apply方法和call方法区别在于就是call()方法接受的是参数列表，而apply()方法接受的是一个参数数组。
+
+    // 3. bind()
+    // bind()方法和call方法很相似，区别在于call方法返回的时函数的调用结果，而bind方法仅仅返回一个函数，
+    // 如果要调用的话需要去执行它;
+
+    function say(name, hobby) {
+        console.log(this)
+        console.log(`my name is ${name}, my age is ${this.age},my hobby is ${hobby}`)
+    }
+    let obj2 = {
+        age: 18
+    }
+    say.bind(obj2, 'hello', 'js')
+    //并不会执行函数,在控制台上打印结果为：
+    //? say(name, hobby){
+    //   console.log(this)
+    //   console.log(`my name is ${name}, my age is ${this.age},my hobby is ${hobby}`)
+    //}
+    say.bind(obj, 'hello', 'js')()
+
+
+    // call和apply实现方式类似，只是传参的区别
+    // 基本思想是把fn.call(obj,args)中的fn赋值为obj的属性，然后调用obj.fn即可实现fn中this指向的改变
+
+    // call 实现
+    Function.prototype.myCall = function (context = window) { //myCall函数的参数，没有传参默认是指向window
+        context.fn = this //为对象添加方法（this指向调用myCall的函数）
+        let args = [...arguments].slice(1) // 剩余的参数
+        let res = context.fn(...args)  // 调用该方法，该方法this指向context
+        delete context.fn //删除添加的方法
+        return res
+    }
+
+    // apply 实现
+    Function.prototype.myApply = function (context = window) { //myCall函数的参数，没有传参默认是指向window
+        context.fn = this //为对象添加方法（this指向调用myCall的函数）
+        let res
+        if (arguments[1]) { //判断是否有第二个参数
+            res = context.fn(...arguments[1])// 调用该方法，该方法this指向context
+        } else {
+            res = context.fn()// 调用该方法，该方法this指向context
+        }
+        delete context.fn //删除添加的方法
+        return res
+    }
+
+    // 验证
+    function sayName(name = 'wwx', age = 18) {
+        this.name = name
+        this.age = age
+        console.log(this.name)
+        return this.age
+    }
+    var obj = {
+        name: 'zcf',
+        age: 24
+    }
+    var age = sayName.myCall(obj, "wxxka", 19) // 19
+    var age1 = sayName.myApply(obj, ["wwxSSS", 20]) //20
+
+
+    // bind 实现
+    Function.prototype.myBind = function (context = window) {
+        let fn = this // 调用bind的函数
+        let args = [...arguments].slice(1) // myBind的参数
+        let bind = function () {
+            let args1 = [...arguments].slice() // bind的参数
+            return fn.apply(context, args.concat(args1))
+        }
+        return bind
+    }
+
+    // 测试
+    var obj = {
+        name: 'zcf',
+        age: 24
+    }
+    function sayName(name = 'wwx', age = 18) {
+        this.name = name
+        this.age = age
+        console.log(this.name)
+        return this.age
+    }
+    var mb = sayName.myBind(obj)
+    mb() // obj = {name:"wwx",age:18}
+    mb("acfwwx", 1819) // obj = {name:"acfwwx",age:1819}
+
+</script>
+
+</html>
