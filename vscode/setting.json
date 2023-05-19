@@ -1,0 +1,46 @@
+{
+    "git.confirmSync": false,
+    "editor.fontSize": 16,
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "emmet.triggerExpansionOnTab": true,
+    "vetur.format.defaultFormatterOptions": {
+      "js-beautify-html": {
+        // 超过120的部分换行
+        "wrap_line_length": 120,
+        "wrap_attributes": "auto",
+        "end_with_newline": false
+      },
+      "prettier": {
+        // 设置分号
+        "space-before-function-paren": 0,
+        "singleQuote": true,
+        // 双引号变成单引号
+        "semi": false,
+        // 超过120的部分换行
+        "printWidth": 120,
+        "wrapAttributes": true,
+        "sortAttributes": false,
+        // 禁止随时添加逗号
+        "trailingComma": "none"
+      }
+    },
+    // 保存时格式化代码
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.fixAll.eslint": true
+    },
+    "eslint.validate": ["javascript", "javascriptreact", "vue"],
+    "eslint.options": {
+      "extensions": [".js", ".jsx", ".tsx"]
+    },
+    "workbench.colorTheme": "Monokai",
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "diffEditor.ignoreTrimWhitespace": false,
+    "[jsonc]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    }
+  }
+  

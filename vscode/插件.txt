@@ -1,0 +1,21 @@
+# Auto Close Tag    (自动补全结束标签)
+
+# Auto RenameTag （自动完成另一侧标签的同步修改）
+
+#ESLint （语法纠错）
+
+# Git History （可查看和搜索git日志以及图形和详细信息）
+
+# GitLens - Git supercharged （快速查看更改行或代码块的对象）
+
+# Image preview （预览图片）
+
+# Markdown All in One（书写Markdown）
+
+# Live Server  (在html文件中点击鼠标右键，选择”open with live server“选项，就能够直接打开html页面了)
+
+# Path Intellisense（快速引入文件）
+
+# vscode-icon (文件图标)
+
+# Color Highlight (颜色标记)
