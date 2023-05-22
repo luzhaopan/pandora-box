@@ -10,8 +10,6 @@
 
 # Image preview （预览图片）
 
-# Markdown All in One（书写Markdown）
-
 # Live Server  (在html文件中点击鼠标右键，选择”open with live server“选项，就能够直接打开html页面了)
 
 # Path Intellisense（快速引入文件）
@@ -19,3 +17,11 @@
 # vscode-icon (文件图标)
 
 # Color Highlight (颜色标记)
+
+# Markdown All in One  (里面包含很多对md文档的支持,书写Markdown)
+
+# markdown Preview  Github Styling  (将 VS Code 内置的 Markdown 预览样式，修改为 Github 的样式)
+
+# Paste Image (截好图后，默认按下组合键就能把截图添加到md文档里面)
+
+# Markmap  (MD思维导图)
