@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>手写实现promise</title>
+    <script>
+        class Promise {
+            constructor(process) {
+                this.status = 'pending'
+                this.msg = ''
+                process(this.resolve.bind(this), this.reject.bind(this))
+                return this
+            }
+            resolve(val) {
+                this.status = 'fulfilled'
+                this.msg = val
+            }
+            reject(err) {
+                this.status = 'rejected'
+                this.msg = err
+            }
+            then(resolve, reject) {
+                if (this.status === 'fulfilled') {
+                    resolve(this.msg)
+                }
+                if (this.status === 'rejected') {
+                    reject(this.msg)
+                }
+            }
+        }
+        
+        var lt = new Promise(function (resolve, reject) {
+            resolve('520');
+        });
+        lt.then(function (success) {
+            console.log(success);
+        }, function () {
+            console.log('fail!');
+        });
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
