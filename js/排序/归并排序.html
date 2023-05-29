@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>归并排序----稳定、高效</title>
+</head>
+
+<body>
+</body>
+<script>
+
+	// 2、对拆分的数组进行比较
+	function merge(left, right) {
+		// 定义一个空数组，将比较的值放在这个数组里
+		let result = [];
+		// 比较的数组长度不为0继续循环比较
+		while (left.length > 0 && right.length > 0) {
+			if (left[0] < right[0]) {
+				result.push(left.shift());  // shift()方法：删除第0个元素并返回
+			} else {
+				result.push(right.shift());
+			}
+		}
+
+		return result.concat(left).concat(right);
+	}
+
+	// 1、拆分数组，直到长度为1，则进行比较
+	function mergeSort(arr) {
+		// 拆分这个数组,长度为1不再继续拆分，直接返回
+		if (arr.length === 1) return arr;
+
+		const mid = Math.floor(arr.length / 2); // 取整，1.5则取1
+		const leftArr = arr.slice(0, mid);
+		const rightArr = arr.slice(mid);
+
+		// 如果数组长度不为1，递归则继续拆分
+		return merge(mergeSort(leftArr), mergeSort(rightArr));
+	}
+
+	const arr = [2, 3, 1, 9, 4, 6, 7]
+	mergeSort(arr);
+	console.log(mergeSort(arr));
+</script>
+
+</html>
