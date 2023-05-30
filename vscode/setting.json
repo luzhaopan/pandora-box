@@ -1,6 +1,7 @@
 {
     "git.confirmSync": false,
     "editor.fontSize": 16,
+     // 编辑器默认格式化工具 很重要 "editor.defaultFormatter": "octref.vetur",
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
     "emmet.triggerExpansionOnTab": true,
     "vetur.format.defaultFormatterOptions": {
