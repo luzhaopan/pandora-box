@@ -4,6 +4,8 @@ import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
 
 const ChatPage = ({ socket }) => {
+    const [current, setCurrent] = useState({});
+
     const [messages, setMessages] = useState([]);
 
     const [typingStatus, setTypingStatus] = useState('');
@@ -22,18 +24,25 @@ const ChatPage = ({ socket }) => {
         socket.on('typingResponse', (data) => setTypingStatus(data));
       }, [socket]);
 
+    useEffect(() => {
+        socket.on('getCurrent', (data) => setCurrent(data));
+    }, [socket]);
+
 
     return (
         <div className="chat">
             <ChatBar socket={socket} />
-            <div className="chat__main">
-                <ChatBody  
-                    messages={messages} 
-                    typingStatus={typingStatus}
-                    lastMessageRef={lastMessageRef}
-                />
-                <ChatFooter socket={socket} />
-            </div>
+            {
+                Object.keys(current).length !== 0 && <div className="chat__main">
+                        <ChatBody  
+                            current = {current}
+                            messages={messages} 
+                            typingStatus={typingStatus}
+                            lastMessageRef={lastMessageRef}
+                        />
+                        <ChatFooter socket={socket} />
+                    </div>
+            }
         </div>
     );
 };

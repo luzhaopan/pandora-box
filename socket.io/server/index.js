@@ -42,7 +42,8 @@ socketIO.on('connection', (socket) => {
         socketIO.emit('messageResponse', data);
     });
 
-    socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data));
+    // 使用socket.broadcast.emit()向所有的socket连接进行广播，但是不包括发送者自身
+    socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data)); 
 
     // 监听新用户的加入
     socket.on('newUser', (data) => {
@@ -51,6 +52,11 @@ socketIO.on('connection', (socket) => {
         // console.log(users);
         // 发送用户列表到客户端
         socketIO.emit('newUserResponse', users);
+    });
+
+    socket.on('curChatInfo', (data) => {
+        console.log(data);
+        socketIO.emit('getCurrent', data);
     });
 
     socket.on('disconnect', () => {

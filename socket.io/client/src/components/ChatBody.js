@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ChatBody = ({ messages, lastMessageRef, typingStatus  }) => {
-    console.log(messages);
-  console.log('typingStatus', typingStatus);
+const ChatBody = ({ current, messages, lastMessageRef, typingStatus  }) => {
+    console.log(current);
+//   console.log('typingStatus', typingStatus);
   const navigate = useNavigate();
 
   const handleLeaveChat = () => {
@@ -15,7 +15,7 @@ const ChatBody = ({ messages, lastMessageRef, typingStatus  }) => {
   return (
     <>
       <header className="chat__mainHeader">
-        <p>与朋友聚会</p>
+        <p>{current.receiveInfo.userName}</p>
         <button className="leaveChat__btn" onClick={handleLeaveChat}>
           离开聊天
         </button>
