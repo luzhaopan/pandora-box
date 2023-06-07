@@ -42,7 +42,7 @@ callbacks新增回调函数后又执行了timerFunc函数，pending用来标识�
 
 关键函数 nextTickHandler
 nextTick不顾一切的要把它放入微任务或者宏任务中去执行，
-它其实把callbacks数组复制一份，然后把callbacks置为空，最后把复制出来的数组中的每个函数依次执行一遍；所以它的作用仅仅是用来执行callbacks中的回调函数。
+它其实就是把callbacks数组复制一份，然后把callbacks置为空，最后把复制出来的数组中的每个函数依次执行一遍；所以它的作用仅仅是用来执行callbacks中的回调函数。
 
 
 ## vue2.5的降级策略
