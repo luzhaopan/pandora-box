@@ -1,5 +1,7 @@
-1. 文字溢出显示省略号
-单行省略号
+# 文字溢出显示省略号
+   
+```sh
+// 单行省略号
 <style>
 .block {
     width: 200px;
@@ -9,8 +11,7 @@
 }
 </style>
 
-
-多行省略号
+// 多行省略号
 <style>
 .block {
     width: 200px;
@@ -21,3 +22,4 @@
     text-overflow: ellipsis;
 }
 </style>
+```
