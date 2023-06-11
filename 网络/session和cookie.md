@@ -42,11 +42,12 @@ Cookie实际上是一小段的文本信息。客户端请求服务器，如果�
 　　如果客户端禁用了cookie，通常有两种方法实现session而不依赖cookie。
 1）URL重写，就是把sessionId直接附加在URL路径的后面。
 2）表单隐藏字段。就是服务器会自动修改表单，添加一个隐藏字段，以便在表单提交时能够把session id传递回服务器。比如： 
+```sh
 <form name="testform" action="/xxx"> 
 <input type="hidden" name="jsessionid" value="ByOK3vjFD75aPnrF7C2HmdnV6QZcEbzWoWiBYEnLerjQ99zWpBng!-145788764"> 
 <input type="text"> 
 </form> 
-
+```
   4. Session共享：
 对于多网站(同一父域不同子域)单服务器，我们需要解决的就是来自不同网站之间SessionId的共享。由于域名不同(aaa.test.com和bbb.test.com)，而SessionId又分别储存
 在各自的cookie中，因此服务器会认为对于两个子站的访问,是来自不同的会话。解决的方法是通过修改cookies的域名为父域名达到cookie共享的目的,从而实现SessionId的共享。带来的弊端就是，子站间的cookie信息也同时被共享了。 
