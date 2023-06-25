@@ -1,7 +1,7 @@
 <template>
   <div class="auto-input">
     <div
-      id="input-box"
+      class="input-box"
       ref="inputBox"
       :class="{ 'is-disabled': disabled }"
       :placeholder="placeholder"
@@ -34,7 +34,7 @@
  * @event {Function}	blur	输入框失去焦点时触发
  * @event {Function}	change	输入框值发生变化时触发
  */
-import { onMounted, computed, ref, reactive, watch } from 'vue'
+import { onMounted, computed, ref, reactive } from 'vue'
 
 const emit = defineEmits(['update:modelValue', 'change', 'focus', 'blur'])
 
@@ -106,7 +106,7 @@ const handleInputEvent = (e) => {
   }
   emit('update:modelValue', state.content)
   emit('change', state.content)
-  const dom = document.querySelector('#input-box')
+  const dom = inputBox.value
   state.left = dom && dom.offsetWidth
 }
 
@@ -134,7 +134,7 @@ const handleInputContent = (val) => {
 
 // 文本输入框聚焦，焦点在最后位置
 const textFocus = () => {
-  document.querySelector('#input-box').focus()
+  inputBox.value.focus()
   document.execCommand('selectAll', false, null)
   document.getSelection().collapseToEnd()
 }
@@ -149,7 +149,7 @@ const textFocus = () => {
   align-items: center;
   position: relative;
 }
-#input-box {
+.input-box {
   min-width: 100px;
   width: auto;
   padding: 0 22px 0 10px;
@@ -159,11 +159,11 @@ const textFocus = () => {
   outline: none;
   border: solid 2px rgb(23, 111, 243);
 }
-#input-box:empty::before {
+.input-box:empty::before {
   content: attr(placeholder);
   color: #999;
 }
-#input-box:focus::before {
+.input-box:focus::before {
   content: none;
 }
 .clear-icon {

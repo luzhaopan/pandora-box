@@ -25,6 +25,23 @@
       <AutoInput @change="handleChange" />
     </div>
     <div>当前输入的值：{{ state.currentVal }}</div>
+
+    <div class="title">输入长度限制(限制10)</div>
+    <div style="width: 666px">
+      <AutoInput maxlength="10" />
+    </div>
+
+    <div class="title">输入框获得焦点</div>
+    <div style="width: 666px">
+      <AutoInput @focus="_onFocus" />
+    </div>
+    <div>输入框获得焦点触发：{{ state.focus }}</div>
+
+    <div class="title">输入框失去焦点</div>
+    <div style="width: 666px">
+      <AutoInput @blur="_onBlur" />
+    </div>
+    <div>输入框获得焦点触发：{{ state.blur }}</div>
   </div>
 </template>
 
@@ -37,11 +54,21 @@ const state = reactive({
   value1: '',
   value2: '',
   value3: '',
-  value4: ''
+  value4: '',
+  focus: null,
+  blur: null
 })
 
 const handleChange = (val) => {
   state.currentVal = val
+}
+
+const _onFocus = (e) => {
+  state.focus = e.type
+}
+
+const _onBlur = (e) => {
+  state.blur = e.type
 }
 </script>
 
@@ -49,6 +76,7 @@ const handleChange = (val) => {
 .title {
   margin: 20px 0 10px;
   font-size: 16px;
+  font-weight: 600;
 }
 </style>
 
