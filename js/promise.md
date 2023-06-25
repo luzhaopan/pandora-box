@@ -196,3 +196,53 @@ someAsyncThing()
 // oh no [ReferenceError: x is not defined]
 // carry on
 ```
+
+上面代码运行完catch()方法指定的回调函数，会接着运行后面那个then()方法指定的回调函数。如果没有报错，则会跳过catch()方法。
+```sh
+Promise.resolve()
+.catch(function(error) {
+  console.log('oh no', error);
+})
+.then(function() {
+  console.log('carry on');
+});
+// carry on
+```
+上面的代码因为没有报错，跳过了catch()方法，直接执行后面的then()方法。此时，要是then()方法里面报错，就与前面的catch()无关了。
+
+catch()方法之中，还能再抛出错误。
+
+```sh
+const someAsyncThing = function() {
+  return new Promise(function(resolve, reject) {
+    // 下面一行会报错，因为x没有声明
+    resolve(x + 2);
+  });
+};
+
+someAsyncThing().then(function() {
+  return someOtherAsyncThing();
+}).catch(function(error) {
+  console.log('oh no', error);
+  // 下面一行会报错，因为 y 没有声明
+  y + 2;
+}).then(function() {
+  console.log('carry on');
+});
+// oh no [ReferenceError: x is not defined]
+```
+上面代码中，catch()方法抛出一个错误，因为后面没有别的catch()方法了，导致这个错误不会被捕获，也不会传递到外层。如果改写一下，结果就不一样了。
+```sh
+someAsyncThing().then(function() {
+  return someOtherAsyncThing();
+}).catch(function(error) {
+  console.log('oh no', error);
+  // 下面一行会报错，因为y没有声明
+  y + 2;
+}).catch(function(error) {
+  console.log('carry on', error);
+});
+// oh no [ReferenceError: x is not defined]
+// carry on [ReferenceError: y is not defined]
+```
+上面代码中，第二个catch()方法用来捕获前一个catch()方法抛出的错误。
