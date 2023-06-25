@@ -37,15 +37,19 @@
         <div class="weekdays-item">Fri</div>
         <div class="weekdays-item">Set</div>
       </div>
-      
+
       <div class="days">
         <div class="days-item" v-for="(item, i) in state.days" :key="i">
           <div
             :class="{
               list: item.day.getMonth() + 1 === state.currentMonth,
               'other-month': item.day.getMonth() + 1 !== state.currentMonth,
-              'weekend-day': isWeekend(item.day) && item.day.getMonth() + 1 === state.currentMonth,
-              otherWeekendDay: isWeekend(item.day) && item.day.getMonth() + 1 !== state.currentMonth,
+              'weekend-day':
+                isWeekend(item.day) &&
+                item.day.getMonth() + 1 === state.currentMonth,
+              otherWeekendDay:
+                isWeekend(item.day) &&
+                item.day.getMonth() + 1 !== state.currentMonth,
             }"
           >
             <div class="day-text">
@@ -53,14 +57,33 @@
                 formatDate(null, item.day.getMonth() + 1, item.day.getDate())
               }}
             </div>
-            <div class="hard" v-if="!isWeekend(item.day)">辛苦了！</div>
-            <div class="work-time" v-if="!isWeekend(item.day)">
-              <div>· 09:00</div>
-              <div>· 18:00</div>
+            <div class="tags">
+              <div class="hard" v-if="!isWeekend(item.day) && item.startTime">
+                辛苦了！
+              </div>
+              <div v-else-if="!isWeekend(item.day) && item.startTime && timeCompare(item.startTime)">
+                晚到
+              </div>
+              <div v-else class="festival-data">需请假</div>
+            </div>
+
+            <div
+              class="work-time"
+              v-if="!isWeekend(item.day) && item.startTime"
+            >
+              <div>· {{ item.startTime }}</div>
+              <div>· {{ item.endTime }}</div>
             </div>
             <div class="weekend-tag">
-              <p v-if="isWeekend(item.day) && !isFestival(item.day)" class="weekend-text">周末</p>
-              <p v-else-if="isFestival(item.day)" class="festival-data">节假日</p>
+              <p
+                v-if="isWeekend(item.day) && !isFestival(item.day)"
+                class="weekend-text"
+              >
+                周末
+              </p>
+              <p v-else-if="isFestival(item.day)" class="festival-data">
+                节假日
+              </p>
               <p v-else class="daily-text">工作日</p>
             </div>
           </div>
@@ -71,7 +94,7 @@
 </template>
 <script setup>
 import { onMounted, reactive } from "vue";
-import { festivalData } from "../utils/index"
+import { festivalData } from "../utils/index";
 
 const state = reactive({
   yearList: [
@@ -150,7 +173,7 @@ const state = reactive({
   currentMonth: 6,
   currentYear: 2023,
   currentWeek: 1,
-  days: []
+  days: [],
 });
 
 onMounted(() => {
@@ -163,21 +186,27 @@ const initData = (cur) => {
   if (cur) {
     date = new Date(cur);
   } else {
-    const d = new Date(formatDate(new Date().getFullYear(), new Date().getMonth(), 1));
+    const d = new Date(
+      formatDate(new Date().getFullYear(), new Date().getMonth(), 1)
+    );
     d.setDate(35);
     date = new Date(formatDate(d.getFullYear(), d.getMonth() + 1, 1));
   }
-  
+
   state.currentDay = date.getDate(); // 月份的某一天
   state.currentYear = date.getFullYear();
   state.currentMonth = date.getMonth() + 1;
   state.currentWeek = date.getDay(); // 表示星期的某一天的数字 1...6,0
-  
+
   if (state.currentWeek === 0) {
     state.currentWeek = 7;
   }
 
-  const target = formatDate(state.currentYear, state.currentMonth, state.currentDay);
+  const target = formatDate(
+    state.currentYear,
+    state.currentMonth,
+    state.currentDay
+  );
 
   state.days.length = 0;
   // 根据本月的1号获取之前的几天放到前面
@@ -185,8 +214,8 @@ const initData = (cur) => {
     const d2 = new Date(target);
     d2.setDate(d2.getDate() - i);
     const map = {
-      startTime: '09:20:00',
-      endTime: '18:00:00',
+      startTime: "09:20:00",
+      endTime: "18:00:00",
     };
     map.day = d2;
     state.days.push(map);
@@ -196,25 +225,26 @@ const initData = (cur) => {
     const d3 = new Date(target);
     d3.setDate(d3.getDate() + j);
     let map;
-    if(j === 2 || j === 5 || j === 11){
+    if (j === 2 || j === 5 || j === 11) {
       map = {
-        startTime: '09:30:00',
-        endTime: '18:00:00',
-      }
-    } else if( j === 20 || j === 28) {
+        startTime: "09:30:00",
+        endTime: "18:00:00",
+      };
+    } else if (j === 20 || j === 28) {
       map = {
         startTime: 0,
         endTime: 0,
-      }
+      };
     } else {
       map = {
-        startTime: '09:00:00',
-        endTime: '18:00:00',
-      }
+        startTime: "09:00:00",
+        endTime: "18:00:00",
+      };
     }
     map.day = d3;
     state.days.push(map);
   }
+  console.log(state.days);
 };
 
 // 年份选择
@@ -259,10 +289,26 @@ const isWeekend = (date) => {
 
 // 判断节假日
 const isFestival = (item) => {
-  const date = formatDate(item.getFullYear(), item.getMonth()+1, item.getDate());
+  const date = formatDate(
+    item.getFullYear(),
+    item.getMonth() + 1,
+    item.getDate()
+  );
   return festivalData[state.currentYear].includes(date);
 };
 
+const timeCompare = (time1, time2 = "09:00:00") => {
+  const hour1 = time1.split(":")[0];
+  const min1 = time1.split(":")[1];
+  const sec1 = time1.split(":")[2];
+  const second1 = Number(hour1 * 3600) + Number(min1 * 60) + Number(sec1);
+
+  const hour2 = time2.split(":")[0];
+  const min2 = time2.split(":")[1];
+  const sec2 = time2.split(":")[2];
+  const second2 = Number(hour2 * 3600) + Number(min2 * 60) + Number(sec2);
+  return second1 > second2;
+};
 </script>
 <style scoped>
 .time-card {
@@ -360,10 +406,13 @@ const isFestival = (item) => {
   background-color: #bfbfbf59;
 }
 
-.hard {
+.tags {
   position: absolute;
   top: 5px;
   right: 5px;
+}
+
+.hard {
   background-color: #70b562;
   color: #fff;
   border-radius: 3px;
@@ -376,7 +425,7 @@ const isFestival = (item) => {
   text-align: left;
   margin-left: 10px;
 }
-.work-time{
+.work-time {
   margin-left: 10px;
 }
 .weekend-tag {
