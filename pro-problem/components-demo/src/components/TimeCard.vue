@@ -57,19 +57,25 @@
                 formatDate(null, item.day.getMonth() + 1, item.day.getDate())
               }}
             </div>
-            <div class="tags">
-              <div class="hard" v-if="!isWeekend(item.day) && item.startTime">
+            <div class="tags" v-if="!isWeekend(item.day) && !isFestival(item.day) && compareDate(item.day)">
+              <div class="hard" v-if="!timeCompare(item.startTime)">
                 辛苦了！
               </div>
-              <div v-else-if="!isWeekend(item.day) && item.startTime && timeCompare(item.startTime)">
-                晚到
+              <div v-else>
+                <div class="leave" v-if="!item.startTime">需请假</div>
+                <div class="late" v-else>晚到</div>
               </div>
-              <div v-else class="festival-data">需请假</div>
             </div>
-
+            <div class="tags" v-if="!compareDate(item.day)">
+              <div class="fighting">
+                加油！
+              </div>
+            </div>
             <div
               class="work-time"
-              v-if="!isWeekend(item.day) && item.startTime"
+              v-if="
+                !isWeekend(item.day) && item.startTime && !isFestival(item.day) && compareDate(item.day)
+              "
             >
               <div>· {{ item.startTime }}</div>
               <div>· {{ item.endTime }}</div>
@@ -104,7 +110,7 @@ const state = reactive({
     },
     {
       value: 2023,
-      selected: true,
+      selected: false,
     },
   ],
   monthList: [
@@ -136,7 +142,7 @@ const state = reactive({
     {
       value: 6,
       name: "Jun",
-      selected: true,
+      selected: false,
     },
     {
       value: 7,
@@ -170,14 +176,23 @@ const state = reactive({
     },
   ],
   currentDay: 1,
-  currentMonth: 6,
+  currentMonth: 1,
   currentYear: 2023,
   currentWeek: 1,
   days: [],
 });
 
 onMounted(() => {
-  initData(null);
+  state.currentYear = new Date().getFullYear()
+  state.currentMonth = new Date().getMonth() + 1
+  state.yearList.forEach((item) => {
+    if (item.value === state.currentYear) {
+      item.selected = true;
+    } else {
+      item.selected = false;
+    }
+  });
+  selectedMonth(state.currentMonth)
 });
 
 // 初始化日历数据
@@ -244,7 +259,6 @@ const initData = (cur) => {
     map.day = d3;
     state.days.push(map);
   }
-  console.log(state.days);
 };
 
 // 年份选择
@@ -275,11 +289,7 @@ const getDays = (year, month) => {
 const formatDate = (year, month, day) => {
   if (month < 10) month = "0" + month;
   if (day < 10) day = "0" + day;
-  if (year) {
-    return year + "-" + month + "-" + day;
-  } else {
-    return month + "-" + day;
-  }
+  return year ? year + "-" + month + "-" + day : month + "-" + day;
 };
 
 // 判断是否周末
@@ -297,17 +307,23 @@ const isFestival = (item) => {
   return festivalData[state.currentYear].includes(date);
 };
 
-const timeCompare = (time1, time2 = "09:00:00") => {
-  const hour1 = time1.split(":")[0];
-  const min1 = time1.split(":")[1];
-  const sec1 = time1.split(":")[2];
-  const second1 = Number(hour1 * 3600) + Number(min1 * 60) + Number(sec1);
+// 判断是否是未来的日期
+const compareDate = (date) => {
+  const now = new Date().valueOf();
+  const cur = new Date(date).valueOf();
+  return now > cur
+}
 
-  const hour2 = time2.split(":")[0];
-  const min2 = time2.split(":")[1];
-  const sec2 = time2.split(":")[2];
-  const second2 = Number(hour2 * 3600) + Number(min2 * 60) + Number(sec2);
-  return second1 > second2;
+// 对比时间是否迟到
+const timeCompare = (time1, time2 = "09:00:00") => {
+  return time1 ? timeToSec(time1) > timeToSec(time2) : true;
+};
+
+const timeToSec = (time) => {
+  const hour = time.split(":")[0];
+  const min = time.split(":")[1];
+  const sec = time.split(":")[2];
+  return Number(hour * 3600) + Number(min * 60) + Number(sec);
 };
 </script>
 <style scoped>
@@ -419,6 +435,27 @@ const timeCompare = (time1, time2 = "09:00:00") => {
   padding: 0 4px;
 }
 
+.late {
+  background-color: #eab439;
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 4px;
+}
+
+.leave {
+  background-color: #eef208;
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 4px;
+}
+
+.fighting {
+  background-color: #37f208;
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 4px;
+}
+
 .day-text {
   font-weight: 600;
   text-decoration: underline;
@@ -440,7 +477,7 @@ const timeCompare = (time1, time2 = "09:00:00") => {
 }
 
 .festival-data {
-  color: rgb(209, 39, 39);
+  color: red;
   border-radius: 5px;
   border: 1px solid #d1d1d1;
   width: 50px;

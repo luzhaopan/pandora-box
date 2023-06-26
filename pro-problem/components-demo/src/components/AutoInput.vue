@@ -144,7 +144,7 @@ const textFocus = () => {
 .auto-input {
   width: 100%;
   border: solid 1px rgb(171, 55, 55);
-  padding: 20px;
+  padding: 10px;
   display: flex;
   align-items: center;
   position: relative;
