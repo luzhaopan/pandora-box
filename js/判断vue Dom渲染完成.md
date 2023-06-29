@@ -3,7 +3,7 @@
 1. 获取想要获取dom元素的宽高,打印出来的结果值一直小于DOM元素本身高度。查阅很多资料无果，
 2. 初步判断是vue升级以后，this.$nextTick监听方式发生改变。 更改方案，选择MutationObserver
 
-3. Mutation Observer 是在DOM4中定义的，用于替代 mutation events 的新API，它的不同于events的是，所有监听操作以及相应处理都是在其他脚本执行完成之后异步执行的，并且是所以变动触发之后，将变得记录在数组中，统一进行回调的，也就是说，当你使用observer监听多个DOM变化时，并且这若干个DOM发生了变化，那么observer会将变化记录到变化数组中，等待一起都结束了，然后一次性的从变化数组中执行其对应的回调函数。
+3. Mutation Observer 是在DOM4中定义的，用于替代 mutation events 的新API，它的不同于events的是，所有监听操作以及相应处理都是在其他脚本执行完成之后异步执行的，并且是所有变动触发之后，将变的记录在数组中，统一进行回调的，也就是说，当你使用observer监听多个DOM变化时，并且这若干个DOM发生了变化，那么observer会将变化记录到变化数组中，等待一起都结束了，然后一次性的从变化数组中执行其对应的回调函数。
 
 # MutationObserver 作用
 MutationObserver接口提供了监视对DOM树所做更改的能力。
