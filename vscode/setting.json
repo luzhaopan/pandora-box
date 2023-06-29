@@ -42,6 +42,10 @@
     "diffEditor.ignoreTrimWhitespace": false,
     "[jsonc]": {
       "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
-    }
+    },
+    "files.associations": {
+      "*.wxml": "html",
+      "*.wxss": "css"
+    }, // 高亮微信小程序wxss
   }
   
