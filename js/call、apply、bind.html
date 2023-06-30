@@ -20,7 +20,7 @@
     let obj1 = {
         age: 18
     }
-    say('hellow', 'ball') 
+    say('hellow', 'ball')
     // Window {window: Window, self: Window, document: document, name: '', location: Location, …}
     // my name is hellow, my age is undefined,my hobby is ball
 
@@ -59,7 +59,7 @@
 
     // call 实现
     Function.prototype.myCall = function (context = window) { //myCall函数的参数，没有传参默认是指向window
-        context.fn = this //为对象添加方法（t   his指向调用myCall的函数）
+        context.fn = this //为对象添加方法（this指向调用myCall的函数）
         let args = [...arguments].slice(1) // 剩余的参数
         let res = context.fn(...args)  // 调用该方法，该方法this指向context
         delete context.fn //删除添加的方法
