@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>div带箭头提示框实例</title>
+    <style type="text/css">
+      .m-box {
+        margin-top: 50px;
+        position: relative;
+        width: 200px;
+        height: 50px;
+        line-height: 50px;
+        background: #f6f1b3;
+        box-shadow: 0px 0px 3px #e9d985;
+        border: 1px solid #dace7c;
+        border-radius: 4px;
+        text-align: center;
+        color: red;
+      }
+ 
+      .m-cross {
+        position: absolute;
+        top: -8px;
+        left: 30px;
+        overflow: hidden;
+        width: 13px;
+        height: 13px;
+        background: #f6f1b3;
+        border-left: 1px solid #dace7c;
+        border-top: 1px solid #dace7c;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+        filter: drop-shadow(0px 0px 3px #e9d985);
+        z-index: -1;
+      }
+      .m-cross-up {
+        position: absolute;
+        top: -8px;
+        left: 30px;
+        overflow: hidden;
+        width: 13px;
+        height: 13px;
+        background: #f6f1b3;
+        border-left: 1px solid #dace7c;
+        border-top: 1px solid #dace7c;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="m-box">
+      <span>提示语</span>
+      <div class="m-cross"></div>
+      <div class="m-cross-up"></div>
+    </div>
+  </body>
+</html>
