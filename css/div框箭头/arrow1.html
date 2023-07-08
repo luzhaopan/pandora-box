@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>div带箭头提示框实例（伪类实现）</title>
+  <style type="text/css">
+    
+    .div-block:before {
+      content: '';
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-right: 9px solid #eee;
+      position: absolute;
+      top: 25px;
+      left: -9px;
+    }
+    .div-block:after {
+      content: '';
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-right: 7px solid #fbfdfb;
+      position: absolute;
+      top: 27px;
+      left: -7px;
+    }
+
+    .div-block {
+      width: 300px;
+      padding: 20px 15px;
+      line-height: 25px;
+      margin-top: -2px;
+      margin-left: 32px;
+      margin-right: 32px;
+      border-radius: 3px;
+      position: relative;
+      background: #fbfdfb;
+      border: 1px #dfdfdf solid;
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="div-block">内容内容 </div>
+</body>
+
+</html>
