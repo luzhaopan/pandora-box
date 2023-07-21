@@ -350,8 +350,8 @@ const handleClick = () => {
   childRef.value.submit();
 };
 </script>
-
 ```
+
 
 ```sh
 <!--子组件名称  child.vue -->
@@ -377,6 +377,5 @@ defineExpose({
   submit
 });
 </script>
-
 ```
 

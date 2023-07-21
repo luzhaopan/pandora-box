@@ -299,3 +299,14 @@ flush 取值：
 	pre （默认）
 	post （在组件更新后触发，这样你就可以访问更新的 DOM。这也将推迟副作用的初始运行，直到组件的首次渲染完成。）
 	sync （与watch一样使其为每个更改都强制触发侦听器，然而，这是低效的，应该很少需要）
+
+
+# watchEffect与computed
+
+watchEffect与computed有点像：
+
+1. 但是computed注重的计算出来的值（回调函数的返回值），所以必须要写返回值。
+
+2. 而watchEffect更注重的是过程（回调函数的函数体），所以不用写返回值。
+
+3. computed若是值没有被使用时不会调用，但是watchEffect始终会调用一次
