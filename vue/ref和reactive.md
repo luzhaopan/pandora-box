@@ -177,8 +177,8 @@ ref 和 reactive 本质我们可以简单地理解为ref是对reactive的二次�
 ```sh
 <template>
 <div>
-  <button @click="r.a++">count is: {{ r.a }}</button>
-  <button>count is: {{ s }}</button>
+  <button @click="r.a++"> count is: {{ r.a }} </button>
+  <button> count is: {{ s }} </button>
 </div>
 </template>
 
@@ -207,7 +207,6 @@ toRef的用途之一是用于传参，可传递一个响应式的基本数据类
 toRef还有一个特点是可以提前绑定，看个例子，r的原始数据并没有property叫c，但是我就任性，我就提前让s赋值为toRef(r, 'c')，这时候两个button上是没有数据的，毕竟property c是不存在的，在我点击button1之后，两个button都显示了3，说明提前绑定是有用的。
 
 ```sh
-
 <template>
 <div>
   <button @click="r.c = 3">count is: {{ r.c }}</button>
