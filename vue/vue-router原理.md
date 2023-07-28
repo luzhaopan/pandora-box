@@ -14,8 +14,11 @@ vue-router实现单页面路由跳转，提供了三种方式：hash模式、his
 
 ## 路由模式
 vue-router 提供了三种运行模式：
+
 ● hash: 使用 URL hash 值来作路由。默认模式。
+
 ● history: 依赖 HTML5 History API 和服务器配置。查看 HTML5 History 模式。
+
 ● abstract: 支持所有 JavaScript 运行环境，如 Node.js 服务器端
 
 ### Hash模式
