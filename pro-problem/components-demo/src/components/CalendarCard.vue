@@ -1,5 +1,12 @@
 <template>
   <div class="calendar-card">
+    <div>header</div>
+    <div class="condition">
+      <div class="btn" @click="selectedMonth(state.currentMonth-1)"> <img class="img" src="../assets/left.png" alt=""> </div>
+      <div class="btn" @click="selectedMonth(new Date().getMonth() + 1)" >今天</div>
+      <div class="btn" @click="selectedMonth(state.currentMonth+1)"> <img class="img" src="../assets/right.png" alt=""> </div>
+      <div>{{ state.currentYear + '年' + state.currentMonth + '月' + state.currentDay + '日' }}</div>
+    </div>
       <select v-model="state.currentYear" @change="yearSelect">
         <option
           v-for="item in state.yearList"
@@ -154,7 +161,6 @@ onMounted(() => {
     }
   });
   selectedMonth(state.currentMonth)
-  console.log(state.days);
 });
 
 // 初始化日历数据
@@ -192,6 +198,7 @@ const initData = (cur) => {
     d2.setDate(d2.getDate() - i);
     const map = {};
     map.day = d2;
+    
     state.weeks.push(getYearWeek(d2.getFullYear(), d2.getMonth()+1, d2.getDate()))
     state.days.push(map);
   }
@@ -205,7 +212,7 @@ const initData = (cur) => {
     console.log(state.weeks);
     state.days.push(map);
   }
-
+  state.dayList = []
   for (let i = 0; i < state.days.length; i += 7) {
     state.dayList.push(state.days.slice(i, i + 7));
   }
@@ -270,6 +277,23 @@ const getYearWeek = function (year, month, day) {
   width: 100%;
   /* height: 100vh; */
   margin: 0 auto;
+}
+
+.condition {
+  display: flex;
+  align-items: center;
+  color: #0854a0;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.img {
+  width: 20px;
+  height: 20px;
 }
 
 .month {
