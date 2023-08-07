@@ -1,33 +1,23 @@
 <template>
   <div class="calendar-card">
-    <div>header</div>
+    <div>
+      <select v-model="state.current" @change="changeRole">
+        <option
+          v-for="item in props.data.team"
+          :selected="item.selected"
+          :value="item.name"
+          :key="item.name"
+        >
+          {{ item.name }}
+        </option>
+      </select>
+    </div>
     <div class="condition">
       <div class="btn" @click="selectedMonth(state.currentMonth-1)"> <img class="img" src="../assets/left.png" alt=""> </div>
       <div class="btn" @click="selectedMonth(new Date().getMonth() + 1)" >今天</div>
       <div class="btn" @click="selectedMonth(state.currentMonth+1)"> <img class="img" src="../assets/right.png" alt=""> </div>
       <div>{{ state.currentYear + '年' + state.currentMonth + '月' + state.currentDay + '日' }}</div>
     </div>
-      <select v-model="state.currentYear" @change="yearSelect">
-        <option
-          v-for="item in state.yearList"
-          :selected="item.selected"
-          :value="item.value"
-          :key="item.value"
-        >
-          {{ item.value }}
-        </option>
-      </select>
-      <div class="month">
-        <div
-          v-for="item in state.monthList"
-          class="month-item"
-          @click="selectedMonth(item.value)"
-          :class="{ actived: item.selected }"
-          :key="item.name"
-        >
-          {{ item.name }}
-        </div>
-      </div>
       
       <div class="weekdays">
         <div class="weekdays-item">周日</div>
@@ -52,6 +42,7 @@
               <div class="day-text">
                 {{ item.day.getDate() }}
               </div>
+              <div v-if="item.info">{{ item.info.title }}</div>
             </div>
           </div>
         </div>
@@ -66,19 +57,7 @@ import { defineProps } from 'vue';
 
 const props = defineProps(["data"]);
 
-console.log(props);
-
 const state = reactive({
-  yearList: [
-    {
-      value: 2022,
-      selected: false,
-    },
-    {
-      value: 2023,
-      selected: false,
-    },
-  ],
   monthList: [
     {
       value: 1,
@@ -147,19 +126,17 @@ const state = reactive({
   currentWeek: 1,
   days: [],
   weeks: [],
-  dayList: []
+  dayList: [],
+  current: ''
 });
 
 onMounted(() => {
-  state.currentYear = new Date().getFullYear()
-  state.currentMonth = new Date().getMonth() + 1
-  state.yearList.forEach((item) => {
-    if (item.value === state.currentYear) {
-      item.selected = true;
-    } else {
-      item.selected = false;
-    }
-  });
+  state.current = props.data.team[0]['name']
+  state.currentRole = props.data.team[0]
+  // state.currentYear = new Date().getFullYear()
+  state.currentYear = '2019'
+  // state.currentMonth = new Date().getMonth() + 1
+  state.currentMonth = '10'
   selectedMonth(state.currentMonth)
 });
 
@@ -209,9 +186,24 @@ const initData = (cur) => {
     const map = {}
     map.day = d3;
     state.weeks.push(getYearWeek(d3.getFullYear(), d3.getMonth()+1, d3.getDate()))
-    console.log(state.weeks);
     state.days.push(map);
   }
+  
+  for (let i = 0; i < state.days.length; i ++) {
+    for (let j = 0; j < state.currentRole.appointments.length; j ++) {
+      let y1 = new Date(state.days[i].day).getFullYear()
+      let m1 = new Date(state.days[i].day).getMonth()
+      let d1 = new Date(state.days[i].day).getDate()
+      let y2 = new Date(state.currentRole.appointments[j].start).getFullYear()
+      let m2 = new Date(state.currentRole.appointments[j].start).getMonth()
+      let d2 = new Date(state.currentRole.appointments[j].start).getDate()
+      // console.log(y1,y2,m1,m2);
+      if(`${y1}${m1}${d1}` === `${y2}${m2}${d2}` ){
+        state.days[i].info = state.currentRole.appointments[j]
+      }
+    }
+  }
+ 
   state.dayList = []
   for (let i = 0; i < state.days.length; i += 7) {
     state.dayList.push(state.days.slice(i, i + 7));
@@ -219,9 +211,14 @@ const initData = (cur) => {
   
 };
 
-// 年份选择
-const yearSelect = () => {
-  getDays(state.currentYear, state.currentMonth);
+const changeRole = (e) => {
+  for(let i = 0; i < props.data.team.length; i ++ ){
+    if(props.data.team[i].name === e.target.value){
+      state.currentRole = props.data.team[i]
+      
+    }
+  }
+  selectedMonth(state.currentMonth)
 };
 
 // 月分选择
@@ -257,9 +254,6 @@ const isWeekend = (date) => {
 
 // 判断当前日期为当年第几周
 const getYearWeek = function (year, month, day) {
-  // console.log(year);
-  // console.log(month);
-  // console.log(day);
     //date1是当前日期
     //date2是当年第一天
     //d是当前日期是今年第多少天
@@ -294,25 +288,6 @@ const getYearWeek = function (year, month, day) {
 .img {
   width: 20px;
   height: 20px;
-}
-
-.month {
-  width: 72px;
-  display: flex;
-  margin-top: 20px;
-}
-
-.month-item {
-  font-weight: 600;
-  border: 1px solid #ddd;
-  padding: 4px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.actived {
-  background: rgb(231, 27, 27);
-  color: #fff;
 }
 
 .weekdays {
