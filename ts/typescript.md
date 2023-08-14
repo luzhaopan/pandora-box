@@ -165,13 +165,24 @@ let both = [0, ...first, ...second, 5]
 
 1. 可选属性
 
+```sh
+interface Person {
+    name: string;
+    age?: number;
+}
+
+let tom: Person = {
+    name: 'Tom'
+};
+```
+
 可选属性，需要在 可选属性名字定义的后面加一个？符号。
 好处：
 1）可以对可能存在的属性进行预定义；
 2）可以捕获引用了不存在的属性时的错误。
 
 2. 只读属性
-3. 
+
 在属性名前通过 readonly 来指定
 
 ```sh
@@ -235,6 +246,67 @@ interface SquareConfig {
     width?: number;
     [propName: string]: any;
 }
+```
+
+4. 任意属性
+
+有时候我们希望一个接口允许有任意的属性，可以使用如下方式：
+
+```sh
+interface Person {
+    name: string;
+    age?: number;
+    [propName: string]: any;
+}
+
+let tom: Person = {
+    name: 'Tom',
+    gender: 'male'
+};
+```
+
+使用 [propName: string] 定义了任意属性取 string 类型的值。
+
+需要注意的是，一旦定义了任意属性，那么确定属性和可选属性的类型都必须是它的类型的子集：
+
+```sh
+interface Person {
+    name: string;
+    age?: number;
+    [propName: string]: string;
+}
+
+let tom: Person = {
+    name: 'Tom',
+    age: 25,
+    gender: 'male'
+};
+
+// index.ts(3,5): error TS2411: Property 'age' of type 'number' is not assignable to string index type 'string'.
+// index.ts(7,5): error TS2322: Type '{ [x: string]: string | number; name: string; age: number; gender: string; }' is not assignable to type 'Person'.
+//   Index signatures are incompatible.
+//     Type 'string | number' is not assignable to type 'string'.
+//       Type 'number' is not assignable to type 'string'.
+```
+
+上例中，任意属性的值允许是 string，但是可选属性 age 的值却是 number，number 不是 string 的子属性，所以报错了。
+
+另外，在报错信息中可以看出，此时 { name: 'Tom', age: 25, gender: 'male' } 的类型被推断成了 { [x: string]: string | number; name: string; age: number; gender: string; }，这是联合类型和接口的结合。
+
+一个接口中只能定义一个任意属性。如果接口中有多个类型的属性，则可以在任意属性中使用联合类型
+
+```sh
+interface Person {
+    name: string;
+    age?: number;
+    [propName: string]: string | number;
+}
+
+let tom: Person = {
+    name: 'Tom',
+    age: 25,
+    gender: 'male'
+};
 ```
 
 4. 函数类型
@@ -381,3 +453,15 @@ function identity<T>(arg: T): T {
 ```sh
 let output = identity<string>("myString");  // type of output will be 'string'
 ```
+
+# 联合类型
+
+```sh
+let myFavoriteNumber: string | number;
+myFavoriteNumber = 'seven';
+myFavoriteNumber = 7;
+```
+
+联合类型使用 | 分隔每个类型。
+
+这里的 let myFavoriteNumber: string | number 的含义是，允许 myFavoriteNumber 的类型是 string 或者 number，但是不能是其他类型。
