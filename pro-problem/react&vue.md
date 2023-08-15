@@ -61,6 +61,3 @@ react可以通过高阶组件（HOC）来扩展，而Vue需要通过mixins来扩
 1、React ==> React Native
 
 2、Vue ==> Weex
-————————————————
-版权声明：本文为CSDN博主「木南之」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/y_l33/article/details/128634550
