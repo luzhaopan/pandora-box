@@ -18,7 +18,7 @@ function _new(){
     var obj = new Object();
 
 
-    // 2.传入的构造函数Constru与返回的对象obj需要具有实例与构造函数的关系
+    // 2.传入的构造函数Constru与返回的对象obj需要具有实例与构造函数的关系(设置原型链)
     // 获得这个构造函数
     // Constructor = [].shift.apply(arguments);
     Constructor = [].shift.call(arguments);
