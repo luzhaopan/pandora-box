@@ -14,15 +14,18 @@ vue-router实现单页面路由跳转，提供了三种方式：hash模式、his
 
 ## 路由模式
 vue-router 提供了三种运行模式：
+
 ● hash: 使用 URL hash 值来作路由。默认模式。
+
 ● history: 依赖 HTML5 History API 和服务器配置。查看 HTML5 History 模式。
+
 ● abstract: 支持所有 JavaScript 运行环境，如 Node.js 服务器端
 
 ### Hash模式
 
 vue-router默认hash模式，使用URL的hash来模拟一个完成URL，于是当URL改变时，页面不会重新加载
 
-1. hash(#)是URL的锚点，代表的是页面中的一个位置，单单改的是#后的部分，也就是说hash 出现在 URL 中，但不会被包含在 http 请求中，对后端完全没有影响，因此改变 hash 不会重新加载页面引起页面刷新；
+1. hash(#)是URL的锚点，代表的是页面中的一个位置，单单改的是#后的部分，也就是说hash 出现在 URL 中，url中hash值的变化并不会重新加载页面，因为hash是用来指导浏览器行为的，对服务端是无用的，但不会被包含在 http 请求中，对后端完全没有影响，因此改变 hash 不会重新加载页面引起页面刷新；
 2. 同时每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置；
 3. 所以说Hash模式通过锚点值的改变，根据不同的值，渲染指定DOM位置的不同数据。
 4. hash 模式的原理是 onhashchange 事件(监测hash值变化)，可以在 window 对象上监听这个事件

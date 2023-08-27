@@ -9,6 +9,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <nav>
           <RouterLink to="/">AutoInput</RouterLink>
           <RouterLink to="/about">TimeCard</RouterLink>
+          <RouterLink to="/calendar">TeamCalendar</RouterLink>
         </nav>
       </div>
     </header>
