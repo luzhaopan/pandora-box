@@ -3,6 +3,9 @@
     "editor.fontSize": 16,
      // 编辑器默认格式化工具 很重要 "editor.defaultFormatter": "octref.vetur",
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "[vue]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
     "emmet.triggerExpansionOnTab": true,
     "vetur.format.defaultFormatterOptions": {
       "js-beautify-html": {
