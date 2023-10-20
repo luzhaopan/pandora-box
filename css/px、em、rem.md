@@ -12,3 +12,17 @@
 3. rem是CSS3新增的一个相对单位(root em,根em),使用rem为元素设定字体大小事，仍然是相对大小但相对的只是HTML根元素。
    
 4. 区别：IE无法调用那些使用px作为单位的字体大小，而em和rem可以缩放，rem相对的只是HTML根元素。这个单位可谓集相对大小和绝对大小的优点于一身，通过它既可以做到只修改根元素就成比例地调整所有字体大小，又可以避免字体大小逐层复合的连锁反应。目前，除了IE8及更早版本外，所有浏览器已支持rem。
+
+
+```sh
+// 修改根元素的font-size，适配rem
+const setHtmlFontSize = () => {
+  const htmlDom = document.getElementsByTagName('html')[0]
+  const htmlWidth =
+    document.documentElement.clientWidth || document.body.clientWidth
+  const fontSize = htmlWidth / 133.33333333333334
+  htmlDom.style.fontSize = `${fontSize > 10 ? fontSize : 10}px`
+}
+window.onresize = setHtmlFontSize
+setHtmlFontSize()
+```
