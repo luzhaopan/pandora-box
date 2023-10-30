@@ -5,11 +5,13 @@
     <meta charset="utf-8" />
     <title>屏幕占满和未占满的情况下，使 footer 固定在底部</title>
     <!-- 
-         利用flex-deraction：column将页面结构竖向排列，（flex默认是横向排列的），同时，将html 和 body 元素的高度设置为100%，使其充满整个屏幕。　　
+        flex 布局
+        flex-deraction：column将页面结构竖向排列，（flex默认是横向排列的），同时，将html 和 body 元素的高度设置为100%，使其充满整个屏幕。　　
         上面用到了flex包含的3个属性，我来介绍一下他们的用途：
-        flex-grow：元素在同一容器中对可分配空间的分配比率，及扩展比率
-        flex-shrink：如果空间不足，元素的收缩比率
-        flex-basis：元素的伸缩基准值
+        flex-grow：属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+        flex-shrink：如果空间不足，元素的收缩比率，默认值为1
+        flex-basis：设置弹性项在弹性容器内的基准宽度。默认值为auto，即弹性项的宽度由其内容决定。
+        flex：是flex-grow、flex-shrink和flex-basis这三个属性的缩写，它们按照顺序分别对应以上三个属性。默认值为“0 1 auto”。
         也就是header 和footer 只占用他们应该占用的空间，将剩余的空间全部交给主体内容区域
     -->
 </head>
@@ -31,8 +33,10 @@
     }
 
     .content {
-        flex: 1 0 auto;
-        background-color: rgb(161, 127, 255);
+        /* flex: 1;  中间占用剩下的空间，多出内容滚动条 */ 
+        flex: 1 0 auto; /* flex: 1 0 auto;  中间占用剩下的空间，多出向下伸缩，没有滚动条 */ 
+        background-color: #fff;
+        overflow: auto;
     }
 
     .footer {
@@ -44,7 +48,85 @@
 <body>
     <div class="page">
         <div class="header">header</div>
-        <div class="content">content</div>
+        <div class="content">
+            contentconte
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+            ntcontentcontentcontentcontent
+        </div>
         <div class="footer">footer</div>
     </div>
 </body>
