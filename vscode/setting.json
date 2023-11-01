@@ -7,6 +7,9 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "emmet.triggerExpansionOnTab": true,
+    "prettier.semi": false,
+    //格式化去除尾部逗号
+    "prettier.trailingComma": "none",
     "vetur.format.defaultFormatterOptions": {
       "js-beautify-html": {
         // 超过120的部分换行
