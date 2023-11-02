@@ -59,7 +59,7 @@
 
     // call 实现
     Function.prototype.myCall = function (context = window) { //myCall函数的参数，没有传参默认是指向window
-        context.fn = this //为对象添加方法（this指向调用myCall的函数）
+        context.fn = this //为对象添加方法（this指向调用myCall的函数或对象）
         let args = [...arguments].slice(1) // 剩余的参数
         let res = context.fn(...args)  // 调用该方法，该方法this指向context
         delete context.fn //删除添加的方法
@@ -90,7 +90,7 @@
         name: 'zcf',
         age: 24
     }
-    var age = sayName.myCall(obj, "wxxka", 19) // 19
+    var age = sayName.myCall(obj, "wxxka", 19) // 19 myCall 中的this指向sayName
     var age1 = sayName.myApply(obj, ["wwxSSS", 20]) //20
 
 
