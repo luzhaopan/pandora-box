@@ -14,7 +14,7 @@ const person = _new(Person,arguments)
 
 function _new(){
     // 1.创建一个空对象
-    // var obj = {}; 和下面的是同样的效果
+    // var obj = {};  // 和下面的是同样的效果
     var obj = new Object();
 
 
@@ -40,7 +40,7 @@ function _new(){
 ## 注释
 其实这可以理解为，让类数组调用数组的方法！
 
-[].shift.call( arguments )
+[].shift.call( arguments ) // 相当于 调用shift()
 
 shift() 方法删除数组第一项，并返回删除项。
 

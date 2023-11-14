@@ -22,6 +22,7 @@
             };
         }
 
+        // 先执行一次
         function debounce1(fn, time=500) {
             let timeout = null; // 创建一个标记用来存放定时器的返回值
             return function () {
@@ -40,7 +41,7 @@
         var inp = document.getElementById('ul');
         inp.addEventListener('click', debounce(sayHi)); // 防抖
 
-        // 节流：控制高频事件执行次数（滚动条）
+        // 节流：控制高频事件执行次数（滚动条）（及时查询）
         function throttle(fn, time=500) {
             let timeout; // 通过闭包保存一个标记
             return function () {

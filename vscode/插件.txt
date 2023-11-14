@@ -29,3 +29,5 @@
 # 小程序开发助手
 
 # CodeGeeX: AI Code AutoComplete, Chat, Auto Comment
+
+# Code Runner  // setting.json 文件中添加 "code-runner.defaultLanguage": "javascript",
