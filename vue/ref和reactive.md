@@ -3,7 +3,7 @@
 # 原始类型差异
 
 ## ref
-对于 ref 来说，原始类型和对象都可以进行相应的数据做了响应式处理，比如这种写法是可以的
+对于 ref 来说，原始类型和对象都可以对相应的数据做响应式处理，比如这种写法是可以的
 
 ```sh
 const ref1 = ref(0);           // OK
@@ -177,8 +177,8 @@ ref 和 reactive 本质我们可以简单地理解为ref是对reactive的二次�
 ```sh
 <template>
 <div>
-  <button @click="r.a++"> count is: {{ r.a }} </button>
-  <button> count is: {{ s }} </button>
+  <button @click="r.a++"> button1-count is: {{ r.a }} </button>
+  <button> button2-count is: {{ s }} </button>
 </div>
 </template>
 
@@ -229,3 +229,191 @@ export default {
 };
 </script>
 ```
+
+## toRefs
+toRefs是toRef的数组版，用于将响应式对象的所有property都转为ref，这样就可以在setup函数中直接使用。
+
+toRefs 它可以将一个响应式对象转成普通对象,而这个普通对象的每个属性都是响应式的 ref
+
+```sh
+<template>
+    <div>
+        {{ count.a }}
+        {{ countAsRefs.a }}
+        <button @click="addCount">+1</button>
+    </div>
+</template>
+
+<script lang='ts' setup>
+import { reactive, toRefs } from "vue"
+const count = reactive({
+    a: 1,
+    b: 2
+})
+const countAsRefs = toRefs(count)
+const addCount = () => {
+    countAsRefs.a.value++
+}
+
+</script>
+```
+
+此时代码中的countAsRefs类型为
+```sh
+{
+  a: Ref<number>,
+  b: Ref<number>
+}
+```
+它的属性 a 和 b 都是响应式的 ref 对象,同样的它们和原对象的 count 的属性也是保持同步的
+
+根据它的特性我们通常用它来解构一个响应式对象而不会让其失去响应式
+```sh
+import { reactive, toRefs } from "vue";
+const count = reactive({
+  a: 1,
+  b: 2,
+});
+const { a, b } = toRefs(count);
+```
+
+```sh
+展开运算符：
+响应式对象的处理，是加给对象的，如果直接对对象做了展开操作，那么就会丢失响应式的效果。需要加上toRefs
+<template>
+　　<button @click="name='张三'">修改名字</button>{{name}}
+</template>
+
+<script lang='ts'>
+
+import { reactive, toRefs } from 'vue'
+export default {
+　　setup() {
+　　　　const user = reactive<any>({
+　　　　　　name: '小明',
+　　　　　　age: 10,
+　　　　　　addr: {
+　　　　　　　　province: '山东',
+　　　　　　　　city: '青岛'
+　　　　　　}
+　　　　})
+　　　　return {
+　　　　　　...toRefs(user)
+　　　　}
+　　}
+}
+</script>
+```
+
+## isRef
+
+isRef 用来判断一个值是否为一个 ref 对象
+注意:它判断不了这个值是不是 reactive(可以使用 isReactive 判断)
+```sh
+import { reactive, isRef, ref } from "vue";
+const count = ref(1);
+const testObj = reactive({
+  a: 1,
+});
+console.log(isRef(count)); //true
+console.log(isRef(testObj)); //false
+```
+
+
+## unref()
+其实它是一个语法糖
+```sh
+val = isRef(val) ? val.value : val;
+```
+如果是 ref 则返回它的内部值,否则则返回它本身。通过这个语法糖我们可以看出它可以对响应式对象解除响应式引用,比如我们只想获取一个响应式的值,但不想要它的响应式可以使用它解除引用。 例如
+```sh
+<template>
+    <div>
+        {{ unRefAsCount }}
+        {{ count }}
+        <button @click="addCount">+1</button>
+    </div>
+</template>
+
+<script lang='ts' setup>
+import { unref, ref } from "vue"
+const count = ref(1)
+let unRefAsCount = unref(count)
+const addCount = () => {
+    count.value++
+}
+</script>
+```
+代码中的 unRefAsCount 是不具备响应式的
+
+## shallowRef
+
+通过翻译我们可以看出它是浅层的 ref,什么是浅层的 ref 呢? 与 ref 不同的是只有.value 是响应式的,再深层的属性则不具备响应式
+
+```sh
+<template>
+    <div>
+        {{ shallowObj.a }}
+        <button @click="addCount"> +1</button>
+    </div>
+</template>
+
+<script lang='ts' setup>
+import { shallowRef } from "vue"
+
+const shallowObj = shallowRef({
+    a: 1
+})
+const addCount = () => {
+    //不会触发页面更新
+    shallowObj.value.a++
+}
+</script>
+```
+
+但是如果我们将 addCount 改为修改整个.value 就会触发响应式了
+
+```sh
+const addCount = () => {
+  let temp = shallowObj.value.a;
+  temp++;
+  shallowObj.value = {
+    a: temp,
+  };
+};
+```
+
+## customRef
+
+customRef 用来创建一个自定义的 ref 对象
+
+```sh
+import { customRef, ref } from "vue";
+
+// 创建一个 ref 对象
+const count = ref(0)
+
+// 创建一个自定义的 ref 对象
+const double = customRef((track, trigger) => {
+  return {
+    get() {
+      track()
+      return count.value
+    },
+    set(newValue) {
+      track()
+      count.value = newValue
+      trigger()
+    }
+  }
+})
+
+// 修改 count 的值，会触发 double 的 set 方法
+count.value++
+
+// 读取 double 的值，会触发 double 的 get 方法
+console.log(double.value)
+```
+)
+
+###
