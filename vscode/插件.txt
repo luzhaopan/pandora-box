@@ -31,3 +31,5 @@
 # CodeGeeX: AI Code AutoComplete, Chat, Auto Comment
 
 # Code Runner  // setting.json 文件中添加 "code-runner.defaultLanguage": "javascript",
+
+# Tailwind CSS IntelliSense Tailwind CSS IntelliSense 提供了对 Tailwind CSS 的智能提示和自动补全功能，可以帮助开发者更快地编写 CSS 样式代码，减少输入错误和提高工作效率。
