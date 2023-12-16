@@ -3,6 +3,7 @@ npm run xxx的时候，首先会去项目的package.json文件里找scripts 里�
 例如启动vue项目 npm run serve的时候，实际上就是执行了vue-cli-service serve 这条命令。
 
 ## package.json文件
+```sh
 {
   "name": "h5",
   "version": "1.0.7",
@@ -11,21 +12,21 @@ npm run xxx的时候，首先会去项目的package.json文件里找scripts 里�
     "serve": "vue-cli-service serve"
    },
 }
-
+```
 ## 为什么 不直接执行vue-cli-service serve而要执行npm run serve 呢？
 
 因为 直接执行vue-cli-service serve，会报错，因为操作系统中没有存在vue-cli-service这一条指令
 
-![](.img/2023-05-22-10-16-28.png)
+![](./img/2023-05-22-10-16-28.png)
 
 
 ## 既然vue-cli-service 指令不存在操作系统中，为何执行npm run serve的时候，也相当于执行了vue-cli-service serve ，为什么这样它就能成功，而且不报指令不存在的错误呢？
 
-在安装依赖的时候，是通过npm i xxx 来执行的，例如 npm i @vue/cli-service，npm 在 安装这个依赖的时候，就会node_modules/.bin/ 目录中创建 好vue-cli-service 为名的几个可执行文件了。
+在安装依赖的时候，是通过npm i xxx 来执行的，例如 npm i @vue/cli-service，npm 在 安装这个依赖的时候，就会在node_modules/.bin/ 目录中创建 好vue-cli-service 为名的几个可执行文件了。
 
-![](.img/2023-05-22-10-20-47.png)
+![](./img/2023-05-22-10-20-47.png)
 
-![](.img/2023-05-22-10-21-03.png)
+![](./img/2023-05-22-10-21-03.png)
 
 .bin 目录，这个目录不是任何一个 npm 包。
 目录下的文件，表示这是一个个软链接，打开文件可以看到文件顶部写着 #!/bin/sh ，表示这是一个脚本。
@@ -36,7 +37,7 @@ npm run xxx的时候，首先会去项目的package.json文件里找scripts 里�
 
 可以直接在新建的vue项目里面搜索vue-cli-service
 
-![](.img/2023-05-22-10-25-26.png)
+![](./img/2023-05-22-10-25-26.png)
 可以看到，它存在项目最外层的「package-lock.json」文件中
 
 从 package-lock.json 中可知，当我们npm i 整个新建的vue项目的时候，npm 将 bin/vue-cli-service.js 作为 bin 声明了。
@@ -47,10 +48,10 @@ npm run xxx的时候，首先会去项目的package.json文件里找scripts 里�
 
 ## 看到在node_modules/bin中 有三个vue-cli-service文件。为什么会有三个文件呢？
 
-![](.img/2023-05-22-10-28-25.png)
+![](./img/2023-05-22-10-28-25.png)
 
 如果我们在 cmd 里运行的时候，windows 一般是调用了 vue-cli-service.cmd，这个文件，这是 windows 下的批处理脚本：
-
+```sh
 @ECHO off
 GOTO start
 :find_dp0
@@ -68,20 +69,23 @@ IF EXIST "%dp0%\node.exe" (
 )
 
 endLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & "%_prog%"  "%dp0%\..\@vue\cli-service\bin\vue-cli-service.js" %*
-
+```
 所以当我们运行vue-cli-service serve这条命令的时候，就相当于运行 node_modules/.bin/vue-cli-service.cmd serve。
 然后这个脚本会使用 node 去运行 vue-cli-service.js这个 js 文件
 由于 node 中可以使用一系列系统相关的 api ，所以在这个 js 中可以做很多事情，例如读取并分析运行这条命令的目录下的文件，根据模板生成文件等。
 
 # unix 系默认的可执行文件，必须输入完整文件名
+```sh
 vue-cli-service
-
+```
 # windows cmd 中默认的可执行文件，当我们不添加后缀名时，自动根据 pathext 查找文件
+```sh
 vue-cli-service.cmd
-
+```
 # Windows PowerShell 中可执行文件，可以跨平台
+```sh
 vue-cli-service.ps1
-
+```
 ## 总结
 运行 npm run xxx的时候，npm 会先在当前目录的 node_modules/.bin 查找要执行的程序，如果找到则运行；
 没有找到则从全局的 node_modules/.bin 中查找，npm i -g xxx就是安装到到全局目录；

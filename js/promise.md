@@ -49,7 +49,7 @@ console.log('Hi!');
 
 # Promise.prototype.catch()
 
-Promise.prototype.catch() 方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
+Promise.prototype.catch() 方法是.then(resolve, null)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
 
 ```sh
 getJSON('/posts.json')
@@ -310,7 +310,7 @@ promise
   })
 ```
 
-![](2023-06-26-15-18-18.png)
+![](img/2023-06-26-15-18-18.png)
 
 由于第一个catch抛出错误变为reject状态，所以直接跳过后面的两个then执行最后的catch捕获异常
 

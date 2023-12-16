@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+      .viewport {
+        width: 300px;
+        height: 100vh;
+        border: 1px solid blue;
+       
+      }
+  
+      .box1 {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+      }
+  
+      .imgs {
+        width: 200px;
+        height: 200px;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  
+  
+  <body>
+    <div class="viewport" >
+      <div class="box1" id="viewport">
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+        <img src="./img/loading.jpg" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb1050cf-7a62-4845-adf2-782080cc8803%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1703229986&t=acac24c94f45936a786f9e46d89ee048" alt="图片" class="imgs" />
+      </div>
+    </div>
+  </body>
+  <script>
+    let viewport = document.getElementById("viewport"); // 可视区域
+    let imgList = document.querySelectorAll(".imgs"); // 被观察元素
+  
+  
+    let options = {
+      root: viewport
+    }
+    let IO = new IntersectionObserver(IOCallback, options);
+  
+  
+    // 循环所有 img 标签，使它被观察
+    imgList.forEach((item) => {
+      IO.observe(item)
+    })
+  
+  
+    // 回调函数
+    function IOCallback(entries, observer) {
+      // 循环所有观察元素
+      entries.forEach(item => {
+        // 如果出现在可视区内，则替换 src
+        if (item.isIntersecting) {
+          console.info("出现在可视区内")
+          item.target.src = item.target.dataset.src  // 替换 src
+          IO.unobserve(item.target)  // 停止观察当前元素 避免不可见时候再次调用 callback 函数
+        }
+      });
+    }
+  </script>
+
+</html>
