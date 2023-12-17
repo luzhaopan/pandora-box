@@ -110,7 +110,7 @@ export default {
 
 # 生命周期
 
-![](2023-07-21-09-45-33.png)
+![](./img/2023-07-21-09-45-33.png)
 
 可以看到 Vue 2 生命周期里的 beforeCreate 和 created ，在 Vue 3 里已被 setup 替代。
 
