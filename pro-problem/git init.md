@@ -9,3 +9,5 @@
 
 6. git branch -M master
 7. git push -u origin master
+
+![](./img/2023-12-17-17-57-42.png)
