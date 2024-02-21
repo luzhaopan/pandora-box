@@ -165,7 +165,9 @@ will-change: transform;
 可以使用GPU加速的CSS3属性
 
 CSS transform
+
 CSS opacity
+
 CSS filter
 
 1. transform 会使⽤ GPU 硬件加速，性能更好；position + top/left 会触发⼤量的重绘和回流，性能影响较⼤。
