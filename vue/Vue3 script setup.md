@@ -105,8 +105,7 @@ export default {
 在 setup 中你应该避免使用 this，因为它不会找到组件实例。setup 的调用发生在 data property、computed property 或 methods 被解析之前，所以它们无法>在 setup 中被获取。
 
 
-在添加了setup的script标签中，我们不必声明和方法，这种写法会自动将所有顶级变量、函数，均会自动暴露给模板（template）使用
-这里强调一句 “暴露给模板，跟暴露给外部不是一回事”
+在添加了setup的script标签中，我们不必声明和方法，这种写法会自动将所有顶级变量、函数，均会自动暴露给模板（template）使用，这里强调一句 “暴露给模板，跟暴露给外部不是一回事”
 
 # 生命周期
 

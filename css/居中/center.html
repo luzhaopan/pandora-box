@@ -32,7 +32,8 @@
         position: fixed;
         left: 50%;
         top: 50%;
-        transform: translate3d(-50%, -50%, 0);
+        transform: translate(-50%, -50%);
+        /* transform: translate3d(-50%, -50%, 0); */
         background-color: rgb(42, 78, 154);
     }
 
@@ -78,11 +79,15 @@
         height: 100%;
         width: 100%;
     }
+    
     body{
         display: flex;
     }
     .container7{
         margin: auto;
+    }
+
+    .center7{
         background-color: bisque;
         width: 100px;
         height: 100px;
@@ -97,7 +102,7 @@
     <!-- <div class="center2">我是一个居中元素</div> -->
 
     <!--3 position: fixed + transform-->
-    <!-- <div class="center3">我是一个居中元素</div> -->
+    <div class="center3">我是一个居中元素</div>
 
     <!--4 position + margin 创建一个块级元素，给定宽度和高度。将其position属性设置为absolute，top或者left属性设置为50%，margin-top或margin-left属性设置为负的高的一半或者负的宽的一半，即可实现垂直或者水平方向上的居中定位-->
     <!-- <div class="center4">我是一个居中元素</div> -->
@@ -118,9 +123,9 @@
 
     <!--7 body display: flex margin: auto -->
     <div class="container7">
-        <span class="center7">
+        <div class="center7">
             我是一个居中元素
-        </span>
+        </div>
     </div>
 </body>
 
