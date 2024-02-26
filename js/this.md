@@ -174,7 +174,7 @@ var o = {a:37, f:f, g:g};
 console.log(o.f(), o.g()); // 37, azerty
 ```
 
-# 3 DOM 事件处理函数中的 this & 内联事件中的 this
+# 3. DOM 事件处理函数中的 this & 内联事件中的 this
 
 ## (1) DOM事件处理函数
 
@@ -241,7 +241,7 @@ var p = new Person();//3秒后返回构造函数新生成的对象 Person{...}
 
 ![](./img/2023-08-29-12-05-27.png)
 
-# 3 箭头函数中的 this
+# 4. 箭头函数中的 this
 
 由于箭头函数不绑定this， 它会捕获其所在（即定义的位置）上下文的this值， 作为自己的this值，
 
