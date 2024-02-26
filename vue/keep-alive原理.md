@@ -2,7 +2,7 @@
 
 keep-alive 实现了组件的缓存，当组件切换时不会对当前组件进行卸载。
 
-常用的2个属性 include / exclude 以及max属性，
+常用的属性 include / exclude 以及max属性，
 
 2个生命周期 activated / deactivated，以及 LRU 算法。
 
