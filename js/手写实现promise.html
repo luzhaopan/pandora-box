@@ -45,6 +45,7 @@
             return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
         }
         Promise.all = function (values) {
+            if(!values instanceof Array) return;
             return new Promise((resolve, reject) => {
                 let result = [];
                 let counter = 0;
@@ -80,6 +81,26 @@
         // 3.需要遍历入参数组的每一项，判断传入是否为Promise对象，如果是则执行.then回调函数，然后将回调函数的结果处理后返回，如果失败则reject;
         // 4.如果数组中存在非Promise对象，则直接返回；
         // 5.最后通过计数器，判断当前的结果是否全部返回；
+
+        Promise.race = function (values) {
+            if(!values instanceof Array) return;
+            return new Promise((resolve, reject) => {
+                // 遍历values,先判断是否当前项为promise对象；
+                // 如果是，则执行回调函数；否，则直接返回该值；
+                for (let i = 0; i < values.length; i++) {
+                    if (isPromise(values[i])) {
+                        values[i].then(data => {
+                            resolve(data)
+                        }).catch(err => {
+                            reject(err)
+                        }) // values[i]如果成功则返回回调数据，失败则reject
+                    } else {
+                        // 如果不是promise对象，则直接返回；
+                        resolve(values[i])
+                    }
+                }
+            })
+        }
 
 
     </script>
