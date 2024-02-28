@@ -90,13 +90,13 @@
                 for (let i = 0; i < values.length; i++) {
                     if (isPromise(values[i])) {
                         values[i].then(data => {
-                            resolve(data)
+                            return resolve(data)
                         }).catch(err => {
-                            reject(err)
+                            return reject(err)
                         }) // values[i]如果成功则返回回调数据，失败则reject
                     } else {
                         // 如果不是promise对象，则直接返回；
-                        resolve(values[i])
+                        return resolve(values[i])
                     }
                 }
             })

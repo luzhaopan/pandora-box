@@ -2,12 +2,12 @@
 
 # 基础类型
 
-1. 布尔值
+1. 布尔值 boolean
 ```sh
 let isDone: boolean = false;
 ```
 
-2. 数字
+2. 数字 number
 
 和JavaScript一样，TypeScript里的所有数字都是浮点数。 这些浮点数的类型是number。 除了支持十进制和十六进制字面量，TypeScript还支持ECMAScript 2015中引入的二进制和八进制字面量。
 
@@ -18,7 +18,7 @@ let binaryLiteral: number = 0b1010;
 let octalLiteral: number = 0o744;
 ```
 
-3. 字符串
+3. 字符串 string
 
 ```sh
 let name: string = "bob";
@@ -31,7 +31,7 @@ let sentence: string = `Hello, my name is ${ name }.
 I'll be ${ age + 1 } years old next month.`;
 ```
 
-4. 数组
+4. 数组 array
 
 ```sh
 // 可以在元素类型后面接上[]，表示由此类型元素组成的一个数组：
@@ -41,7 +41,7 @@ let list: number[] = [1, 2, 3];
 let list: Array<number> = [1, 2, 3];
 ```
 
-5. 元组Tuple
+5. 元组 Tuple
 
 元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同。以下定义的表示一个包含string和number的元组。
 
@@ -56,7 +56,7 @@ x = ['hello', 10]; // OK
 x = [10, 'hello']; // Error
 ```
 
-6. 任意值
+6. 任意值 any
 
 不确定为什么类型的值的时候，可以用any来指定其为任意值，如下
 ```sh
@@ -66,7 +66,7 @@ it = '0410' // 可以在将其变成字符串类型
 let lzp: any[]=[1,'lt', true] // 包含多种类型的数组
 ```
 
-7. 空值
+7. 空值 void
 
 当没有返回值的时候，设置为void，作用和any 相反，如下，设置一个没有返回值的函数
 
@@ -98,6 +98,12 @@ let num: number = u;
 9. Never
 
 该类型表示那些永不存在的值的类型
+
+它在以下情况中很好的被使用：
+
+一个从来不会有返回值的函数,即死循环（如：如果函数内含有 while(true) {}）；
+
+一个总是会抛出错误的函数（如：function foo() { throw new Error('Not Implemented') }，foo 的返回类型是 never）；
 
 10. 类型断言
 
