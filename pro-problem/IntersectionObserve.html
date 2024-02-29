@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <title>图片懒加载</title>
     <style>
       .viewport {
         width: 300px;
@@ -77,7 +78,9 @@
         // 如果出现在可视区内，则替换 src
         if (item.isIntersecting) {
           console.info("出现在可视区内")
-          item.target.src = item.target.dataset.src  // 替换 src
+          setTimeout(() => {
+            item.target.src = item.target.dataset.src  // 替换 src  
+          },500)
           IO.unobserve(item.target)  // 停止观察当前元素 避免不可见时候再次调用 callback 函数
         }
       });
