@@ -1,8 +1,8 @@
 # Typescript 数据类型
 
 基本数据类型: string、number、boolean、undefined、null、Symbol、bigint
-引用数据类型: Array,Tuple,object,function
-特殊数据类型:  any,unknow,void,never,enum
+引用数据类型: Array、Tuple、object、function
+特殊数据类型: any、unknow、void、never、enum
 
 1. boolean（布尔类型）
    
@@ -29,7 +29,8 @@
 
     // 数组元素符合 StringNumberPair 类型要求时
     let testTupleTypeMatched: StringNumberPair = ['1', 2]; // ok
-```
+    ```
+
 6. enum（枚举类型）：一个对象的所有可能取值的集合
    
 7. any（任意类型）：可以指定任何类型的值，设置为any相当于对该变量关闭了TS的类型检测。
