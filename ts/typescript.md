@@ -108,6 +108,7 @@ let num: number = u;
 10. 类型断言
 
 已经清楚确切的类型，有两种形式
+
 类型断言有两种形式。 其一是“尖括号”语法：
 
 ```sh
@@ -122,7 +123,8 @@ let strLength: number = (someValue as string).length；
 
 # 变量声明
 
-1.  
+1.  var
+   
 var声明变量的时候，在获取到变量之后，它的行为是，每次进入一个作用域的时候，它创建一个变量环境，就算作用域内代码已经执行完毕，这个环境与其捕获的变量依然存在。
 
 ```sh
@@ -150,7 +152,7 @@ let声明不仅是在循环里引入一个新的变量环境，而且每次迭�
 
 另一方面，用户很喜欢 let 的简洁性。
 
-2.  ... 用于对象或数组
+1.  ... 用于对象或数组
    
 它允许将一个数组展开成另一个数组或将一个对象展开成另一个对象。
 
@@ -240,6 +242,7 @@ let mySquare = createSquare({ colour: "red", width: 100 });
 ```
 
 解决办法：
+
 1）使用类型断言
 ```sh
 let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
@@ -395,6 +398,7 @@ class Clock implements ClockInterface {
 ```
 
 2）接口继承
+
 接口和类一样可以继承，可以灵活的从一个接口复制成员到另一个接口，实现可重用。
 ```sh
 interface Shape {
