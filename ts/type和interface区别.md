@@ -29,6 +29,7 @@ interface SetPoint {
 }
 ```
 2. 都支持扩展（继承）
+   
 类型别名通过 &（交叉运算符）来扩展，而接口通过 extends 的方式来扩展
 
 ### type
