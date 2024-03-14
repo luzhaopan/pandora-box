@@ -124,7 +124,7 @@ watch(ref1, () => {
 
 // ref1.value.num = 1
 ```
-当我执行 ref1.value.num = 1 时，会打印 changed! 么？
+当我执行 ref1.value.num = 2 时，会打印 changed! 么？
 
 答案是不会的，因为 watch 并没有对 ref1 进行深度监听，但是要注意的是，这个时候 dom 是能够更新的，前面提到 ref 会将其转换成 reactive 的形式
 
@@ -161,10 +161,11 @@ ref 和 reactive 本质我们可以简单地理解为ref是对reactive的二次�
 3. 如果您需要一个响应式可变对象，并且对象层级较深，需要深度跟踪，那么使用 reactive
 
 
-为什么似乎Proxy已经解决所有问题，还要有ref API呢？
+### 为什么似乎Proxy已经解决所有问题，还要有ref API呢？
+
 因为ES的Proxy API是为引用数据类型服务的，它无法为基本数据类型提供代理。如果强行代理，Vue会有提示：value cannot be made reactive: 30。
 
-那么为什么Vue2的defineproperty并没有区分基本数据类型和引用数据类型呢？
+### 那么为什么Vue2的defineproperty并没有区分基本数据类型和引用数据类型呢？
 
 因为defineproperty就是Object的静态方法，它只是为对象服务的，甚至无法对数组服务，因此Vue 2弄了一个data根对象来存放基本数据类型，这样无论什么类型，都是根对象的property，所以也就能代理基本数据类型。
 
@@ -200,7 +201,7 @@ export default {
 
 当我点击button1的时候，你说button2会变吗？并不会。变量s就是个基本数据，没有任何响应式。很不爽是不是？现在我改改，把let s = r.a;改成let s = toRef(r, 'a');，然后再试试？
 
-可以看到button2的数字跟着变了！这就是toRef的作用：当一个变量指向一个对象的某个property，且这个property是基本数据类型时，必须用toRef才能变量与对象的响应式连接。如果这个property是引用数据类型，就不需要动用toRef。
+可以看到button2的数字跟着变了！这就是toRef的作用：当一个变量指向一个对象的某个property，且这个property是基本数据类型时，必须用toRef才能将变量与对象的响应式连接。如果这个property是引用数据类型，就不需要动用toRef。
 
 toRef的用途之一是用于传参，可传递一个响应式的基本数据类型。
 
@@ -278,8 +279,8 @@ const { a, b } = toRefs(count);
 ```
 
 ```sh
-展开运算符：
-响应式对象的处理，是加给对象的，如果直接对对象做了展开操作，那么就会丢失响应式的效果。需要加上toRefs
+// 展开运算符：
+// 响应式对象的处理，是加给对象的，如果直接对对象做了展开操作，那么就会丢失响应式的效果。需要加上toRefs
 <template>
 　　<button @click="name='张三'">修改名字</button>{{name}}
 </template>
