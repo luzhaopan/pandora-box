@@ -7,5 +7,7 @@ actions 存放异步方法，并且是来提交mutations
 modules 模块划分
 
 
+mutations和actions区别
+
 # pinia
 
