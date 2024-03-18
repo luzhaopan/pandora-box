@@ -177,6 +177,10 @@ vue3的更友好体现在，兼顾vue2的options API的同时还推出了composi
 - Proxy有多达13种拦截方法,不限于apply、ownKeys、deleteProperty、has等等，这是Object.defineProperty不具备的 。
 
 - 正因为defineProperty自身的缺陷，导致Vue2在实现响应式过程需要实现其他的方法辅助（如重写数组方法、增加额外set、delete方法）
+- 
+### TS更友好
+
+![Alt text](./img/20243181110.png)
   
 ## 总结：Vue3对于Vue2有什么更新
 
@@ -193,3 +197,5 @@ vue3的更友好体现在，兼顾vue2的options API的同时还推出了composi
 6. Vue3还增加了静态提升和事件监听缓存，将不需要重复创建的节点和方法单独提出、进行缓存，避免重复创建和加载。
 
 7. Vue3还做了SSR优化。如果增加的静态内容过多，就会直接使用innerHTML的方法插入，而不会一个一个的创建的节点。
+   
+8. vue3还增加了TypeScript支持，让代码的类型检查更加方便。
