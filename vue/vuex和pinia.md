@@ -84,3 +84,18 @@ const storeA = useStoreA();
 </script>
 ```
 
+# 主要区别
+
+1. Vuex的核心概念有state,getters,mutations,actions,moudles五个部分，Pinia的核心概念有state,getter,action三个部分
+
+-  mutation 已被弃用。它们经常被认为是极其冗余的
+- pinia不再有嵌套结构的moudles，它的每个store便是一个模块，如storeA，storeB... 。
+
+2. Vuex对state的修改推荐使用mutations中的方法进行修改，因为Vuex需要追踪数据的变化，这使我们写起来比较繁琐，pinia则不再需要mutations，同步异步都可在actions进行操作。
+
+3. Pinia中 getter，action 也可通过 this 访问整个 store 实例
+
+4. 完整的 TypeScript 支持：与在 Vuex 中添加 TypeScript 相比，添加 TypeScript 更容易
+   
+5. 
+   
