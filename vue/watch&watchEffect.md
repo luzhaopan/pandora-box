@@ -285,18 +285,14 @@ export default {
 </script>
 ```
 
-<<<<<<< HEAD
 ![](./img/2023-07-21-14-34-38.png)
-=======
-![](img/2023-07-21-14-34-38.png)
->>>>>>> f55a28650f96ffbb716cf5275b695acf47fcb553
 
 为什么点之前按钮的innerText打印null？
 因为事实就是默认先执行监听器，然后更新DOM，此时DOM还未生成，当然是null。
 当第1和2次点击完，会发现：document.querySelector('#value').innerText 获取到的总是点击之前DOM的内容。
 这也说明，默认Vue先执行监听器，所以取到了上一次的内容，然后执行组件 update。
 
-Vue 2其实也是这种机制，Vue 2使用 this.nextTick()去获取组件更新完成之后的DOM，在watchEffect里就不需要用this. nextTick() 去获取组件更新完成之后的 DOM，在 watchEffect 里就不需要用this.nextTick()去获取组件更新完成之后的DOM，在watchEffect里就不需要用this.nextTick()（也没法用），有一个办法能获取组件更新完成之后的DOM，就是使用：
+Vue 2其实也是这种机制，Vue 2使用 this.nextTick()去获取组件更新完成之后的DOM，在watchEffect里就不需要用this. nextTick() 去获取组件更新完成之后的 DOM，在watchEffect里就不需要用this.nextTick()（也没法用），有一个办法能获取组件更新完成之后的DOM，就是使用：
 
 ```sh
 // 在组件更新后触发，这样你就可以访问更新的 DOM。
@@ -310,11 +306,7 @@ watchEffect(
   }
 )
 ```
-<<<<<<< HEAD
 ![](./img/2023-07-21-14-35-39.png)
-=======
-![](img/2023-07-21-14-35-39.png)
->>>>>>> f55a28650f96ffbb716cf5275b695acf47fcb553
 
 所以结论是，如果要操作“更新之后的DOM”，就要配置 flush: 'post'。
 
