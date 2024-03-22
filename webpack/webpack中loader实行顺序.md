@@ -151,7 +151,7 @@ module.exports = {
 
 综合来讲，webpack loader 的执行顺序是从右向左的，但是可以通过 Rule.enforce 来改变 loader 的执行顺序，enforce 为 post 时 loader 会后执行，enforce 为 pre 时 loader 会优先执行。另外还可以通过 inline-loader 的方式使用 loader，其执行时机在正常 loader 之后，但是在 postLoader 之前。所以 loader 的执行顺序为：pre loader -> normal loader -> inline loader -> post loader，同优先级情况下从右向左执行。
 
-另外 loader 本质上是通过导出了一个函数，这个函数中对源文件代码进行处理，这也是我们通常说的 loader。但是 loader 还可以导出一个 pitch 方法，它可以修改 request 后面的元数据(metadata)，并且 pitch 方法如果有返回值的话可以忽略上一个(右边的) loader 的结果。pitching loader 的执行顺序与上
+另外 loader 本质上是通过导出了一个函数，这个函数中对源文件代码进行处理，这也是我们通常说的 loader。但是 loader 还可以导出一个 pitch 方法，它可以修改 request 后面的元数据(metadata)，并且 pitch 方法如果有返回值的话可以忽略上一个(右边的) loader 的结果。
 
 
 ## 为什么 loader 从右向左按顺序执行
@@ -167,7 +167,7 @@ module.exports = {
 
 2. 从右到左
 
-以前我看网上关于为什么 loader 执行顺序是从左到右的面试题，都说是因为 webpack 内部是通过 compose 进行 plugins 的链式调用。
+以前我看网上关于为什么 loader 执行顺序是从右到左的面试题，都说是因为 webpack 内部是通过 compose 进行 plugins 的链式调用。
 
 直到我自己去看了源码，发现根本没有使用 compose，而是因为上面提到的 pitching loader，webpack 通过一个 loaderIndex 字段去记录当前执行到了哪个 loader：按照正常习惯先从左到右执行 pitching loader，loaderIndex 递增；然后从右到左执行 normal loader，loaderIndex 递减。并且 pitch 方法如果有返回值的话可以忽略后面(右边的) loader 的结果。
 
