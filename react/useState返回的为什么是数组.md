@@ -201,3 +201,45 @@ let { foo: foo1, bar: bar1 } = obj
 let [ foo2, bar2 ] = obj 
 // foo2 的值为: { name: 'foo'}， bar2 的值为：1024
 ```
+
+# useState, useRef的区别
+
+## useRef
+
+useRef用于在组件的整个生命周期内持久保存和访问数据。它返回一个可变的对象，该对象具有一个名为current的属性，用于存储引用的值。与useState不同，当useRef的值发生变化时，组件不会重新渲染。
+
+useRef通常用于访问DOM元素、存储上一次的状态值或在组件生命周期内保持一个不变的值。
+
+
+
+```sh
+import React, { useRef } from 'react';
+ 
+function App() {
+  const inputRef = useRef(null);
+ 
+  const handleClick = () => {
+    inputRef.current.focus();
+  };
+ 
+  return (
+    <div>
+      <input ref={inputRef} />
+      <button onClick={handleClick}>Focus input</button>
+    </div>
+  );
+}
+ 
+export default App;
+```
+在这个示例中，我们使用useRef来创建一个输入框的引用。当点击按钮时，输入框会获得焦点。注意，当我们更新inputRef.current的值时，组件并没有重新渲染。
+
+## 总结
+
+1. useState 返回的是一个数组，数组中包含两个元素，第一个元素是当前 state 的值，第二个元素是更新 state 的方法。用于管理组件的状态，当状态更新时，组件会重新渲染。
+
+2. useRef 用于在组件的整个生命周期内持久保存和访问数据，当引用的值发生变化时，组件不会重新渲染。
+
+3. useRef 返回的对象在组件的整个生命周期内保持不变，而 useState 返回的值在组件的整个生命周期内会发生变化。
+
+4. useState返回一个数组，包含当前状态值和一个更新状态的函数；useRef返回一个具有current属性的可变对象，用于存储引用的值。
