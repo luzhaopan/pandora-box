@@ -19,6 +19,7 @@ url-loader 封装了 file-loader。url-loader 不依赖于 file-loader，即使�
 3. 返回一个字符串形式的 JS 模块，加载这个模块，就可以得到文件路径；
 
 ## url-loader 工作情况
+
 通过上面的介绍，我们可以看到，url-loader 工作分两种情况：
 
 1. 文件大小 < limit 参数，url-loader 将会把文件转为 DataURL；
