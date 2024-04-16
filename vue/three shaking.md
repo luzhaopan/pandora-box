@@ -18,13 +18,16 @@ import _isEmpty from 'lodash/isEmpty';
 ```    
 
 如果如上引用lodash库，在构建包的时候只会把isEmpty这个方法抽离出来再打入到我们的bundle包中。
-这样的化就会大大减少我们包的size。所以在日常引用第三方库的时候，需要注意导入的方式。
-如何开启摇树
+
+这样就会大大减少我们包的size。所以在日常引用第三方库的时候，需要注意导入的方式。
+
+如何开启摇树？
+
 在webpack4.x 中默认对tree-shaking进行了支持。
 
 # vue3  tree shaking
 
-vue3一个比较大的显著的区别就是，当你用一个bundler的时候，比如webpack或者rollup，webpack和rollup都是有tree shaking功能，但是tree shaking的前提是所有的东西都必须用ES6 module的import来写
+vue3一个比较大的显著的区别就是，当你用一个bundler的时候，比如webpack或者rollup，webpack和rollup都具有tree shaking功能，但是tree shaking的前提是所有的东西都必须用ES6 module的import来写
 
 而vue3 在浏览器里的时候依然会有一个全局的Vue对象，但是当你用了一个bundler时（比如webpack），它就没有default export，你就不能import xxx from vue，然后把vue本身当一个对象去操作。那所有的这些API全部要用import的方式import进来，这样的结果就是使得一些可能不会用到的一些功能就可以被tree shaking掉。比如说 v-model、<transition>这些功能，如果你不用的话，就不会引用到最后的包里。
 
@@ -49,7 +52,7 @@ Tree-shaking某种程度上来讲，也是通过编译器去实现的（记住�
 
 ![](./img/2023-06-18-13-36-39.png)
 
-所以没如果没用到，就不会引入进来。所以没有引入的东西最终就可以被tree shaking掉
+所以如果没用到，就不会引入进来。所以没有引入的东西最终就可以被tree shaking掉
 
 所以，如果只写一个hello world，vue3的实际尺寸，即最终打包出来的整个应用的size，是13.5kb。如果去掉对2.0 option  API等的支持，最终打包出来是11.75kb。而所有的可选的运行时的东西全部一起加进来是22.5kb。这比现在vue2的整个尺寸还要小，而且还是在加了很多vue3的新功能的基础上
 
