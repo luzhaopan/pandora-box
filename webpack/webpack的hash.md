@@ -6,11 +6,11 @@
 
 2. webpack有那些 hash
 
-- hash：每次构建时，都会生成一个全新的 hash 值，即使文件内容没变。
+- hash：这是根据每次编译会话(compilation)来生成的 hash，每次编译都会生成一个新的 hash，都会生成一个全新的 hash 值，即使文件内容没变。因此，这种 hash 不能用于长期缓存。
 
-- chunkhash：根据不同的入口(entry)文件(Entry)内容进行计算，输出文件的 hash 值会根据不同入口文件的内容变化而变化，但如果入口文件所依赖的模块内容不变，则该 hash 值不会变。
+- chunkhash：这是根据每个 chunk 的内容生成的 hash，当 chunk 的内容发生变化时，chunkhash 才会发生变化。这种 hash 可以用于长期缓存，但是需要注意的是，如果入口文件发生了变化，其依赖的所有 chunk 的 chunkhash 都会发生变化。
 
-- contenthash：根据文件内容计算 hash，只要文件内容不变，不论依赖关系如何变化，hash 值不变。
+- contenthash：根据文件内容计算 hash，只有当文件内容发生变化时，contenthash 才会发生变化。只要文件内容不变，不论依赖关系如何变化，hash 值不变。这种 hash 是最精确的，也是最适合用于长期缓存的。
 
 3. 随机值一样时怎么避免？
 
