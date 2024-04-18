@@ -11,28 +11,12 @@
         <span class="画笔选择" id="文字" @click="切换画笔('文字', 8)"></span>
       </div>
       <div>
-        <span
-          class="画笔选择"
-          id="空心矩形"
-          @click="切换画笔('空心矩形', 1)"
-        ></span>
-        <span
-          class="画笔选择"
-          id="实心矩形"
-          @click="切换画笔('实心矩形', 2)"
-        ></span>
+        <span class="画笔选择" id="空心矩形" @click="切换画笔('空心矩形', 1)"></span>
+        <span class="画笔选择" id="实心矩形" @click="切换画笔('实心矩形', 2)"></span>
       </div>
       <div>
-        <span
-          class="画笔选择"
-          id="空心圆形"
-          @click="切换画笔('空心圆形', 3)"
-        ></span>
-        <span
-          class="画笔选择"
-          id="实心圆形"
-          @click="切换画笔('实心圆形', 4)"
-        ></span>
+        <span class="画笔选择" id="空心圆形" @click="切换画笔('空心圆形', 3)"></span>
+        <span class="画笔选择" id="实心圆形" @click="切换画笔('实心圆形', 4)"></span>
       </div>
       <div>
         <span class="画笔选择" id="直线" @click="切换画笔('直线', 5)"></span>
@@ -40,9 +24,7 @@
       </div>
       <div>
         <div>
-          <label for="brushSize"
-            >画笔 <span id="brushSizeValue">10</span></label
-          >
+          <label for="brushSize">画笔 <span id="brushSizeValue">10</span></label>
         </div>
         <div>
           <input
@@ -62,9 +44,7 @@
       </div>
       <div>
         <div>
-          <label for="eraserSize"
-            >橡皮 <span id="eraserSizeValue">20</span></label
-          >
+          <label for="eraserSize">橡皮 <span id="eraserSizeValue">20</span></label>
         </div>
         <div>
           <input
@@ -84,8 +64,7 @@
       </div>
     </div>
     <div style="color: #080909">
-      <span>橡皮：ctrl+左键</span>&nbsp;&nbsp;
-      <span>撤销：ctrl+z</span>&nbsp;&nbsp;
+      <span>橡皮：ctrl+左键</span>&nbsp;&nbsp; <span>撤销：ctrl+z</span>&nbsp;&nbsp;
       <span>恢复：ctrl+y</span>&nbsp;&nbsp;
       <span>保存：ctrl+s</span>
     </div>
@@ -106,21 +85,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue"
-import * as Y from "yjs"
-import { WebsocketProvider } from "y-websocket"
-import { v4 as uuidv4 } from "uuid"
+import { ref, onMounted } from 'vue'
+import * as Y from 'yjs'
+import { WebsocketProvider } from 'y-websocket'
+import { v4 as uuidv4 } from 'uuid'
 
 const brush = ref(7)
 const isDrawing = ref(false) //标记是否要绘制
 const isMouseDown = ref(false) //标记鼠标是否按下
-const lineColor = ref("#000") // 线条颜色
+const lineColor = ref('#000') // 线条颜色
 const lineWidth = ref(1) // 线条粗细
 const points = ref([]) //存储坐标点
 const undoStack = ref([]) // 存储画布状态，用于撤销上一步操作
 const step = ref(0) // 记录当前步数
 // 记录当前路径的编号
-const currentID = ref("")
+const currentID = ref('')
 
 const ydoc = ref(null)
 const drawingData = ref(null)
@@ -154,36 +133,16 @@ function draw(mousex, mousey, ctrlKey) {
 function draw画笔() {
   ctx.value.beginPath()
 
-  let x =
-    (points.value[points.value.length - 2].x +
-      points.value[points.value.length - 1].x) /
-    2
-  let y =
-    (points.value[points.value.length - 2].y +
-      points.value[points.value.length - 1].y) /
-    2
+  let x = (points.value[points.value.length - 2].x + points.value[points.value.length - 1].x) / 2
+  let y = (points.value[points.value.length - 2].y + points.value[points.value.length - 1].y) / 2
   if (points.value.length == 2) {
-    ctx.value.moveTo(
-      points.value[points.value.length - 2].x,
-      points.value[points.value.length - 2].y
-    )
+    ctx.value.moveTo(points.value[points.value.length - 2].x, points.value[points.value.length - 2].y)
     ctx.value.lineTo(x, y)
   } else {
-    let lastX =
-      (points.value[points.value.length - 3].x +
-        points.value[points.value.length - 2].x) /
-      2
-    let lastY =
-      (points.value[points.value.length - 3].y +
-        points.value[points.value.length - 2].y) /
-      2
+    let lastX = (points.value[points.value.length - 3].x + points.value[points.value.length - 2].x) / 2
+    let lastY = (points.value[points.value.length - 3].y + points.value[points.value.length - 2].y) / 2
     ctx.value.moveTo(lastX, lastY)
-    ctx.value.quadraticCurveTo(
-      points.value[points.value.length - 2].x,
-      points.value[points.value.length - 2].y,
-      x,
-      y
-    )
+    ctx.value.quadraticCurveTo(points.value[points.value.length - 2].x, points.value[points.value.length - 2].y, x, y)
   }
 
   let path = drawingData.value.get(currentID.value)
@@ -210,6 +169,13 @@ function draw矩形(isSolid) {
   } else {
     ctx.value.rect(startX, startY, endX - startX, endY - startY)
   }
+  let path = drawingData.value.get(currentID.value)
+
+  if (path) {
+    path.geometry = points.value
+    drawingData.value.set(currentID.value, path)
+    return
+  }
   //loadImage(); // 清空画布后，显示画布之前的状态，不然画布上同时只能存在一个图形
 }
 
@@ -219,9 +185,7 @@ function draw圆形(isSolid) {
   const startY = points.value[0].y
   const endX = points.value[points.value.length - 1].x
   const endY = points.value[points.value.length - 1].y
-  const radius = Math.sqrt(
-    Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)
-  )
+  const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2))
   ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height) // 清空画布
   loadImage()
   ctx.value.beginPath()
@@ -263,15 +227,9 @@ function draw箭头() {
   // 计算箭头角度
   const angle = Math.atan2(endY - startY, endX - startX)
   // 绘制箭头部分
-  ctx.value.lineTo(
-    endX - arrowSize * Math.cos(angle - Math.PI / 6),
-    endY - arrowSize * Math.sin(angle - Math.PI / 6)
-  )
+  ctx.value.lineTo(endX - arrowSize * Math.cos(angle - Math.PI / 6), endY - arrowSize * Math.sin(angle - Math.PI / 6))
   ctx.value.moveTo(endX, endY)
-  ctx.value.lineTo(
-    endX - arrowSize * Math.cos(angle + Math.PI / 6),
-    endY - arrowSize * Math.sin(angle + Math.PI / 6)
-  )
+  ctx.value.lineTo(endX - arrowSize * Math.cos(angle + Math.PI / 6), endY - arrowSize * Math.sin(angle + Math.PI / 6))
   //loadImage(); // 清空画布后，显示画布之前的状态，不然画布上同时只能存在一个图形
 }
 
@@ -279,35 +237,35 @@ function draw箭头() {
 function draw文字() {
   const startX = points.value[0].x
   const startY = points.value[0].y
-  const input = document.createElement("textarea") // 创建一个多行输入框元素
+  const input = document.createElement('textarea') // 创建一个多行输入框元素
   const canvasRect = canvas.value.getBoundingClientRect() // 获取画布的位置信息
-  var brushSize = document.getElementById("brushSize").value
-  var color = document.getElementById("brushColor").value
+  var brushSize = document.getElementById('brushSize').value
+  var color = document.getElementById('brushColor').value
   var fontSize = brushSize / 10
   if (fontSize < 1) fontSize = 1
 
   input.rows = 10 // 默认为10行
-  input.style.position = "absolute"
-  input.style.left = canvasRect.left + startX - 10 + "px" // 计算输入框的左边距（最后-10是为了让光标能显示在鼠标前面一点点）
-  input.style.top = canvasRect.top + startY + "px" // 计算输入框的上边距
-  input.style.border = "none"
-  input.style.background = "transparent"
-  input.style.font = fontSize + "rem 微软雅黑"
+  input.style.position = 'absolute'
+  input.style.left = canvasRect.left + startX - 10 + 'px' // 计算输入框的左边距（最后-10是为了让光标能显示在鼠标前面一点点）
+  input.style.top = canvasRect.top + startY + 'px' // 计算输入框的上边距
+  input.style.border = 'none'
+  input.style.background = 'transparent'
+  input.style.font = fontSize + 'rem 微软雅黑'
   input.style.color = color
-  input.style.outline = "none"
-  input.style.padding = "0"
-  input.style.margin = "0"
-  input.style.width = "auto"
-  input.style.height = "auto"
-  input.style.resize = "none"
-  input.style.overflow = "hidden"
-  input.style.zIndex = "100"
-  input.addEventListener("blur", function () {
+  input.style.outline = 'none'
+  input.style.padding = '0'
+  input.style.margin = '0'
+  input.style.width = 'auto'
+  input.style.height = 'auto'
+  input.style.resize = 'none'
+  input.style.overflow = 'hidden'
+  input.style.zIndex = '100'
+  input.addEventListener('blur', function () {
     const text = input.value
     if (text.length > 0) {
-      ctx.value.font = fontSize + "rem 微软雅黑"
+      ctx.value.font = fontSize + 'rem 微软雅黑'
       ctx.value.fillStyle = color
-      const lines = text.split("\n") // 将输入的文本按换行符分割成多行
+      const lines = text.split('\n') // 将输入的文本按换行符分割成多行
       let y = startY
       lines.forEach(function (line) {
         ctx.value.fillText(line, startX, y) // 在画布上绘制每一行文字
@@ -325,7 +283,7 @@ function draw文字() {
 function loadImage() {
   if (step.value > 0) {
     var img = new Image()
-    img.src = undoStack[step.value - 1]
+    img.src = undoStack.value[step.value - 1]
     ctx.value.drawImage(img, 0, 0, canvas.value.width, canvas.value.height)
   }
 }
@@ -381,21 +339,25 @@ function restore() {
 function updateValue(inputId) {
   var value = document.getElementById(inputId).value
   if (value < 10) {
-    value = "0" + value
+    value = '0' + value
   }
-  document.getElementById(inputId + "Value").textContent = value
+  document.getElementById(inputId + 'Value').textContent = value
 }
 
 // 更新画笔线条宽度
 function updateLine(inputId, lineId) {
   var value = document.getElementById(inputId).value
   var line = document.getElementById(lineId)
-  line.style.height = value + "px"
-  line.style.width = value + "px"
+  line.style.height = value + 'px'
+  line.style.width = value + 'px'
 }
 
 function 切换画笔(id, val) {
+  // 重置状态
+  currentID.value = ''
+  isDrawing.value = false
   brush.value = val
+  points.value = []
   // messageplugin({ message: "切换为" + id, type: "success" })
 }
 
@@ -423,29 +385,29 @@ function onpointerdown(e) {
     const version = timestampInSeconds.toString()
 
     if (ctx.value) {
-      if (brush.value == 1) {
+      if (brush.value == 1 || brush.value == 2) {
         // 分配编号
         currentID.value = uuidv4()
 
         let point = {
           id: currentID.value,
           version: version,
-          type: 1,
+          type: brush.value,
           geometry: [{ x: e.clientX, y: e.clientY }],
-          properties: { color: "" }
+          properties: { color: '' }
         }
 
         drawingData.value.set(currentID.value, point)
 
         // 重置编号
-        currentID.value = ""
+        // currentID.value = ''
 
         return
       }
 
       if (brush.value == 5) {
         // 分配编号
-        if (currentID.value == "") {
+        if (currentID.value == '') {
           currentID.value = uuidv4()
         }
 
@@ -467,7 +429,7 @@ function onpointerdown(e) {
             version: version,
             type: 5,
             geometry: [{ x: e.clientX, y: e.clientY }],
-            properties: { color: "" }
+            properties: { color: '' }
           }
         }
 
@@ -478,7 +440,7 @@ function onpointerdown(e) {
 
       if (brush.value == 7) {
         // 分配编号
-        if (currentID.value == "") {
+        if (currentID.value == '') {
           currentID.value = uuidv4()
 
           let path = {
@@ -486,9 +448,9 @@ function onpointerdown(e) {
             version: version,
             type: 7,
             geometry: [{ x: e.clientX, y: e.clientY }],
-            properties: { color: "" }
+            properties: { color: '' }
           }
-          console.log("brush", brush.value)
+          // console.log('brush', brush.value)
 
           drawingData.value.set(currentID.value, path)
         }
@@ -503,10 +465,10 @@ function onpointerdown(e) {
 
     if (e.ctrlKey) {
       // 如果是橡皮擦，则设置为destination-out
-      ctx.value.globalCompositeOperation = "destination-out"
+      ctx.value.globalCompositeOperation = 'destination-out'
     } else {
       // 否则设置为默认值source-over
-      ctx.value.globalCompositeOperation = "source-over"
+      ctx.value.globalCompositeOperation = 'source-over'
     }
     // ctx.value.beginPath() // 新增：开始一个绘画路径
   }
@@ -517,10 +479,10 @@ function onpointermove(e) {
   if (brush.value != 8) {
     // 排除文本模式
     if (!isDrawing.value) return
-    const brushSize = document.getElementById("brushSize").value
-    const eraserSize = document.getElementById("eraserSize").value
+    const brushSize = document.getElementById('brushSize').value
+    const eraserSize = document.getElementById('eraserSize').value
     lineWidth.value = e.ctrlKey ? eraserSize : brushSize
-    lineColor.value = document.getElementById("brushColor").value
+    lineColor.value = document.getElementById('brushColor').value
 
     ctx.value.lineWidth = lineWidth.value
     ctx.value.strokeStyle = lineColor.value
@@ -536,9 +498,9 @@ function onpointerup(e) {
     // 排除文本模式
     points.value = []
     isDrawing.value = false
-    currentID.value = ""
+    currentID.value = ''
     ctx.value.closePath() // 新增：结束绘画路径
-    ctx.value.globalCompositeOperation = "source-over"
+    ctx.value.globalCompositeOperation = 'source-over'
     // 绘画结束后，将值重新设置为默认值，否则当前值为destination-out时，使用撤销功能后会把整个画布的内容都给擦掉
     addUndoStack(canvas.value.toDataURL()) // 将当前画布状态保存起来  以字符串的形式
   }
@@ -551,9 +513,9 @@ function onpointerout(e) {
     points.value = []
     isDrawing.value = false
     isMouseDown.value = false
-    currentID.value = ""
+    currentID.value = ''
     ctx.value.closePath() // 新增：结束绘画路径
-    ctx.value.globalCompositeOperation = "source-over"
+    ctx.value.globalCompositeOperation = 'source-over'
     // 绘画结束后，将值重新设置为默认值，否则当前值为destination-out时，使用撤销功能后会把整个画布的内容都给擦掉
     addUndoStack(canvas.value.toDataURL()) // 将当前画布状态保存起来    以字符串的形式
   }
@@ -563,7 +525,7 @@ function observeCanvas() {
   // 创建 ydoc, websocketProvider
   ydoc.value = new Y.Doc()
   // 创建一个 Yjs Map，用于存储绘图数据
-  drawingData.value = ydoc.value.getMap("drawingData")
+  drawingData.value = ydoc.value.getMap('drawingData')
 
   drawingData.value.observe((event) => {
     if (ctx.value && canvas.value) {
@@ -573,8 +535,6 @@ function observeCanvas() {
 
       // 遍历绘图数据，绘制点、路径等
       drawingData.value.forEach((data) => {
-        // console.log(data)
-
         if (data.type == 7) {
           context.fillStyle = data.properties.color // 设置点的填充颜色
           context.strokeStyle = data.properties.color // 设置点的边框颜色
@@ -588,6 +548,25 @@ function observeCanvas() {
               context.stroke()
             }
           })
+        }
+
+        if (data.type == 1 || data.type == 2) {
+          const startX = data.geometry[0].x
+          const startY = data.geometry[0].y
+          const endX = data.geometry[data.geometry.length - 1].x
+          const endY = data.geometry[data.geometry.length - 1].y
+          // context.clearRect(0, 0, canvas.value.width, canvas.value.height) // 清空画布
+          loadImage()
+          context.beginPath()
+
+          if (data.type !== 1) {
+            // 是否实心，true绘制实心矩形，false绘制空心矩形
+            context.fillStyle = lineColor.value
+            context.fillRect(startX, startY, endX - startX, endY - startY)
+          } else {
+            context.rect(startX, startY, endX - startX, endY - startY)
+          }
+          context.stroke()
         }
 
         // if (data.type == DrawType.Point) {
@@ -633,49 +612,49 @@ function observeCanvas() {
     }
   })
 
-  new WebsocketProvider("ws://localhost:5173/ws", "demo", ydoc.value)
+  new WebsocketProvider('ws://localhost:5173/ws', 'demo', ydoc.value)
 }
 
 onMounted(() => {
   if (canvas.value) {
     // 获取画布和绘画工具
-    ctx.value = canvas.value.getContext("2d")
+    ctx.value = canvas.value.getContext('2d')
     // const context = canvas.value.getContext("2d")
     // console.log("canvas", canvas.value)
 
     // 跟踪绘画状态
-    ctx.value.lineJoin = "round"
-    ctx.value.lineCap = "round"
+    ctx.value.lineJoin = 'round'
+    ctx.value.lineCap = 'round'
   }
 
   observeCanvas()
 
   // 监听键盘事件，实现撤销操作和保存绘画内容、切换画笔工具
-  window.addEventListener("keydown", (e) => {
+  window.addEventListener('keydown', (e) => {
     // 撤销
-    if (e.ctrlKey && e.key === "z") {
+    if (e.ctrlKey && e.key === 'z') {
       e.preventDefault()
       undo()
     }
     // 恢复
-    if (e.ctrlKey && e.key === "y") {
+    if (e.ctrlKey && e.key === 'y') {
       e.preventDefault()
       restore()
     }
     // 保存
-    if (e.ctrlKey && e.key === "s") {
+    if (e.ctrlKey && e.key === 's') {
       e.preventDefault()
-      const image = canvas.value.toDataURL("image/png")
-      const link = document.createElement("a")
+      const image = canvas.value.toDataURL('image/png')
+      const link = document.createElement('a')
       link.href = image
-      link.download = "drawing.png"
+      link.download = 'drawing.png'
       link.click()
     }
 
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       // 重置编号
       if (currentID.value) {
-        currentID.value = ""
+        currentID.value = ''
       }
 
       // 结束路径和绘画
@@ -689,8 +668,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import "./msgBox.css";
-@import "./public.css";
+@import './msgBox.css';
+@import './public.css';
 * {
   vertical-align: middle;
 }
@@ -705,8 +684,8 @@ onMounted(() => {
 }
 #canvas {
   background-color: transparent;
-  -webkit-box-shadow: 0px 0px 10px 5px #3b8cf8, 0 0 1px #3b8cf8, 0 0 1px #3b8cf8,
-    0 0 1px #3b8cf8, 0 0 1px #3b8cf8, 0 0 1px #3b8cf8, 0 0 1px #3b8cf8;
+  -webkit-box-shadow: 0px 0px 10px 5px #3b8cf8, 0 0 1px #3b8cf8, 0 0 1px #3b8cf8, 0 0 1px #3b8cf8, 0 0 1px #3b8cf8,
+    0 0 1px #3b8cf8, 0 0 1px #3b8cf8;
 }
 .button1 {
   height: 40px;
@@ -747,17 +726,17 @@ label span {
   cursor: pointer;
 }
 #画笔 {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px 0px;
 }
 #画笔:hover {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -23px;
 }
 #空心矩形 {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -45px;
 }
@@ -768,7 +747,7 @@ label span {
   border-radius: 5px;
 }
 #空心矩形:hover {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -67px;
 }
@@ -776,7 +755,7 @@ label span {
   background: #f64524;
 }
 #空心圆形 {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -90px;
 }
@@ -787,7 +766,7 @@ label span {
   border-radius: 50%;
 }
 #空心圆形:hover {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -113px;
 }
@@ -795,32 +774,32 @@ label span {
   background: #f64524;
 }
 #直线 {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -133px;
 }
 #直线:hover {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -150px;
 }
 #箭头 {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -266px;
 }
 #箭头:hover {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -290px;
 }
 #文字 {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -169px;
 }
 #文字:hover {
-  background: url("../img/画笔工具.png");
+  background: url('../img/画笔工具.png');
   background-repeat: no-repeat;
   background-position: 0px -192px;
 }
