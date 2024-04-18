@@ -120,7 +120,7 @@ const points = ref([]) //存储坐标点
 const undoStack = ref([]) // 存储画布状态，用于撤销上一步操作
 const step = ref(0) // 记录当前步数
 // 记录当前路径的编号
-const currentID = ref<string>("")
+const currentID = ref("")
 
 const ydoc = ref(null)
 const drawingData = ref(null)
@@ -130,37 +130,27 @@ const ctx = ref(null)
 
 // 绘制
 function draw(mousex, mousey, ctrlKey) {
+  console.log(1, mousex, mousey)
+
   points.value.push({ x: mousex, y: mousey })
 
-  // if (isDrawing.value && ctx.value) {
-  //   if (brush.value == 7) {
-  //     // 获取当前线的信息，如果没有则创建
-  //     let path = drawingData.value.get(currentID.value)
-  //     if (path) {
-  //       path.geometry.push({ x: e.clientX, y: e.clientY })
-  //       drawingData.value.set(currentID.value, path)
-  //       return
-  //     }
+  if (isDrawing.value && ctx.value) {
+    if (brush.value == 7) {
+      // 获取当前线的信息，如果没有则创建
+      let path = drawingData.value.get(currentID.value)
+      if (path) {
+        path.geometry.push({ x: mousex, y: mousey })
+        drawingData.value.set(currentID.value, path)
+        return
+      }
 
-  //     console.log("error: not found path", currentID.value)
-  //   }
-  // }
+      console.log("error: not found path", currentID.value)
+    }
+  }
 
   if ((ctrlKey && brush.value != 8) || brush.value === 7) {
     // 如果是橡皮擦模式.value，则和画笔模式.value一样，用draw画笔方法。
     draw画笔()
-
-    // currentID.value = uuidv4()
-
-    // let path = {
-    //   id: currentID.value,
-    //   version: currentID,
-    //   type: 7,
-    //   geometry: [{ x: mousex, y: mousey }],
-    //   properties: { color: "" }
-    // }
-
-    // drawingData.value.set(currentID, path)
   } else {
     if (brush.value === 1) draw矩形(false)
     else if (brush.value === 2) draw矩形(true)
@@ -177,6 +167,8 @@ function draw(mousex, mousey, ctrlKey) {
 // 绘制自由线条
 function draw画笔() {
   ctx.value.beginPath()
+
+  // let path = drawingData.value.get(currentID.value)
 
   let x =
     (points.value[points.value.length - 2].x +
@@ -208,7 +200,14 @@ function draw画笔() {
       x,
       y
     )
+    // path.geometry.push({ x: lastX, y: lastY })
   }
+
+  // if (path) {
+
+  // drawingData.value.set(currentID.value, path)
+  //   return
+  // }
 }
 
 // 绘制矩形
@@ -353,6 +352,7 @@ function clearCanvas() {
   step.value = 0
   points.value = []
   undoStack.value = [] // 清空撤销栈
+  drawingData.value.clear()
 }
 
 // 添加操作
@@ -420,103 +420,104 @@ function canClick(e) {
   if (brush.value === 8) {
     // 只有当画笔模式为文本模式时
     points.value = []
-    draw(e.offsetX, e.offsetY, e.ctrlKey)
+    console.log(2, e.offsetX, e.offsetY)
+    // draw(e.offsetX, e.offsetY, e.ctrlKey)
   }
 }
 
 // 鼠标按下
 function onpointerdown(e) {
   if (brush.value != 8) {
-    // // 获取当前时间的秒级时间戳
-    // const timestampInSeconds = Math.floor(Date.now() / 1000)
-    // // 将秒级时间戳转换为字符串
-    // const version = timestampInSeconds.toString()
-
-    // currentID.value = uuidv4()
-
-    // if (ctx.value) {
-    //   if (brush.value == 1) {
-    //     // 分配编号
-    //     currentID.value = uuidv4()
-
-    //     let point = {
-    //       id: currentID.value,
-    //       version: version,
-    //       type: 1,
-    //       geometry: [{ x: e.clientX, y: e.clientY }],
-    //       properties: { color: "" }
-    //     }
-
-    //     // drawingData.value.set(currentID.value, point)
-
-    //     // 重置编号
-    //     currentID.value = ""
-
-    //     return
-    //   }
-
-    //   if (brush.value == 5) {
-    //     // 分配编号
-    //     if (currentID.value == "") {
-    //       currentID.value = uuidv4()
-    //     }
-
-    //     // 没有正在绘画
-    //     if (!isDrawing.value) {
-    //       // 开始绘画
-    //       isDrawing.value = true
-    //     }
-
-    //     // 获取当前线的信息，如果没有则创建
-    //     let line = drawingData.value.get(currentID.value)
-
-    //     if (line) {
-    //       line.version = version
-    //       line.geometry.push({ x: e.clientX, y: e.clientY })
-    //     } else {
-    //       line = {
-    //         id: currentID.value,
-    //         version: version,
-    //         type: 5,
-    //         geometry: [{ x: e.clientX, y: e.clientY }],
-    //         properties: { color: "" }
-    //       }
-    //     }
-
-    //     // drawingData.value.set(currentID.value, line)
-
-    //     return
-    //   }
-
-    //   if (brush.value == 7) {
-    //     // 分配编号
-    //     if (currentID.value == "") {
-    //       currentID.value = uuidv4()
-
-    //       let path = {
-    //         id: currentID.value,
-    //         version: version,
-    //         type: 7,
-    //         geometry: [{ x: e.clientX, y: e.clientY }],
-    //         properties: { color: "" }
-    //       }
-
-    //       // drawingData.value.set(currentID.value, path)
-    //     }
-
-    //     // 没有正在绘画
-    //     if (!isDrawing.value) {
-    //       // 开始绘画
-    //       isDrawing.value = true
-    //     }
-    //   }
-    // }
-
     // 排除文本模式
     points.value = []
     isDrawing.value = true
     isMouseDown.value = true
     points.value.push({ x: e.offsetX, y: e.offsetY })
+
+    // 获取当前时间的秒级时间戳
+    const timestampInSeconds = Math.floor(Date.now() / 1000)
+    // 将秒级时间戳转换为字符串
+    const version = timestampInSeconds.toString()
+
+    if (ctx.value) {
+      if (brush.value == 1) {
+        // 分配编号
+        currentID.value = uuidv4()
+
+        let point = {
+          id: currentID.value,
+          version: version,
+          type: 1,
+          geometry: [{ x: e.clientX, y: e.clientY }],
+          properties: { color: "" }
+        }
+
+        drawingData.value.set(currentID.value, point)
+
+        // 重置编号
+        currentID.value = ""
+
+        return
+      }
+
+      if (brush.value == 5) {
+        // 分配编号
+        if (currentID.value == "") {
+          currentID.value = uuidv4()
+        }
+
+        // 没有正在绘画
+        if (!isDrawing.value) {
+          // 开始绘画
+          isDrawing.value = true
+        }
+
+        // 获取当前线的信息，如果没有则创建
+        let line = drawingData.value.get(currentID.value)
+
+        if (line) {
+          line.version = version
+          line.geometry.push({ x: e.clientX, y: e.clientY })
+        } else {
+          line = {
+            id: currentID.value,
+            version: version,
+            type: 5,
+            geometry: [{ x: e.clientX, y: e.clientY }],
+            properties: { color: "" }
+          }
+        }
+
+        drawingData.value.set(currentID.value, line)
+
+        return
+      }
+
+      if (brush.value == 7) {
+        // 分配编号
+        if (currentID.value == "") {
+          currentID.value = uuidv4()
+
+          let path = {
+            id: currentID.value,
+            version: version,
+            type: 7,
+            geometry: [{ x: e.clientX, y: e.clientY }],
+            properties: { color: "" }
+          }
+          console.log("brush", brush.value)
+
+          drawingData.value.set(currentID.value, path)
+        }
+
+        // 没有正在绘画
+        if (!isDrawing.value) {
+          // 开始绘画
+          isDrawing.value = true
+        }
+      }
+    }
+
     if (e.ctrlKey) {
       // 如果是橡皮擦，则设置为destination-out
       ctx.value.globalCompositeOperation = "destination-out"
@@ -524,7 +525,7 @@ function onpointerdown(e) {
       // 否则设置为默认值source-over
       ctx.value.globalCompositeOperation = "source-over"
     }
-    ctx.value.beginPath() // 新增：开始一个绘画路径
+    // ctx.value.beginPath() // 新增：开始一个绘画路径
   }
 }
 
@@ -552,9 +553,10 @@ function onpointerup(e) {
     // 排除文本模式
     points.value = []
     isDrawing.value = false
+    currentID.value = ""
     ctx.value.closePath() // 新增：结束绘画路径
-    // 绘画结束后，将值重新设置为默认值，否则当前值为destination-out时，使用撤销功能后会把整个画布的内容都给擦掉
     ctx.value.globalCompositeOperation = "source-over"
+    // 绘画结束后，将值重新设置为默认值，否则当前值为destination-out时，使用撤销功能后会把整个画布的内容都给擦掉
     addUndoStack(canvas.value.toDataURL()) // 将当前画布状态保存起来  以字符串的形式
   }
 }
@@ -566,6 +568,7 @@ function onpointerout(e) {
     points.value = []
     isDrawing.value = false
     isMouseDown.value = false
+    currentID.value = ""
     ctx.value.closePath() // 新增：结束绘画路径
     ctx.value.globalCompositeOperation = "source-over"
     // 绘画结束后，将值重新设置为默认值，否则当前值为destination-out时，使用撤销功能后会把整个画布的内容都给擦掉
@@ -596,7 +599,7 @@ function observeCanvas() {
           // 遍历所有点
           data.geometry.forEach((p, index) => {
             if (index == 0) {
-              context.moveTo(p.x, p.y)
+              // context.moveTo(p.x, p.y)
             } else {
               context.lineTo(p.x, p.y)
               context.stroke()
@@ -662,7 +665,7 @@ onMounted(() => {
     ctx.value.lineCap = "round"
   }
 
-  // observeCanvas()
+  observeCanvas()
 
   // 监听键盘事件，实现撤销操作和保存绘画内容、切换画笔工具
   window.addEventListener("keydown", (e) => {
@@ -684,6 +687,19 @@ onMounted(() => {
       link.href = image
       link.download = "drawing.png"
       link.click()
+    }
+
+    if (e.key === "Escape") {
+      // 重置编号
+      if (currentID.value) {
+        currentID.value = ""
+      }
+
+      // 结束路径和绘画
+      if (isDrawing.value && ctx.value) {
+        ctx.value.closePath()
+        isDrawing.value = false
+      }
     }
   })
 })
