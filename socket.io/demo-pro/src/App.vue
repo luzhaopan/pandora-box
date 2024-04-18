@@ -130,23 +130,9 @@ const ctx = ref(null)
 
 // 绘制
 function draw(mousex, mousey, ctrlKey) {
-  console.log(1, mousex, mousey)
+  // console.log(1, mousex, mousey)
 
   points.value.push({ x: mousex, y: mousey })
-
-  if (isDrawing.value && ctx.value) {
-    if (brush.value == 7) {
-      // 获取当前线的信息，如果没有则创建
-      let path = drawingData.value.get(currentID.value)
-      if (path) {
-        path.geometry.push({ x: mousex, y: mousey })
-        drawingData.value.set(currentID.value, path)
-        return
-      }
-
-      console.log("error: not found path", currentID.value)
-    }
-  }
 
   if ((ctrlKey && brush.value != 8) || brush.value === 7) {
     // 如果是橡皮擦模式.value，则和画笔模式.value一样，用draw画笔方法。
@@ -167,8 +153,6 @@ function draw(mousex, mousey, ctrlKey) {
 // 绘制自由线条
 function draw画笔() {
   ctx.value.beginPath()
-
-  // let path = drawingData.value.get(currentID.value)
 
   let x =
     (points.value[points.value.length - 2].x +
@@ -200,14 +184,14 @@ function draw画笔() {
       x,
       y
     )
-    // path.geometry.push({ x: lastX, y: lastY })
   }
 
-  // if (path) {
-
-  // drawingData.value.set(currentID.value, path)
-  //   return
-  // }
+  let path = drawingData.value.get(currentID.value)
+  if (path) {
+    path.geometry.push({ x, y })
+    drawingData.value.set(currentID.value, path)
+    return
+  }
 }
 
 // 绘制矩形
@@ -420,8 +404,7 @@ function canClick(e) {
   if (brush.value === 8) {
     // 只有当画笔模式为文本模式时
     points.value = []
-    console.log(2, e.offsetX, e.offsetY)
-    // draw(e.offsetX, e.offsetY, e.ctrlKey)
+    draw(e.offsetX, e.offsetY, e.ctrlKey)
   }
 }
 
@@ -590,7 +573,7 @@ function observeCanvas() {
 
       // 遍历绘图数据，绘制点、路径等
       drawingData.value.forEach((data) => {
-        console.log(data)
+        // console.log(data)
 
         if (data.type == 7) {
           context.fillStyle = data.properties.color // 设置点的填充颜色
