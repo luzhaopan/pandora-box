@@ -241,6 +241,13 @@ function draw箭头() {
   ctx.value.lineTo(endX - arrowSize * Math.cos(angle - Math.PI / 6), endY - arrowSize * Math.sin(angle - Math.PI / 6))
   ctx.value.moveTo(endX, endY)
   ctx.value.lineTo(endX - arrowSize * Math.cos(angle + Math.PI / 6), endY - arrowSize * Math.sin(angle + Math.PI / 6))
+
+  let path = drawingData.value.get(currentID.value)
+  if (path) {
+    path.geometry = points.value
+    drawingData.value.set(currentID.value, path)
+    return
+  }
   //loadImage(); // 清空画布后，显示画布之前的状态，不然画布上同时只能存在一个图形
 }
 
@@ -466,6 +473,39 @@ function onpointerdown(e) {
         return
       }
 
+      if (brush.value == 6) {
+        // 分配编号
+        if (currentID.value == '') {
+          currentID.value = uuidv4()
+        }
+
+        // 没有正在绘画
+        if (!isDrawing.value) {
+          // 开始绘画
+          isDrawing.value = true
+        }
+
+        // 获取当前线的信息，如果没有则创建
+        let line = drawingData.value.get(currentID.value)
+
+        if (line) {
+          line.version = version
+          line.geometry.push({ x: e.clientX, y: e.clientY })
+        } else {
+          line = {
+            id: currentID.value,
+            version: version,
+            type: brush.value,
+            geometry: [{ x: e.clientX, y: e.clientY }],
+            properties: { color: '' }
+          }
+        }
+
+        drawingData.value.set(currentID.value, line)
+
+        return
+      }
+
       if (brush.value == 7) {
         // 分配编号
         if (currentID.value == '') {
@@ -620,7 +660,6 @@ function observeCanvas() {
           const startY = data.geometry[0].y
           const endX = data.geometry[data.geometry.length - 1].x
           const endY = data.geometry[data.geometry.length - 1].y
-          // context.clearRect(0, 0, canvas.value.width, canvas.value.height) // 清空画布
           loadImage()
           context.beginPath()
           context.moveTo(startX, startY)
@@ -629,45 +668,30 @@ function observeCanvas() {
           context.stroke()
         }
 
-        // if (data.type == DrawType.Point) {
-        //   context.fillStyle = data.properties.color // 设置点的填充颜色
-        //   context.strokeStyle = data.properties.color // 设置点的边框颜色
-        //   context.beginPath()
-        //   context.moveTo(data.geometry[0].x, data.geometry[0].y)
-        //   context.arc(data.geometry[0].x, data.geometry[0].y, 2.5, 0, Math.PI * 2) // 创建一个圆形路径
-        //   context.fill() // 填充路径，形成圆点
-        //   context.closePath()
-        // } else if (data.type == DrawType.Line) {
-        //   context.fillStyle = data.properties.color // 设置点的填充颜色
-        //   context.strokeStyle = data.properties.color // 设置点的边框颜色
-        //   context.beginPath()
-        //   // 遍历所有点
-        //   data.geometry.forEach((p: Point, index: number) => {
-        //     if (index == 0) {
-        //       context.moveTo(p.x, p.y)
-        //       context.fillRect(p.x, p.y, 5, 5)
-        //     } else {
-        //       context.lineTo(p.x, p.y)
-        //       context.stroke()
-        //       context.fillRect(p.x, p.y, 5, 5)
-        //     }
-        //   })
-        // } else if (data.type == DrawType.Draw) {
-        //   context.fillStyle = data.properties.color // 设置点的填充颜色
-        //   context.strokeStyle = data.properties.color // 设置点的边框颜色
-        //   context.beginPath()
-        //   // 遍历所有点
-        //   data.geometry.forEach((p: Point, index: number) => {
-        //     if (index == 0) {
-        //       context.moveTo(p.x, p.y)
-        //     } else {
-        //       context.lineTo(p.x, p.y)
-        //       context.stroke()
-        //     }
-        //   })
-        // } else {
-        //   console.log('Invalid draw data', data)
-        // }
+        if (data.type == 6) {
+          const startX = data.geometry[0].x
+          const startY = data.geometry[0].y
+          const endX = data.geometry[data.geometry.length - 1].x
+          const endY = data.geometry[data.geometry.length - 1].y
+          const arrowSize = lineWidth.value * 4 // 箭头大小（根据线条粗细来调整箭头大小）
+          loadImage()
+          context.beginPath()
+          context.moveTo(startX, startY)
+          context.lineTo(endX, endY)
+          // 计算箭头角度
+          const angle = Math.atan2(endY - startY, endX - startX)
+          // 绘制箭头部分
+          context.lineTo(
+            endX - arrowSize * Math.cos(angle - Math.PI / 6),
+            endY - arrowSize * Math.sin(angle - Math.PI / 6)
+          )
+          context.moveTo(endX, endY)
+          context.lineTo(
+            endX - arrowSize * Math.cos(angle + Math.PI / 6),
+            endY - arrowSize * Math.sin(angle + Math.PI / 6)
+          )
+          context.stroke()
+        }
       })
     }
   })
