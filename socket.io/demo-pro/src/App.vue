@@ -109,8 +109,6 @@ const ctx = ref(null)
 
 // 绘制
 function draw(mousex, mousey, ctrlKey) {
-  // console.log(1, mousex, mousey)
-
   points.value.push({ x: mousex, y: mousey })
 
   if ((ctrlKey && brush.value != 8) || brush.value === 7) {
@@ -176,7 +174,6 @@ function draw矩形(isSolid) {
     drawingData.value.set(currentID.value, path)
     return
   }
-  //loadImage(); // 清空画布后，显示画布之前的状态，不然画布上同时只能存在一个图形
 }
 
 // 绘制圆形
@@ -194,6 +191,14 @@ function draw圆形(isSolid) {
     // 绘制实心圆
     ctx.value.fillStyle = lineColor.value
     ctx.value.fill()
+  }
+
+  let path = drawingData.value.get(currentID.value)
+
+  if (path) {
+    path.geometry = points.value
+    drawingData.value.set(currentID.value, path)
+    return
   }
   //loadImage(); // 清空画布后，显示画布之前的状态，不然画布上同时只能存在一个图形
 }
@@ -405,6 +410,23 @@ function onpointerdown(e) {
         return
       }
 
+      if (brush.value == 3 || brush.value == 4) {
+        // 分配编号
+        currentID.value = uuidv4()
+
+        let point = {
+          id: currentID.value,
+          version: version,
+          type: brush.value,
+          geometry: [{ x: e.clientX, y: e.clientY }],
+          properties: { color: '' }
+        }
+
+        drawingData.value.set(currentID.value, point)
+
+        return
+      }
+
       if (brush.value == 5) {
         // 分配编号
         if (currentID.value == '') {
@@ -565,6 +587,24 @@ function observeCanvas() {
             context.fillRect(startX, startY, endX - startX, endY - startY)
           } else {
             context.rect(startX, startY, endX - startX, endY - startY)
+          }
+          context.stroke()
+        }
+
+        if (data.type == 3 || data.type == 4) {
+          const startX = data.geometry[0].x
+          const startY = data.geometry[0].y
+          const endX = data.geometry[data.geometry.length - 1].x
+          const endY = data.geometry[data.geometry.length - 1].y
+          const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2))
+          // ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height) // 清空画布
+          loadImage()
+          context.beginPath()
+          context.arc(startX, startY, radius, 0, 2 * Math.PI)
+          if (data.type !== 3) {
+            // 绘制实心圆
+            context.fillStyle = lineColor.value
+            context.fill()
           }
           context.stroke()
         }
