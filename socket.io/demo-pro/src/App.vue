@@ -167,8 +167,8 @@ function draw矩形(isSolid) {
   } else {
     ctx.value.rect(startX, startY, endX - startX, endY - startY)
   }
-  let path = drawingData.value.get(currentID.value)
 
+  let path = drawingData.value.get(currentID.value)
   if (path) {
     path.geometry = points.value
     drawingData.value.set(currentID.value, path)
@@ -194,7 +194,6 @@ function draw圆形(isSolid) {
   }
 
   let path = drawingData.value.get(currentID.value)
-
   if (path) {
     path.geometry = points.value
     drawingData.value.set(currentID.value, path)
@@ -214,6 +213,13 @@ function draw直线() {
   ctx.value.beginPath()
   ctx.value.moveTo(startX, startY)
   ctx.value.lineTo(endX, endY)
+
+  let path = drawingData.value.get(currentID.value)
+  if (path) {
+    path.geometry = points.value
+    drawingData.value.set(currentID.value, path)
+    return
+  }
   //loadImage(); // 清空画布后，显示画布之前的状态，不然画布上同时只能存在一个图形
 }
 
@@ -606,6 +612,20 @@ function observeCanvas() {
             context.fillStyle = lineColor.value
             context.fill()
           }
+          context.stroke()
+        }
+
+        if (data.type == 5) {
+          const startX = data.geometry[0].x
+          const startY = data.geometry[0].y
+          const endX = data.geometry[data.geometry.length - 1].x
+          const endY = data.geometry[data.geometry.length - 1].y
+          // context.clearRect(0, 0, canvas.value.width, canvas.value.height) // 清空画布
+          loadImage()
+          context.beginPath()
+          context.moveTo(startX, startY)
+          context.lineTo(endX, endY)
+          //两个点连成一条线
           context.stroke()
         }
 
