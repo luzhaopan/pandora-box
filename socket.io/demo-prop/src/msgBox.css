@@ -1,0 +1,63 @@
+/*预定义样式，通过js动态生成dom时，加上指定类名*/
+.dpn-message {
+	font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+	font-size: 18px;
+	z-index: 99999;
+}
+
+.dpn-message {
+	box-sizing: border-box;
+	position: fixed;
+	top: -200px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 99999;
+	padding: 20px;
+	padding-right: 32px;
+	min-width: 25%;
+	max-width: 50%;
+	border-radius: 4px;
+	transition: top .3s;
+}
+
+/*info 消息*/
+.dpn-message.dpn-info {
+	background: #EDF2FC;
+	border: 1px solid #EBEEF5;
+	color: #909399;
+}
+
+/*success消息*/
+.dpn-message.dpn-success {
+	background: #f0f9eb;
+	/* background: linear-gradient(to bottom, rgba(30, 144, 255, 0.1), rgba(30, 144, 255, 0.1)); */
+	border: 1px solid #54f006;
+	color: #67C23A;
+}
+
+/*error消息*/
+.dpn-message.dpn-error {
+	background: #fef0f0;
+	border: 1px solid #fde2e2;
+	color: #F56C6C;
+}
+/*warning消息*/
+
+.dpn-message.dpn-warning {
+	background: #fdf6ec;
+	border: 1px solid #faecd8;
+	color: #E6A23C;
+}
+
+.dpn-message .dpn-close {
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	text-align: center;
+	font-style: normal;
+	cursor: pointer;
+}

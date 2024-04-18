@@ -26,7 +26,7 @@ const { Server } = require("socket.io");
 // 创建实时连接
 const socketIO = new Server(server, {
     cors: {
-        origin: "http://localhost:3000"
+        origin: "http://localhost:5173"
     }
 });
 
