@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "uuid": "^9.0.1",
     "vue": "^3.4.21",
     "y-websocket": "^1.5.4",
     "yjs": "^13.6.14"
