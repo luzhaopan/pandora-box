@@ -254,7 +254,7 @@ function draw箭头() {
   const startY = points.value[0].y
   const endX = points.value[points.value.length - 1].x
   const endY = points.value[points.value.length - 1].y
-  const arrowSize = lineWidth * 4 // 箭头大小（根据线条粗细来调整箭头大小）
+  const arrowSize = lineWidth.value * 4 // 箭头大小（根据线条粗细来调整箭头大小）
   ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height) // 清空画布
   loadImage()
   ctx.value.beginPath()
