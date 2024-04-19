@@ -387,11 +387,13 @@ function loadImage() {
 
 // 清空画布
 function clearCanvas() {
-  ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height)
-  step.value = 0
-  points.value = []
-  undoStack.value = [] // 清空撤销栈
-  drawingData.value.clear()
+  if (canvas.value && ctx.value) {
+    ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height)
+    step.value = 0
+    points.value = []
+    undoStack.value = [] // 清空撤销栈
+    drawingData.value.clear()
+  }
 }
 
 // 添加操作
@@ -931,7 +933,7 @@ onMounted(() => {
     ctx.value.lineJoin = "round"
     ctx.value.lineCap = "round"
   }
-
+  // clearCanvas()
   observeCanvas()
 
   // 监听键盘事件，实现撤销操作和保存绘画内容、切换画笔工具
