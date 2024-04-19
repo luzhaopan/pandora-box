@@ -72,7 +72,7 @@
       <span>恢复：ctrl+y</span>&nbsp;&nbsp;
       <span>保存：ctrl+s</span>
     </div>
-    <div style="margin: 20px auto; width: 1850px">
+    <div style="margin: 20px auto; width: 1400px">
       <canvas
         ref="canvas"
         id="canvas"
@@ -624,10 +624,10 @@ function onpointermove(e) {
   if (brush.value != 8) {
     // 排除文本模式
     if (!isDrawing.value) return
-    // const brushSize = document.getElementById("brushSize").value
-    // const eraserSize = document.getElementById("eraserSize").value
-    // lineWidth.value = e.ctrlKey ? eraserSize : brushSize
-    // lineColor.value = document.getElementById("brushColor").value
+    const brushSize = document.getElementById('brushSize').value
+    const eraserSize = document.getElementById('eraserSize').value
+    lineWidth.value = e.ctrlKey ? eraserSize : brushSize
+    lineColor.value = document.getElementById('brushColor').value
 
     ctx.value.lineWidth = lineWidth.value
     ctx.value.strokeStyle = lineColor.value
@@ -840,8 +840,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import './msgBox.css';
-@import './public.css';
 * {
   vertical-align: middle;
 }
