@@ -67,9 +67,9 @@
             id="brushSize"
             min="1"
             max="50"
-            value="10"
-            onchange="updateValue('brushSize')"
-            oninput="updateLine('brushSize', 'brushSizeLine')"
+            value="5"
+            @change="updateValue('brushSize')"
+            @input="updateLine('brushSize', 'brushSizeLine')"
           />
           <div style="width: 80px; height: 50px">
             <div id="brushSizeLine"></div>
@@ -90,8 +90,8 @@
             min="1"
             max="80"
             value="20"
-            onchange="updateValue('eraserSize')"
-            oninput="updateLine('eraserSize', 'eraserSizeLine')"
+            @change="updateValue('eraserSize')"
+            @input="updateLine('eraserSize', 'eraserSizeLine')"
           />
           <div style="width: 80px; height: 80px">
             <div id="eraserSizeLine"></div>
@@ -131,7 +131,7 @@ const brush = ref(7)
 const isDrawing = ref(false) //标记是否要绘制
 const isMouseDown = ref(false) //标记鼠标是否按下
 const lineColor = ref("#000") // 线条颜色
-const lineWidth = ref(1) // 线条粗细
+const lineWidth = ref(5) // 线条粗细
 const points = ref([]) //存储坐标点
 const undoStack = ref([]) // 存储画布状态，用于撤销上一步操作
 const step = ref(0) // 记录当前步数
@@ -146,7 +146,12 @@ const ctx = ref(null)
 
 // 绘制
 function draw(mousex, mousey, ctrlKey) {
-  points.value.push({ x: mousex, y: mousey })
+  points.value.push({
+    x: mousex,
+    y: mousey,
+    color: lineColor.value,
+    width: lineWidth.value
+  })
 
   if ((ctrlKey && brush.value != 8) || brush.value === 7) {
     // 如果是橡皮擦模式.value，则和画笔模式.value一样，用draw画笔方法。
@@ -176,6 +181,7 @@ function draw画笔() {
     (points.value[points.value.length - 2].y +
       points.value[points.value.length - 1].y) /
     2
+  ctx.value.lineWidth = lineWidth.value
   if (points.value.length == 2) {
     ctx.value.moveTo(
       points.value[points.value.length - 2].x,
@@ -202,7 +208,7 @@ function draw画笔() {
 
   let path = drawingData.value.get(currentID.value)
   if (path) {
-    path.geometry.push({ x, y })
+    path.geometry.push({ x, y, color: lineColor.value, width: lineWidth.value })
     drawingData.value.set(currentID.value, path)
     return
   }
@@ -426,6 +432,8 @@ function restore() {
 
 // 更新滑块值
 function updateValue(inputId) {
+  // console.log(document.getElementById(inputId).value)
+
   var value = document.getElementById(inputId).value
   if (value < 10) {
     value = "0" + value
@@ -435,8 +443,10 @@ function updateValue(inputId) {
 
 // 更新画笔线条宽度
 function updateLine(inputId, lineId) {
+  // console.log(document.getElementById(inputId).value)
   var value = document.getElementById(inputId).value
   var line = document.getElementById(lineId)
+  lineWidth.value = value
   line.style.height = value + "px"
   line.style.width = value + "px"
 }
@@ -472,7 +482,12 @@ function onpointerdown(e) {
     points.value = []
     isDrawing.value = true
     isMouseDown.value = true
-    points.value.push({ x: e.offsetX, y: e.offsetY })
+    points.value.push({
+      x: e.offsetX,
+      y: e.offsetY,
+      color: lineColor.value,
+      width: lineWidth.value
+    })
 
     if (ctx.value) {
       if (brush.value == 1 || brush.value == 2) {
@@ -483,8 +498,15 @@ function onpointerdown(e) {
           id: currentID.value,
           version: version,
           type: brush.value,
-          geometry: [{ x: e.clientX, y: e.clientY }],
-          properties: { color: "" }
+          geometry: [
+            {
+              x: e.clientX,
+              y: e.clientY,
+              color: lineColor.value,
+              width: lineWidth.value
+            }
+          ]
+          // properties: { color: lineColor.value }
         }
 
         drawingData.value.set(currentID.value, point)
@@ -503,8 +525,15 @@ function onpointerdown(e) {
           id: currentID.value,
           version: version,
           type: brush.value,
-          geometry: [{ x: e.clientX, y: e.clientY }],
-          properties: { color: "" }
+          geometry: [
+            {
+              x: e.clientX,
+              y: e.clientY,
+              color: lineColor.value,
+              width: lineWidth.value
+            }
+          ]
+          // properties: { color: lineColor.value }
         }
 
         drawingData.value.set(currentID.value, point)
@@ -529,14 +558,26 @@ function onpointerdown(e) {
 
         if (line) {
           line.version = version
-          line.geometry.push({ x: e.clientX, y: e.clientY })
+          line.geometry.push({
+            x: e.clientX,
+            y: e.clientY,
+            color: lineColor.value,
+            width: lineWidth.value
+          })
         } else {
           line = {
             id: currentID.value,
             version: version,
             type: 5,
-            geometry: [{ x: e.clientX, y: e.clientY }],
-            properties: { color: "" }
+            geometry: [
+              {
+                x: e.clientX,
+                y: e.clientY,
+                color: lineColor.value,
+                width: lineWidth.value
+              }
+            ]
+            // properties: { color: lineColor.value }
           }
         }
 
@@ -562,14 +603,26 @@ function onpointerdown(e) {
 
         if (line) {
           line.version = version
-          line.geometry.push({ x: e.clientX, y: e.clientY })
+          line.geometry.push({
+            x: e.clientX,
+            y: e.clientY,
+            color: lineColor.value,
+            width: lineWidth.value
+          })
         } else {
           line = {
             id: currentID.value,
             version: version,
             type: brush.value,
-            geometry: [{ x: e.clientX, y: e.clientY }],
-            properties: { color: "" }
+            geometry: [
+              {
+                x: e.clientX,
+                y: e.clientY,
+                color: lineColor.value,
+                width: lineWidth.value
+              }
+            ]
+            // properties: { color: lineColor.value }
           }
         }
 
@@ -587,8 +640,15 @@ function onpointerdown(e) {
             id: currentID.value,
             version: version,
             type: 7,
-            geometry: [{ x: e.clientX, y: e.clientY }],
-            properties: { color: "" }
+            geometry: [
+              {
+                x: e.clientX,
+                y: e.clientY,
+                color: lineColor.value,
+                width: lineWidth.value
+              }
+            ]
+            // properties: { color: lineColor.value }
           }
           // console.log('brush', brush.value)
 
@@ -613,15 +673,15 @@ function onpointerdown(e) {
     // ctx.value.beginPath() // 新增：开始一个绘画路径
   }
   if (brush.value == 8) {
-    // points.value = [{ x: e.clientX, y: e.clientY }]
+    // points.value = [{ x: e.clientX, y: e.clientY, color: lineColor.value, width: lineWidth.value }]
     // // 分配编号
     // currentID.value = uuidv4()
     // const text = {
     //   id: currentID.value,
     //   version: version,
     //   type: brush.value,
-    //   geometry: [{ x: e.clientX, y: e.clientY }],
-    //   properties: { color: "red" }
+    //   geometry: [{ x: e.clientX, y: e.clientY, color: lineColor.value, width: lineWidth.value }],
+    //   properties: { color: lineColor.value }
     // }
     // drawingData.value.set(currentID.value, text)
     // return
@@ -635,8 +695,11 @@ function onpointermove(e) {
     if (!isDrawing.value) return
     const brushSize = document.getElementById("brushSize").value
     const eraserSize = document.getElementById("eraserSize").value
-    lineWidth.value = e.ctrlKey ? eraserSize : brushSize
-    lineColor.value = document.getElementById("brushColor").value
+    // lineWidth.value = e.ctrlKey ? eraserSize : brushSize
+    // lineColor.value = document.getElementById("brushColor").value
+
+    // console.log("lineWidth", lineWidth.value)
+    // console.log("lineColor", lineColor.value)
 
     ctx.value.lineWidth = lineWidth.value
     ctx.value.strokeStyle = lineColor.value
@@ -685,7 +748,7 @@ function observeCanvas() {
     if (ctx.value && canvas.value) {
       const context = ctx.value!
       // 清空 Canvas
-      context.clearRect(0, 0, canvas.value.width, canvas.value.height)
+      // context.clearRect(0, 0, canvas.value.width, canvas.value.height)
 
       // 遍历绘图数据，绘制点、路径等
       drawingData.value.forEach((data) => {
@@ -697,10 +760,11 @@ function observeCanvas() {
           // context.clearRect(0, 0, canvas.value.width, canvas.value.height) // 清空画布
           loadImage()
           context.beginPath()
-
+          context.strokeStyle = data.geometry[data.geometry.length - 1].color // 设置点的边框颜色
+          context.lineWidth = data.geometry[data.geometry.length - 1].width
           if (data.type !== 1) {
             // 是否实心，true绘制实心矩形，false绘制空心矩形
-            context.fillStyle = lineColor.value
+            context.fillStyle = data.geometry[data.geometry.length - 1].color
             context.fillRect(startX, startY, endX - startX, endY - startY)
           } else {
             context.rect(startX, startY, endX - startX, endY - startY)
@@ -719,10 +783,13 @@ function observeCanvas() {
           // ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height) // 清空画布
           loadImage()
           context.beginPath()
+          // context.fillStyle = data.geometry[data.geometry.length - 1].color // 设置点的填充颜色
+          context.strokeStyle = data.geometry[data.geometry.length - 1].color // 设置点的边框颜色
+          context.lineWidth = data.geometry[data.geometry.length - 1].width
           context.arc(startX, startY, radius, 0, 2 * Math.PI)
           if (data.type !== 3) {
             // 绘制实心圆
-            context.fillStyle = lineColor.value
+            context.fillStyle = data.geometry[data.geometry.length - 1].color
             context.fill()
           }
           context.stroke()
@@ -735,6 +802,9 @@ function observeCanvas() {
           const endY = data.geometry[data.geometry.length - 1].y
           loadImage()
           context.beginPath()
+          context.fillStyle = data.geometry[data.geometry.length - 1].color // 设置点的填充颜色
+          context.strokeStyle = data.geometry[data.geometry.length - 1].color // 设置点的边框颜色
+          context.lineWidth = data.geometry[data.geometry.length - 1].width
           context.moveTo(startX, startY)
           context.lineTo(endX, endY)
           //两个点连成一条线
@@ -749,6 +819,10 @@ function observeCanvas() {
           const arrowSize = lineWidth.value * 4 // 箭头大小（根据线条粗细来调整箭头大小）
           loadImage()
           context.beginPath()
+
+          context.fillStyle = data.geometry[data.geometry.length - 1].color // 设置点的填充颜色
+          context.strokeStyle = data.geometry[data.geometry.length - 1].color // 设置点的边框颜色
+          context.lineWidth = data.geometry[data.geometry.length - 1].width
           context.moveTo(startX, startY)
           context.lineTo(endX, endY)
           // 计算箭头角度
@@ -767,12 +841,14 @@ function observeCanvas() {
         }
 
         if (data.type == 7) {
-          context.fillStyle = data.properties.color // 设置点的填充颜色
-          context.strokeStyle = data.properties.color // 设置点的边框颜色
-          loadImage()
+          // context.fillStyle = data.properties.color // 设置点的填充颜色
+          // context.strokeStyle = data.properties.color // 设置点的边框颜色
           context.beginPath()
           // 遍历所有点
           data.geometry.forEach((p, index) => {
+            context.fillStyle = p.color // 设置点的填充颜色
+            context.strokeStyle = p.color // 设置点的边框颜色
+            context.lineWidth = p.width
             if (index == 0) {
               // context.moveTo(p.x, p.y)
             } else {
