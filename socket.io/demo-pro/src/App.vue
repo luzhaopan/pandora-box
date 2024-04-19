@@ -57,7 +57,7 @@
       <div>
         <div>
           <label for="brushSize"
-            >画笔 <span id="brushSizeValue">10</span></label
+            >画笔 <span id="brushSizeValue">{{ lineWidth }}</span></label
           >
         </div>
         <div>
@@ -79,7 +79,7 @@
       <div>
         <div>
           <label for="eraserSize"
-            >橡皮 <span id="eraserSizeValue">20</span></label
+            >橡皮 <span id="eraserSizeValue">{{ cilpWidth }}</span></label
           >
         </div>
         <div>
@@ -132,6 +132,7 @@ const isDrawing = ref(false) //标记是否要绘制
 const isMouseDown = ref(false) //标记鼠标是否按下
 const lineColor = ref("#000") // 线条颜色
 const lineWidth = ref(5) // 线条粗细
+const cilpWidth = ref(20) // 线条粗细
 const points = ref([]) //存储坐标点
 const undoStack = ref([]) // 存储画布状态，用于撤销上一步操作
 const step = ref(0) // 记录当前步数
@@ -434,7 +435,8 @@ function restore() {
 function updateValue(inputId) {
   // console.log(document.getElementById(inputId).value)
 
-  var value = document.getElementById(inputId).value
+  let value = document.getElementById(inputId).value
+
   if (value < 10) {
     value = "0" + value
   }
@@ -444,9 +446,13 @@ function updateValue(inputId) {
 // 更新画笔线条宽度
 function updateLine(inputId, lineId) {
   // console.log(document.getElementById(inputId).value)
-  var value = document.getElementById(inputId).value
-  var line = document.getElementById(lineId)
-  lineWidth.value = value
+  const value = document.getElementById(inputId).value
+  if (inputId == "brushSize") {
+    lineWidth.value = value
+  } else {
+    cilpWidth.value = value
+  }
+  const line = document.getElementById(lineId)
   line.style.height = value + "px"
   line.style.width = value + "px"
 }
