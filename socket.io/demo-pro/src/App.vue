@@ -355,12 +355,12 @@ function draw文字() {
         y += brushSize + 5 // 每行文字的垂直间距为30像素（这个一般要根据字体大小进行设置，我设置的是字体大小+5比较合适）
       })
       addUndoStack(canvas.value.toDataURL()) // 将当前画布状态保存起来
-      let path = drawingData.value.get(currentID.value)
-      if (path) {
-        path.geometry = points.value
-        drawingData.value.set(currentID.value, path)
-        return
-      }
+      // let path = drawingData.value.get(currentID.value)
+      // if (path) {
+      //   path.geometry = points.value
+      //   drawingData.value.set(currentID.value, path)
+      //   return
+      // }
     }
     document.body.removeChild(input) // 移除输入框元素
   })
@@ -613,20 +613,18 @@ function onpointerdown(e) {
     // ctx.value.beginPath() // 新增：开始一个绘画路径
   }
   if (brush.value == 8) {
-    points.value = [{ x: e.clientX, y: e.clientY }]
-    // 分配编号
-    currentID.value = uuidv4()
-
-    const text = {
-      id: currentID.value,
-      version: version,
-      type: brush.value,
-      geometry: [{ x: e.clientX, y: e.clientY }],
-      properties: { color: "red" }
-    }
-
-    drawingData.value.set(currentID.value, text)
-    return
+    // points.value = [{ x: e.clientX, y: e.clientY }]
+    // // 分配编号
+    // currentID.value = uuidv4()
+    // const text = {
+    //   id: currentID.value,
+    //   version: version,
+    //   type: brush.value,
+    //   geometry: [{ x: e.clientX, y: e.clientY }],
+    //   properties: { color: "red" }
+    // }
+    // drawingData.value.set(currentID.value, text)
+    // return
   }
 }
 
@@ -691,8 +689,6 @@ function observeCanvas() {
 
       // 遍历绘图数据，绘制点、路径等
       drawingData.value.forEach((data) => {
-        console.log("data", data)
-
         if (data.type == 1 || data.type == 2) {
           const startX = data.geometry[0].x
           const startY = data.geometry[0].y
@@ -773,6 +769,7 @@ function observeCanvas() {
         if (data.type == 7) {
           context.fillStyle = data.properties.color // 设置点的填充颜色
           context.strokeStyle = data.properties.color // 设置点的边框颜色
+          loadImage()
           context.beginPath()
           // 遍历所有点
           data.geometry.forEach((p, index) => {
@@ -786,48 +783,49 @@ function observeCanvas() {
         }
 
         if (brush.value == 8) {
-          const startX = data.geometry[0].x
-          const startY = data.geometry[0].y
-          const input = document.createElement("textarea") // 创建一个多行输入框元素
-          const canvasRect = canvas.value.getBoundingClientRect() // 获取画布的位置信息
-          var brushSize = document.getElementById("brushSize").value
-          var color = document.getElementById("brushColor").value
-          var fontSize = brushSize / 10
-          if (fontSize < 1) fontSize = 1
+          console.log("data8", data)
+          // const startX = data.geometry[0].x
+          // const startY = data.geometry[0].y
+          // const input = document.createElement("textarea") // 创建一个多行输入框元素
+          // const canvasRect = canvas.value.getBoundingClientRect() // 获取画布的位置信息
+          // var brushSize = document.getElementById("brushSize").value
+          // var color = document.getElementById("brushColor").value
+          // var fontSize = brushSize / 10
+          // if (fontSize < 1) fontSize = 1
 
-          input.rows = 10 // 默认为10行
-          input.style.position = "absolute"
-          input.style.left = canvasRect.left + startX - 10 + "px" // 计算输入框的左边距（最后-10是为了让光标能显示在鼠标前面一点点）
-          input.style.top = canvasRect.top + startY + "px" // 计算输入框的上边距
-          input.style.border = "none"
-          input.style.background = "transparent"
-          input.style.font = fontSize + "rem 微软雅黑"
-          input.style.color = color
-          input.style.outline = "none"
-          input.style.padding = "0"
-          input.style.margin = "0"
-          input.style.width = "auto"
-          input.style.height = "auto"
-          input.style.resize = "none"
-          input.style.overflow = "hidden"
-          input.style.zIndex = "100"
-          input.addEventListener("blur", function () {
-            const text = input.value
-            if (text.length > 0) {
-              context.font = fontSize + "rem 微软雅黑"
-              context.fillStyle = color
-              const lines = text.split("\n") // 将输入的文本按换行符分割成多行
-              let y = startY
-              lines.forEach(function (line) {
-                context.fillText(line, startX, y) // 在画布上绘制每一行文字
-                y += brushSize + 5 // 每行文字的垂直间距为30像素（这个一般要根据字体大小进行设置，我设置的是字体大小+5比较合适）
-              })
-              addUndoStack(canvas.value.toDataURL()) // 将当前画布状态保存起来
-            }
-            document.body.removeChild(input) // 移除输入框元素
-          })
-          document.body.appendChild(input) // 将输入框元素添加到页面中
-          input.focus() // 让输入框获得焦点
+          // input.rows = 10 // 默认为10行
+          // input.style.position = "absolute"
+          // input.style.left = canvasRect.left + startX - 10 + "px" // 计算输入框的左边距（最后-10是为了让光标能显示在鼠标前面一点点）
+          // input.style.top = canvasRect.top + startY + "px" // 计算输入框的上边距
+          // input.style.border = "none"
+          // input.style.background = "transparent"
+          // input.style.font = fontSize + "rem 微软雅黑"
+          // input.style.color = color
+          // input.style.outline = "none"
+          // input.style.padding = "0"
+          // input.style.margin = "0"
+          // input.style.width = "auto"
+          // input.style.height = "auto"
+          // input.style.resize = "none"
+          // input.style.overflow = "hidden"
+          // input.style.zIndex = "100"
+          // input.addEventListener("blur", function () {
+          //   const text = input.value
+          //   if (text.length > 0) {
+          //     context.font = fontSize + "rem 微软雅黑"
+          //     context.fillStyle = color
+          //     const lines = text.split("\n") // 将输入的文本按换行符分割成多行
+          //     let y = startY
+          //     lines.forEach(function (line) {
+          //       context.fillText(line, startX, y) // 在画布上绘制每一行文字
+          //       y += brushSize + 5 // 每行文字的垂直间距为30像素（这个一般要根据字体大小进行设置，我设置的是字体大小+5比较合适）
+          //     })
+          //     addUndoStack(canvas.value.toDataURL()) // 将当前画布状态保存起来
+          //   }
+          //   document.body.removeChild(input) // 移除输入框元素
+          // })
+          // document.body.appendChild(input) // 将输入框元素添加到页面中
+          // input.focus() // 让输入框获得焦点
           // context.stroke()
         }
       })
