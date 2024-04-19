@@ -1,1 +1,6 @@
-# npm start
+### 启动
+
+```
+pnpm i
+pnpm start
+```

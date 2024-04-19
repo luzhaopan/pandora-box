@@ -126,6 +126,7 @@ import { ref, onMounted } from "vue"
 import * as Y from "yjs"
 import { WebsocketProvider } from "y-websocket"
 import { v4 as uuidv4 } from "uuid"
+import { ElMessage } from "element-plus"
 
 const brush = ref(7)
 const isDrawing = ref(false) //标记是否要绘制
@@ -464,6 +465,10 @@ function switchBrushes(id, val) {
   isDrawing.value = false
   brush.value = val
   points.value = []
+  ElMessage({
+    message: "切换为" + id,
+    type: "success"
+  })
   // messageplugin({ message: "切换为" + id, type: "success" })
 }
 
