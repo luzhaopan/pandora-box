@@ -23,6 +23,10 @@
         <span class="画笔选择" id="箭头" @click="switchBrushes('箭头', 6)"></span>
       </div>
       <div>
+        <span class="画笔选择 xps" @click="switchBrushes('橡皮刷', 9)"></span>
+        <span class="画笔选择"></span>
+      </div>
+      <div>
         <div>
           <label for="brushSize"
             >画笔 <span id="brushSizeValue">{{ lineWidth }}</span></label
@@ -68,8 +72,8 @@
       </div>
     </div>
     <div style="color: #080909">
-      <span>橡皮：ctrl+左键</span>&nbsp;&nbsp; <span>撤销：ctrl+z</span>&nbsp;&nbsp;
-      <span>恢复：ctrl+y</span>&nbsp;&nbsp;
+      <!-- <span>橡皮：ctrl+左键</span>&nbsp;&nbsp;  -->
+      <span>撤销：ctrl+z</span>&nbsp;&nbsp; <span>恢复：ctrl+y</span>&nbsp;&nbsp;
       <span>保存：ctrl+s</span>
     </div>
     <div style="margin: 20px auto; width: 1400px">
@@ -100,7 +104,7 @@ const isDrawing = ref(false) //标记是否要绘制
 const isMouseDown = ref(false) //标记鼠标是否按下
 const lineColor = ref('#000') // 线条颜色
 const lineWidth = ref(5) // 线条粗细
-const cilpWidth = ref(20) // 线条粗细
+const cilpWidth = ref(20) // 橡皮粗细
 const points = ref([]) //存储坐标点
 const undoStack = ref([]) // 存储画布状态，用于撤销上一步操作
 const step = ref(0) // 记录当前步数
@@ -133,6 +137,7 @@ function draw(mousex, mousey, ctrlKey) {
     else if (brush.value === 5) draw直线()
     else if (brush.value === 6) draw箭头()
     else if (brush.value === 8) draw文字()
+    else if (brush.value === 9) draw橡皮刷()
   }
   ctx.value.stroke()
   // points.slice(0, 1);没啥用
@@ -158,6 +163,31 @@ function draw画笔() {
   let path = drawingData.value.get(currentID.value)
   if (path) {
     path.geometry.push({ x, y, color: lineColor.value, width: lineWidth.value })
+    drawingData.value.set(currentID.value, path)
+    return
+  }
+}
+
+// 绘制白色线条
+function draw橡皮刷() {
+  ctx.value.beginPath()
+
+  let x = (points.value[points.value.length - 2].x + points.value[points.value.length - 1].x) / 2
+  let y = (points.value[points.value.length - 2].y + points.value[points.value.length - 1].y) / 2
+  ctx.value.lineWidth = lineWidth.value
+  if (points.value.length == 2) {
+    ctx.value.moveTo(points.value[points.value.length - 2].x, points.value[points.value.length - 2].y)
+    ctx.value.lineTo(x, y)
+  } else {
+    let lastX = (points.value[points.value.length - 3].x + points.value[points.value.length - 2].x) / 2
+    let lastY = (points.value[points.value.length - 3].y + points.value[points.value.length - 2].y) / 2
+    ctx.value.moveTo(lastX, lastY)
+    ctx.value.quadraticCurveTo(points.value[points.value.length - 2].x, points.value[points.value.length - 2].y, x, y)
+  }
+
+  let path = drawingData.value.get(currentID.value)
+  if (path) {
+    path.geometry.push({ x, y, color: '#fff', width: cilpWidth.value })
     drawingData.value.set(currentID.value, path)
     return
   }
@@ -606,6 +636,37 @@ function onpointerdown(e) {
           isDrawing.value = true
         }
       }
+
+      if (brush.value == 9) {
+        // 分配编号
+        if (currentID.value == '') {
+          currentID.value = uuidv4()
+
+          let path = {
+            id: currentID.value,
+            version: version,
+            type: 7,
+            geometry: [
+              {
+                x: e.clientX,
+                y: e.clientY,
+                color: '#fff',
+                width: cilpWidth.value
+              }
+            ]
+            // properties: { color: lineColor.value }
+          }
+          // console.log('brush', brush.value)
+
+          drawingData.value.set(currentID.value, path)
+        }
+
+        // 没有正在绘画
+        if (!isDrawing.value) {
+          // 开始绘画
+          isDrawing.value = true
+        }
+      }
     }
 
     if (e.ctrlKey) {
@@ -631,6 +692,9 @@ function onpointermove(e) {
 
     ctx.value.lineWidth = lineWidth.value
     ctx.value.strokeStyle = lineColor.value
+
+    // ctx.value.lineWidth = brush.value != 9 ? lineWidth.value : cilpWidth.value
+    // ctx.value.strokeStyle = brush.value != 9 ? lineColor.value : '#fff'
 
     draw(e.offsetX, e.offsetY, e.ctrlKey)
   }
@@ -783,6 +847,22 @@ function observeCanvas() {
             }
           })
         }
+
+        if (data.type == 9) {
+          context.beginPath()
+          // 遍历所有点
+          data.geometry.forEach((p, index) => {
+            context.fillStyle = '#fff' // 设置点的填充颜色
+            context.strokeStyle = '#fff' // 设置点的边框颜色
+            context.lineWidth = p.width
+            if (index == 0) {
+              // context.moveTo(p.x, p.y)
+            } else {
+              context.lineTo(p.x, p.y)
+              context.stroke()
+            }
+          })
+        }
       })
     }
   })
@@ -894,6 +974,14 @@ label span {
   display: inline-block;
   margin: 0 3px;
   cursor: pointer;
+}
+.xps {
+  width: 25px;
+  height: 25px;
+  background: url('../img/xps.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 #画笔 {
   background: url('../img/画笔工具.png');
