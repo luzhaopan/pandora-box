@@ -951,7 +951,7 @@ function observeCanvas() {
     }
   })
 
-  new WebsocketProvider("ws://localhost:5173/ws", "demo", ydoc.value)
+  new WebsocketProvider("ws://localhost:1234", "demo", ydoc.value)
 }
 
 onMounted(() => {

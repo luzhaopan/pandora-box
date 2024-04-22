@@ -9,7 +9,7 @@ export default ({command, mode}) => {
     plugins: [vue()],
     server: {
       host: '0.0.0.0', //自定义主机名
-      port: env.VITE_PORT, // 自定义端口
+      port: 8080, // 自定义端口 env.VITE_PORT
       open: true, // 自动在浏览器打开
       https: false, // 是否开启 https
       // 设置反向代理，跨域
