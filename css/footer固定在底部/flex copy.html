@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>屏幕占满和未占满的情况下，使 footer 固定在底部</title>
+    <title>屏幕占满和未占满的情况下1，使 footer 固定在底部</title>
     <!-- 
         flex 布局
         flex-deraction：column将页面结构竖向排列，（flex默认是横向排列的），同时，将html 和 body 元素的高度设置为100%，使其充满整个屏幕。　　
@@ -24,23 +24,21 @@
     .page {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        min-height: 100%; /* // 中间占用剩下的空间，多出向下伸缩，没有滚动条 */ 
+        /*height: 100%;  // 中间占用剩下的空间，多出内容滚动条*/ 
     }
 
     .header {
-        flex: 0 0 auto;
         background-color: aquamarine;
     }
 
     .content {
-        flex: 1;  /* // 中间占用剩下的空间，多出内容滚动条*/  
-       /*  flex: 1 0 auto;  /* // 中间占用剩下的空间，多出向下伸缩，没有滚动条 */ 
+        flex: 1;   
         background-color: #fff;
         overflow: auto;
     }
 
     .footer {
-        flex: 0 0 auto;
         background-color: rgb(242, 255, 127);
     }
 </style>
