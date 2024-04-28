@@ -90,7 +90,6 @@
 ```
 
 这时候发现整个动画效果流畅了很多，在动画移动的过程中也没有发⽣repaint和reflow。
-下面是chrome 浏览器performance中的监测到的数据。以及rendering面板。
 
 那么，为什么 transform 没有触发 repaint 呢？原因就是，transform 动画由GPU控制，支持硬件加速。并不需要软件⽅⾯的渲染。
 
