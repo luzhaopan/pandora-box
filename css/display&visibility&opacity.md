@@ -1,6 +1,6 @@
 ![](./img/2024-01-20-13-55-15.png)
 
-# 1、display:none
+# 1、display: none
 
 （1）、浏览器不会生成属性为display: none;的元素。
 
@@ -10,7 +10,7 @@
 
 （4）、transition无效。
 
-# 2、visibility:hidden
+# 2、visibility: hidden
 
 （1）、元素会被隐藏，但是不会消失，依然占据空间，隐藏后不会改变html原有样式。
 
