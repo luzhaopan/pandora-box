@@ -1,5 +1,6 @@
 # ref和reactive的区别
 ![Alt text](./img/image-1.png)
+
 # 原始类型差异
 
 ## ref
