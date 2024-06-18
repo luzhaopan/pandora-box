@@ -326,3 +326,63 @@ watchEffect与computed有点像：
 2. 而watchEffect更注重的是过程（回调函数的函数体），所以不用写返回值。
 
 3. computed若是值没有被使用时不会调用，但是watchEffect始终会调用一次
+
+
+# 接触监听
+
+## vue2
+
+vue 的 watch 除了可以使用声明式的配置项以外，还可以通过命令式 this.$watch 方法，如下是我们比较少用的命令式（想要初始只监听一次，必须命令式写法）。
+
+```sh
+export default {
+  data: {
+    isReady: false
+  },
+  mounted() {
+      const unwatch = this.$watch('isReady', function(newValue, oldValue){
+        console.log(newValue);
+        unwatch()
+      });
+   },
+   created() {
+      setTimeout(() =>  {
+        this.isReady = 5
+      }, 2000）
+      setTimeout(() =>  {
+        this.isReady = 7
+      }, 5000)
+   }
+}
+```
+
+- 命令式好处是，可以得到一个取消监听的函数，在需要时取消监听，比如你想要只监听一次，可以像下面使用：
+- 这里只能打印 5 false（第一次改变值）
+
+
+## vue3
+
+vue3 没有提供 $watch 方法，但是提供了 watch 选项，如下：
+
+```sh
+import { ref, watch, unref } from 'vue';
+ 
+const myRef = ref('initial value');
+ 
+// 监听函数，只会被调用一次
+const stopWatcher = watch(
+  myRef,
+  (newValue, oldValue) => {
+    console.log(`The new value is ${newValue}, old value was ${oldValue}`);
+    
+    // 停止监听
+    stopWatcher();
+  },
+  { immediate: true } // 设置为立即执行
+);
+ 
+// 测试代码，修改myRef的值，watch不会再响应
+setTimeout(() => {
+  myRef.value = 'new value';
+}, 1000);
+```
