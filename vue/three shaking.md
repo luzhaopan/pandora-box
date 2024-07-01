@@ -31,7 +31,9 @@ vue3一个比较大的显著的区别就是，当你用一个bundler的时候，
 
 而vue3 在浏览器里的时候依然会有一个全局的Vue对象，但是当你用了一个bundler时（比如webpack），它就没有default export，你就不能import xxx from vue，然后把vue本身当一个对象去操作。那所有的这些API全部要用import的方式import进来，这样的结果就是使得一些可能不会用到的一些功能就可以被tree shaking掉。比如说 v-model、<transition>这些功能，如果你不用的话，就不会引用到最后的包里。
 
-Tree-shaking某种程度上来讲，也是通过编译器去实现的（记住这句话）。举例来说
+Tree-shaking某种程度上来讲，也是通过编译器去实现的（记住这句话）。
+
+举例来说
 
 ![](./img/2023-06-16-17-47-33.png)
 
@@ -42,7 +44,7 @@ Tree-shaking某种程度上来讲，也是通过编译器去实现的（记住�
 ![](./img/2023-06-16-17-51-29.png)
 
 可以看见它引入一些东西，比如createVNode, openBlock, createBlock。这些东西只有当你引入东西的时候，这些东西才会被打包进去。
-但默认的还是会保留一些最低的限制，比如Virtual DOM的更新算法以及响应式系统，无论如何这两个都是会包含在你得包里的。但是很多常用或者非常用的功能，只有当你用到时才会被import进来，比如v-model
+但默认的还是会保留一些最低的限制，比如Virtual DOM的更新算法以及响应式系统，无论如何这两个都是会包含在你的包里的。但是很多常用或者非常用的功能，只有当你用到时才会被import进来，比如v-model
 
 ![](./img/2023-06-16-17-59-53.png)
 
@@ -57,8 +59,11 @@ Tree-shaking某种程度上来讲，也是通过编译器去实现的（记住�
 所以，如果只写一个hello world，vue3的实际尺寸，即最终打包出来的整个应用的size，是13.5kb。如果去掉对2.0 option  API等的支持，最终打包出来是11.75kb。而所有的可选的运行时的东西全部一起加进来是22.5kb。这比现在vue2的整个尺寸还要小，而且还是在加了很多vue3的新功能的基础上
 
 以上就是尤大对Tree-shaking的解析
-之前让大家记住的一句话，为什么尤大说某种程度上来讲，Tree-shaking是通过编译器去实现的
-其实说白了，Tree-shaking本质并不是Vue3的东西，而是那些打包工具的功能。只是Vue3代码结构调整，当用webpack等打包工具打包项目时，webpack会将那些没用用到的代码不打包到最后的项目中，这样使得项目体积更小
+
+之前让大家记住的一句话，为什么尤大说某种程度上来讲，Tree-shaking是通过编译器去实现的。
+
+其实说白了，Tree-shaking本质并不是Vue3的东西，而是那些打包工具的功能。只是Vue3代码结构调整，当用webpack等打包工具打包项目时，webpack会将那些没用用到的代码不打包到最后的项目中，这样使得项目体积更小。
+
 主要原理：依赖es6的模块化的语法，将无用的代码(dead-code)进行剔除!
 
 
@@ -102,7 +107,7 @@ npx rollup shaking.js -f esm -o bundle.js
 npx rollup main.js -f esm -o mian-bundle.js
 ```
 
-先来看bundle.js文件的内容,utils文件中foo打包进去，而bar没有被引用，则被移除
+先来看shaking-bundle.js文件的内容,utils文件中foo打包进去，而bar没有被引用，则被移除
 ```sh
 const foo = () => {
     console.log('foo');
