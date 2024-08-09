@@ -106,28 +106,30 @@ token适用于项目级的前后端分离（前后端代码运行在不同的服
 
 请求登录时，token和sessionId原理相同，是对key和key对应的用户信息进行加密后的加密字符，登录成功后，会在响应主体中将{token：'字符串'}返回给客户端。客户端通过cookie、sessionStorage、localStorage都可以进行存储。再次请求时不会默认携带，需要在请求拦截器位置给请求头中添加认证字段Authorization携带token信息，服务器端就可以通过token信息查找用户登录状态。
 
-## 三. Tokens的优势
+## 三. Tokens和sessions的区别
 
-1. 无状态、服务器可扩展
+Token和Session都是用于管理和验证用户身份的技术手段，但它们在实现方式和应用场景上有所不同。
 
-在客户端存储的Tokens是无状态的，并且能够被扩展。基于这种无状态和不存储Session信息，负载负载均衡器能够将用户信息从一个服务传到其他服务器上。
+1. **Token**：
+   - **定义**：Token是一种用于身份验证的令牌，通常是一个加密的字符串，包含了用户的身份信息。
+   - **工作原理**：用户登录成功后，服务器会生成一个Token，并将其返回给客户端。客户端在后续的请求中，会将这个Token包含在HTTP请求的头部（如Authorization字段）中，以证明自己的身份。
+   - **优点**：
+     - 无状态：Token是无状态的，服务器不需要存储用户的会话信息，减轻了服务器的负担。
+     - 跨域：Token可以在不同的域名之间共享，适合于单点登录（SSO）场景。
+     - 安全性：Token可以包含用户的身份信息，并且通过加密确保其安全性。
+   - **常见类型**：
+     - **JWT（JSON Web Token）**：一种基于JSON的开放标准，用于在各方之间安全地传输信息。
+     - **OAuth Token**：用于OAuth 2.0授权框架中的令牌。
 
-2. 安全性
+2. **Session**：
+   - **定义**：Session是一种服务器端存储用户会话信息的技术，用于跟踪用户的状态。
+   - **工作原理**：用户登录成功后，服务器会在内存或数据库中创建一个Session对象，并生成一个唯一的Session ID。服务器将Session ID返回给客户端，客户端将其存储在Cookie中。后续的请求中，客户端会将这个Session ID包含在HTTP请求的头部或Cookie中，服务器通过Session ID查找对应的Session对象，以获取用户的状态信息。
+   - **优点**：
+     - 状态管理：Session可以存储用户的状态信息，如购物车内容、用户偏好等。
+     - 简单易用：对于简单的应用场景，Session可以提供较为直观和易于管理的用户会话管理。
+   - **缺点**：
+     - 状态存储：Session需要服务器端存储，增加了服务器的负担。
+     - 跨域限制：Session ID通常存储在Cookie中，受同源策略限制，难以在不同域名之间共享。
+     - 安全性：Session ID容易被截获，存在安全风险。
 
-请求中发送token而不再是发送cookie能够防止CSRF(跨站请求伪造)。即使在客户端使用cookie存储token，cookie也仅仅是一个存储机制而不是用于认证。不将信息存储在Session中，让我们少了对session操作。 
-
-token是有时效的，一段时间之后用户需要重新验证。我们也不一定需要等到token自动失效，token有撤回的操作，通过token revocataion可以使一个特定的token或是一组有相同认证的token无效。
-
-3. 可扩展
-
-Tokens能够创建与其它程序共享权限的程序。使用tokens时，可以提供可选的权限给第三方应用程序。当用户想让另一个应用程序访问它们的数据，我们可以通过建立自己的API，得出特殊权限的tokens。
-
-4. 多平台跨域
-
-我们提前先来谈论一下CORS(跨域资源共享)，对应用程序和服务进行扩展的时候，需要介入各种各种的设备和应用程序。
-
-Having our API just serve data, we can also make the design choice to serve assets from a CDN. This eliminates the issues that CORS brings up after we set a quick header configuration for our application.
-
-只要用户有一个通过了验证的token，数据和资源就能够在任何域上被请求到。
-
-Access-Control-Allow-Origin: *   
+在实际应用中，Token和Session可以结合使用。例如，可以使用Session存储用户的登录状态和会话信息，而Token用于身份验证和授权。这样可以结合两者的优点，提高系统的安全性和可扩展性。  
