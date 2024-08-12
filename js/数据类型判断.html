@@ -7,6 +7,41 @@
 </head>
 
 <script>
+
+    // instanceof  只有同一个全局window下的实例才返回true
+    // 1. 检测构造函数的prototype属性是否出现在某个实例对象的原型链上
+    // 2. 不能检测基本数据类型
+    function test2() {
+        console.log('123' instanceof String)  // false
+        console.log([] instanceof Array) // true
+        console.log({} instanceof Object) // true
+        console.log(null instanceof Object) // false
+        console.log(undefined instanceof Object) // false
+    }
+
+    test2()
+
+    // typeof
+    // 1. typeof null === 'object'
+    // 2. typeof function(){} === 'function'
+    // 3. typeof undefined === 'undefined'
+    // 4. typeof 1 === 'number'
+    // 5. typeof '1' === 'string'
+    // 6. typeof true === 'boolean'
+    // 7. typeof Symbol() === 'symbol'
+    function test3() {
+        console.log(typeof null) // object
+        console.log(typeof []) // object
+        console.log(typeof {}) // object
+        console.log(typeof function () { }) // function
+        console.log(typeof undefined) // undefined
+        console.log(typeof 1) // number
+        console.log(typeof '1') // string
+        console.log(typeof true) // boolean
+        console.log(typeof Symbol()) // symbol
+    }
+    test3()
+
     // Object.prototype.toString.call()
     // arguments 类数组
     function test() { 
@@ -14,12 +49,9 @@
         console.log(Object.prototype.toString.call([]))
         console.log(Object.prototype.toString.call(null))
         console.log(Object.prototype.toString.call(undefined))
-
     }
 
     test()
-
-
 
 </script>
 
