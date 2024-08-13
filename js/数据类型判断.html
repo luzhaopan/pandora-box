@@ -8,7 +8,7 @@
 
 <script>
 
-    // instanceof  只有同一个全局window下的实例才返回true
+    // instanceof  只有同一个全局window下的实例才返回true (如拿到嵌套的iframe内部中的数组则判断会失败)
     // 1. 检测构造函数的prototype属性是否出现在某个实例对象的原型链上
     // 2. 不能检测基本数据类型
     function test2() {
