@@ -6,7 +6,7 @@ computed 内部实现了一个惰性的 watcher，也就是 computed watcher，c
 
 其内部通过 this.dirty 属性标记计算属性是否需要重新求值。
 
-当 computed 的依赖状态发生改变时,就会通知这个惰性的 watcher，
+当 computed 的依赖状态发生改变时，就会通知这个惰性的 watcher，
 
 computed watcher 通过 this.dep.subs.length 判断有没有订阅者，
 
@@ -27,6 +27,6 @@ computed watcher 通过 this.dep.subs.length 判断有没有订阅者，
 
 ## 运用场景
 
-当我们需要进行数值计算,并且该值依赖于其它数据时，应该使用 computed，因为可以利用 computed 的缓存特性,避免每次获取值时，都要重新计算。
+当我们需要进行数值计算，并且该值依赖于其它数据时，应该使用 computed，因为可以利用 computed 的缓存特性，避免每次获取值时，都要重新计算。
 
 当我们需要在数据变化时执行异步或开销较大的操作时，应该使用 watch，使用 watch 选项允许我们执行异步操作 ( 访问一个 API )，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。
