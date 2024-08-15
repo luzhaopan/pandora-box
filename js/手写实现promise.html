@@ -82,25 +82,18 @@
         // 4.如果数组中存在非Promise对象，则直接返回；
         // 5.最后通过计数器，判断当前的结果是否全部返回；
 
-        Promise.race = function (values) {
-            if(!values instanceof Array) return;
-            return new Promise((resolve, reject) => {
-                // 遍历values,先判断是否当前项为promise对象；
-                // 如果是，则执行回调函数；否，则直接返回该值；
-                for (let i = 0; i < values.length; i++) {
-                    if (isPromise(values[i])) {
-                        values[i].then(data => {
-                            return resolve(data)
-                        }).catch(err => {
-                            return reject(err)
-                        }) // values[i]如果成功则返回回调数据，失败则reject
-                    } else {
-                        // 如果不是promise对象，则直接返回；
-                        return resolve(values[i])
-                    }
+        Promise.race = function(promises) {
+            return new Promise(function(resolve, reject) {
+            for (var i = 0; i < promises.length; i++) {
+                Promise.resolve(promises[i]).then(function(value) {
+                    return resolve(value)
+                    }, function(reason) {
+                    return reject(reason)
+                    })
                 }
             })
         }
+
 
 
     </script>
