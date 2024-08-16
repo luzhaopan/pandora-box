@@ -68,8 +68,8 @@ Proxy可以理解成，在目标对象之前架设一层“拦截”，外界对
 Proxy 的优势如下:
 1. Proxy 可以直接监听对象而非属性；
 2. Proxy 可以直接监听数组的变化；
-3. Proxy 有多达 13 种拦截方法,不限于 apply、ownKeys、deleteProperty、has 等等是Object.defineProperty 不具备的；
-4. Proxy 返回的是一个新对象,我们可以只操作新的对象达到目的,而 Object.defineProperty 只能遍历对象属性直接修改；
+3. Proxy 有多达 13 种拦截方法,不限于 apply、ownKeys、deleteProperty、has 等等是Object。defineProperty 不具备的；
+4. Proxy 返回的是一个新对象,我们可以只操作新的对象达到目的，而 Object.defineProperty 只能遍历对象属性直接修改；
 5. Proxy 作为新标准将受到浏览器厂商重点持续的性能优化，也就是传说中的新标准的性能红利；
 
 ```sh
@@ -100,4 +100,4 @@ var proxyObj = new Proxy(
 可以看到Proxy直接代理了target整个对象，并且返回了一个新的对象，通过监听代理对象上属性的变化来获取目标对象属性的变化, 并且 deleteProperty 还能监听属性的删除。
 
 缺点：
-Proxy的缺点也很明显，作为新的内置对象，对老浏览器的兼容性就不那么友好了，所以在使用的时候得考虑这方面的兼容问题
+Proxy的缺点也很明显，作为新的内置对象，对老浏览器的兼容性就不那么友好了，所以在使用的时候得考虑这方面的兼容问题。
