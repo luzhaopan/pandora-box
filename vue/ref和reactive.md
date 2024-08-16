@@ -235,7 +235,7 @@ export default {
 ## toRefs
 toRefs是toRef的数组版，用于将响应式对象的所有property都转为ref，这样就可以在setup函数中直接使用。
 
-toRefs 它可以将一个响应式对象转成普通对象,而这个普通对象的每个属性都是响应式的 ref
+toRefs 它可以将一个响应式对象转成普通对象，而这个普通对象的每个属性都是响应式的 ref。
 
 ```sh
 <template>
@@ -261,16 +261,16 @@ const addCount = () => {
 ```
 
 此时代码中的countAsRefs类型为
-```sh
+```javascript
 {
   a: Ref<number>,
   b: Ref<number>
 }
 ```
-它的属性 a 和 b 都是响应式的 ref 对象,同样的它们和原对象的 count 的属性也是保持同步的
+它的属性 a 和 b 都是响应式的 ref 对象，同样的它们和原对象的 count 的属性也是保持同步的。
 
-根据它的特性我们通常用它来解构一个响应式对象而不会让其失去响应式
-```sh
+根据它的特性我们通常用它来解构一个响应式对象而不会让其失去响应式。
+```javascript
 import { reactive, toRefs } from "vue";
 const count = reactive({
   a: 1,
@@ -279,7 +279,7 @@ const count = reactive({
 const { a, b } = toRefs(count);
 ```
 
-```sh
+```javascript
 // 展开运算符：
 // 响应式对象的处理，是加给对象的，如果直接对对象做了展开操作，那么就会丢失响应式的效果。需要加上toRefs
 <template>
@@ -310,8 +310,9 @@ export default {
 ## isRef
 
 isRef 用来判断一个值是否为一个 ref 对象
+
 注意:它判断不了这个值是不是 reactive(可以使用 isReactive 判断)
-```sh
+```javascript
 import { reactive, isRef, ref } from "vue";
 const count = ref(1);
 const testObj = reactive({
@@ -324,11 +325,11 @@ console.log(isRef(testObj)); //false
 
 ## unref()
 其实它是一个语法糖
-```sh
+```javascript
 val = isRef(val) ? val.value : val;
 ```
-如果是 ref 则返回它的内部值,否则则返回它本身。通过这个语法糖我们可以看出它可以对响应式对象解除响应式引用,比如我们只想获取一个响应式的值,但不想要它的响应式可以使用它解除引用。 例如
-```sh
+如果是 ref 则返回它的内部值,否则则返回它本身。通过这个语法糖我们可以看出它可以对响应式对象解除响应式引用，比如我们只想获取一个响应式的值，但不想要它的响应式可以使用它解除引用。 例如
+```javascript
 <template>
     <div>
         {{ unRefAsCount }}
@@ -346,13 +347,13 @@ const addCount = () => {
 }
 </script>
 ```
-代码中的 unRefAsCount 是不具备响应式的
+代码中的 unRefAsCount 是不具备响应式的。
 
 ## shallowRef
 
-通过翻译我们可以看出它是浅层的 ref,什么是浅层的 ref 呢? 与 ref 不同的是只有.value 是响应式的,再深层的属性则不具备响应式
+通过翻译我们可以看出它是浅层的 ref，什么是浅层的 ref 呢? 与 ref 不同的是只有.value 是响应式的，再深层的属性则不具备响应式。
 
-```sh
+```javascript
 <template>
     <div>
         {{ shallowObj.a }}
@@ -375,7 +376,7 @@ const addCount = () => {
 
 但是如果我们将 addCount 改为修改整个.value 就会触发响应式了
 
-```sh
+```javascript
 const addCount = () => {
   let temp = shallowObj.value.a;
   temp++;
@@ -389,7 +390,7 @@ const addCount = () => {
 
 customRef 用来创建一个自定义的 ref 对象
 
-```sh
+```javascript
 import { customRef, ref } from "vue";
 
 // 创建一个 ref 对象
