@@ -48,9 +48,9 @@ Tree-shaking某种程度上来讲，也是通过编译器去实现的（记住�
 
 ![](./img/2023-06-16-17-59-53.png)
 
-可以看见，从vue中引入了vModelText, createVNode, withDirectives, openBlock, createBlock
+可以看见，从vue中引入了vModelText, createVNode, withDirectives, openBlock, createBlock。
 
-再比如<transition>组件,用了<transition>，对应的Transition就会引入进来
+再比如`<transition>`组件，用了`<transition>`，对应的Transition就会引入进来。
 
 ![](./img/2023-06-18-13-36-39.png)
 
@@ -98,7 +98,7 @@ const main = () => {
 main()
 ```
 
-现在分别使用rollup.js打包shaking.js与main.js文件
+现在分别使用rollup.js打包shaking.js与main.js文件。
 
 ```sh
 # 打包shaking文件
@@ -107,8 +107,8 @@ npx rollup shaking.js -f esm -o bundle.js
 npx rollup main.js -f esm -o mian-bundle.js
 ```
 
-先来看shaking-bundle.js文件的内容,utils文件中foo打包进去，而bar没有被引用，则被移除
-```sh
+先来看shaking-bundle.js文件的内容，utils文件中foo打包进去，而bar没有被引用，则被移除。
+```javascript
 const foo = () => {
     console.log('foo');
 };
@@ -120,9 +120,9 @@ const fn = () => {
 fn();
 ```
 
-再来看main-bundle.js文件的内容,utils文件中bar打包进去，而foo虽然被引用，但是没有在main.js文件中使用，则被移除。
+再来看main-bundle.js文件的内容，utils文件中bar打包进去，而foo虽然被引用，但是没有在main.js文件中使用，则被移除。
 
-```sh
+```javascript
 const bar = () => {
     console.log('bar');
 };
@@ -138,7 +138,7 @@ main();
 
 有些代码看着无用，但是确不能被Tree-shaking移除，例如我们对上面的代码进行重写
 
-```sh
+```javascript
 // utils.js
 // 新增以下代码
 export default {
@@ -162,7 +162,7 @@ fn()
 
 再次使用rollup.js打包文件
 
-```sh
+```javascript
 const foo = () => {
     console.log('foo');
 };

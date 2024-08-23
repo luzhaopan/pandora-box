@@ -1,13 +1,16 @@
 # toRef / toRefs
 
-创建一个ref对象，其value值指向另一个对象中的某个属性
-语法：const name = toRef（person,‘name’）
-应用：要将响应式对象中的某个属性单独提供给外部使用时
-扩展：toRefs与toRef功能一致，但可以批量创建多个ref对象，语法：toRefs(person)
+创建一个ref对象，其value值指向另一个对象中的某个属性。
+
+语法：const name = toRef（person,‘name’）。
+
+应用：要将响应式对象中的某个属性单独提供给外部使用时。
+
+扩展：toRefs与toRef功能一致，但可以批量创建多个ref对象，语法：toRefs(person)。
 
 ## 作用
 
-toRef 和 toRefs 可以用来复制 reactive 里面的属性然后转成 ref，而且它既保留了响应式，也保留了引用，也就是你从 reactive 复制过来的属性进行修改后，除了视图会更新，原有 ractive 里面对应的值也会跟着更新，如果你知道 浅拷贝 的话那么这个引用就很好理解了，它复制的其实就是引用 + 响应式 ref
+toRef 和 toRefs 可以用来复制 reactive 里面的属性然后转成 ref，而且它既保留了响应式，也保留了引用，也就是你从 reactive 复制过来的属性进行修改后，除了视图会更新，原有 reactive 里面对应的值也会跟着更新，如果你知道 浅拷贝 的话那么这个引用就很好理解了，它复制的其实就是引用 + 响应式 ref
 
 不加 s 和 加 s 的区别就是这样：
 
@@ -19,7 +22,7 @@ toRef 和 toRefs 可以用来复制 reactive 里面的属性然后转成 ref，�
 
 1. toRef
 
-```sh
+```javascript
 <template>
   <h2>
     reactive-greet: {{ info.greet }} 
@@ -56,7 +59,7 @@ export default {
 
 2. toRefs
    
-```sh
+```javascript
 <template>
   <h2>
     reactive-info-greet: {{ info.greet }} 
