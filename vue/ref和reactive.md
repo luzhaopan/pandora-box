@@ -200,9 +200,9 @@ export default {
 </script>
 ```
 
-当我点击button1的时候，你说button2会变吗？并不会。变量s就是个基本数据，没有任何响应式。很不爽是不是？现在我改改，把let s = r.a;改成let s = toRef(r, 'a');，然后再试试？
+当我点击 button1 的时候，你说button2会变吗？并不会。变量s就是个基本数据，没有任何响应式。很不爽是不是？现在我改改，把let s = r.a；改成let s = toRef(r, 'a')；然后再试试？
 
-可以看到button2的数字跟着变了！这就是toRef的作用：当一个变量指向一个对象的某个property，且这个property是基本数据类型时，必须用toRef才能将变量与对象的响应式连接。如果这个property是引用数据类型，就不需要动用toRef。
+可以看到 button2 的数字跟着变了！这就是toRef的作用：当一个变量指向一个对象的某个property，且这个property是基本数据类型时，必须用toRef才能将变量与对象的响应式连接。如果这个property是引用数据类型，就不需要动用toRef。
 
 toRef的用途之一是用于传参，可传递一个响应式的基本数据类型。
 
