@@ -184,11 +184,11 @@ vue3的更友好体现在，兼顾vue2的options API的同时还推出了composi
   
 ## 总结：Vue3对于Vue2有什么更新
 
-Vue2在使用过程中，随着项目越来越复杂，项目代码维护起来也越来越困难，主要原因是Vue2使用的是Options API，这种方式把同一个功能的数据、方法、请求都分开写在data、methods等Options中。并且组件之间相同功能的复用比较也比较困难，同时响应式也没有那么灵活，因此，Vue3做出了如下的更新：
+Vue2在使用过程中，随着项目越来越复杂，项目代码维护起来也越来越困难，主要原因是Vue2使用的是Options API，这种方式把同一个功能的数据、方法、请求都分开写在data、methods等Options中。并且组件之间相同功能的复用也比较困难，同时响应式也没有那么灵活，因此，Vue3做出了如下的更新：
 
-1. 用Composition API代理Options API，正如刚刚所说，Options API 将相同的功能的不同部分都分开写，不仅不利于阅读和维护，也和原生JS的思想相悖，缺乏灵活性，Vue3采用的Composition API按照功能将代码分割开，这样方便维护，也方便复用。
+1. 用Composition API 代替 Options API，正如刚刚所说，Options API 将相同的功能的不同部分都分开写，不仅不利于阅读和维护，也和原生JS的思想相悖，缺乏灵活性，Vue3采用的Composition API按照功能将代码分割开，这样方便维护，也方便复用。
 
-2. 采用Proxy代理Object.defineProperty，Vue2通过defineProperty的get、set和发布订阅来完成响应式，但是defineProperty的get、set并不能监控深层的对象与数组的变化，需要手动调用set来增加、删除响应式属性，还是造成了一些麻烦。Vue3采用Proxy监控整个对象，无论多深的属性都可以被监控到。
+2. 采用Proxy 代替 Object.defineProperty，Vue2通过defineProperty的get、set和发布订阅来完成响应式，但是defineProperty的get、set并不能监控深层的对象与数组的变化，需要手动调用set来增加、删除响应式属性，还是造成了一些麻烦。Vue3采用Proxy监控整个对象，无论多深的属性都可以被监控到。
 
 3. Vue3增加了tree shaking，能在打包的时候只打包用到的组件，可以让运行速度更快和打包文件更小
 
