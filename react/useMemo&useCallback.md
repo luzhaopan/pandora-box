@@ -74,14 +74,21 @@ export default function App() {
 Button1只要父组件更新后就会变更。
  
 # 3.总结
-相同点：
+
+- ‌useCallback‌主要用于性能优化中函数的memoization（记忆化）。它返回一个memoized（记忆化）版本的回调函数，只有在其依赖项变化时才会更新。这是因为组件的重新渲染可能会导致回调函数的重新定义，从而导致子组件进行不必要的重渲染。使用useCallback可以避免这种情况，当回调函数作为props传递给子组件时，如果依赖项没有变化，可以避免函数的重新创建，从而减少不必要的渲染。‌
+
+- ‌useMemo‌主要用于性能优化中数据的memoization（记忆化）。它返回一个memoized（记忆化）版本的计算值，只有在其依赖项变化时才会更新。在某些情况下，进行一些计算比较耗时，但计算结果在多次渲染过程中保持不变，这时使用useMemo可以有效地优化性能，减少重复计算。‌
+
+简而言之，useCallback用于缓存函数以避免不必要的组件渲染，而useMemo用于缓存计算结果以减少重复的计算开销
+
+- 相同点：
 useCallback 和 useMemo 都是性能优化的手段，类似于类组件中的 shouldComponentUpdate，
 
 在子组件中使用 shouldComponentUpdate， 判定该组件的 props 和 state 是否有变化，
 
 从而避免每次父组件render时都去重新渲染子组件。
  
-不同点：
+- 不同点：
 useCallback 和 useMemo 的区别是useCallback返回一个函数，
 
 当把它返回的这个函数作为子组件使用时，可以避免每次父组件更新时都重新渲染这个子组件。
