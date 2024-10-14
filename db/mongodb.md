@@ -26,5 +26,33 @@ mkdir -p /db
 在命令行输入以下命令启动mongodb客户端：
 ![](./img/2024-10-14-16-01-37.png)
 
+通过命令行进行相关操作
+![](./img/2024-10-14-16-15-54.png)
 
+# 可视化工具
+![](./img/2024-10-14-16-33-16.png)
+![](./img/2024-10-14-16-46-08.png)
 
+# node 连接数据库
+
+```js
+const { MongoClient } = require('mongodb');
+
+const uri = 'mongodb://localhost:27017';
+const client = new MongoClient(uri);
+
+async function run() {
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+    const database = client.db('mydatabase');
+    const collection = database.collection('mycollection');
+    const result = await collection.insertOne({ name: 'John Doe', age: 30 });
+    console.log('Inserted document:', result.insertedId);
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.dir);
+```
