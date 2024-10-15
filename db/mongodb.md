@@ -35,24 +35,10 @@ mkdir -p /db
 
 # node 连接数据库
 
-```js
-const { MongoClient } = require('mongodb');
+![](./img/2024-10-14-17-56-16.png)
 
-const uri = 'mongodb://localhost:27017';
-const client = new MongoClient(uri);
+![](./img/2024-10-14-17-56-33.png)
 
-async function run() {
-  try {
-    await client.connect();
-    console.log('Connected to MongoDB');
-    const database = client.db('mydatabase');
-    const collection = database.collection('mycollection');
-    const result = await collection.insertOne({ name: 'John Doe', age: 30 });
-    console.log('Inserted document:', result.insertedId);
-  } finally {
-    await client.close();
-  }
-}
+![](./img/2024-10-14-17-56-48.png)
 
-run().catch(console.dir);
-```
+![](./img/2024-10-14-17-57-05.png)
