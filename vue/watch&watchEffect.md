@@ -4,35 +4,39 @@
 
 watch 和 watchEffect 的主要功能是相同的，都能响应式地执行回调函数。它们的区别是追踪响应式依赖的方式不同：
 ## watch
-watch显式指定依赖数据，依赖数据更新时执行回调函数
+1. watch显式指定依赖数据，依赖数据更新时执行回调函数
 
-具有一定的惰性lazy 第一次页面展示的时候不会执行，只有数据变化的时候才会执行(设置immediate: true时可以变为非惰性，页面首次加载就会执行）
+2. 具有一定的惰性lazy 
 
-监视ref定义的响应式数据时可以获取到原值
+第一次页面展示的时候不会执行，只有数据变化的时候才会执行(设置immediate: true时可以变为非惰性，页面首次加载就会执行）
+
+3. 监视ref定义的响应式数据时可以获取到原值
  
-既要指明监视的属性，也要指明监视的回调
+4. 既要指明监视的属性，也要指明监视的回调
 
-1. watch 只追踪明确定义的数据源，不会追踪在回调中访问到的东西；默认情况下，只有在数据源发生改变时才会触发回调；watch 可以访问侦听数据的新值和旧值。
-2. 有惰性：运行的时候，不会立即执行；
-3. 可配置：配置项可补充 watch 特点上的不足：
+- watch 只追踪明确定义的数据源，不会追踪在回调中访问到的东西；默认情况下，只有在数据源发生改变时才会触发回调；watch 可以访问侦听数据的新值和旧值。
+- 有惰性：运行的时候，不会立即执行；
+- 可配置：配置项可补充 watch 特点上的不足：
+  
 immediate：配置 watch 属性是否立即执行，值为 true 时，一旦运行就会立即执行，值为 false 时，保持惰性。
+
 deep：配置 watch 是否深度监听，值为 true 时，可以监听对象所有属性，值为 false 时保持更加具体特性，必须指定到具体的属性上。
 
 ## watchEffect
-watchEffect自动收集依赖数据，依赖数据更新时重新执行自身
+1. watchEffect自动收集依赖数据，依赖数据更新时重新执行自身
 
-立即执行，没有惰性，页面的首次加载就会执行
+2. 立即执行，没有惰性，页面的首次加载就会执行
 
-无法获取到原值，只能得到变化后的值
+3. 无法获取到原值，只能得到变化后的值
 
-不用指明监视哪个属性，监视的回调中用到哪个属性就监视哪个属性
+4. 不用指明监视哪个属性，监视的回调中用到哪个属性就监视哪个属性
 
-1. watchEffect 会初始化执行一次，在副作用发生期间追踪依赖，自动分析出侦听数据源；watchEffect 无法访问侦听数据的新值和旧值。
-2. 更加抽象：使用时不需要具体指定监听的谁，回调函数内直接使用就可以
+- watchEffect 会初始化执行一次，在副作用发生期间追踪依赖，自动分析出侦听数据源；watchEffect 无法访问侦听数据的新值和旧值。
+- 更加抽象：使用时不需要具体指定监听的谁，回调函数内直接使用就可以
 
 简单一句话，watch 功能更加强大，而 watchEffect 在某些场景下更加简洁。
 
-# Watch
+# Watch使用
 
 watch 的第一个参数可以是不同形式的“数据源”，它可以是：
 
@@ -149,10 +153,10 @@ setTimeout(() => {
 ## 配置选项
 watch 的第三个参数是一个可选的对象，支持以下选项：
 
-immediate：在侦听器创建时立即触发回调。
-deep：深度遍历，以便在深层级变更时触发回调。
-flush：回调函数的触发时机。pre：默认，dom 更新前调用，post: dom 更新后调用，sync 同步调用。
-onTrack / onTrigger：用于调试的钩子。在依赖收集和回调函数触发时被调用。
+- immediate：在侦听器创建时立即触发回调。
+- deep：深度遍历，以便在深层级变更时触发回调。
+- flush：回调函数的触发时机。pre：默认，dom 更新前调用，post: dom 更新后调用，sync 同步调用。
+- onTrack / onTrigger：用于调试的钩子。在依赖收集和回调函数触发时被调用。
 
 ## 深层侦听器
 
@@ -219,11 +223,11 @@ obj.someObject.count++ // deep 1 0
 注意：深层侦听需要遍历所有嵌套的属性，当数据结构庞大时，开销很大。所以我们要谨慎使用，并且留意性能。
 
 
-# watchEffect
+# watchEffect使用
 
 watch() 是懒执行的：当数据源发生变化时，才会执行回调。但在某些场景中，我们希望在创建侦听器时，立即执行一遍回调。当然使用 immediate 选项也能实现：
 
-```sh
+```JavaScript
 const url = ref('https://...')
 const data = ref(null)
 
@@ -238,7 +242,7 @@ watch(url, fetchData, { immediate: true })
 
 可以看到 watch 用到了三个参数，我们可以用 watchEffect 来简化上面的代码。watchEffect 会立即执行一遍回调函数，如果这时函数产生了副作用，Vue 会自动追踪副作用的依赖关系，自动分析出侦听数据源。上面的例子可以重写为：
 
-```sh
+```JavaScript
 const url = ref('https://...')
 const data = ref(null)
 
@@ -249,13 +253,13 @@ watchEffect(async () => {
 })
 ```
 
-watchEffect 接受两个参数，第一个参数是数据发生变化时执行的回调函数，用法和 watch 一样。第二个参数是一个可选的对象，支持 flush 和 onTrack / onTrigger 选项，功能和 watch 相同。
+watchEffect 接收两个参数，第一个参数是数据发生变化时执行的回调函数，用法和 watch 一样。第二个参数是一个可选的对象，支持 flush 和 onTrack / onTrigger 选项，功能和 watch 相同。
 注意：watchEffect 仅会在其同步执行期间，才追踪依赖。使用异步回调时，只有在第一个 await 之前访问到的依赖才会被追踪。
  
 
-就是默认下，Vue会先执行组件DOM update，还是先执行监听器？
+## 就是默认下，Vue会先执行组件DOM update，还是先执行监听器？
 
-```sh
+```html
 <template>
   <div>
     <div id="value">{{count}}</div> 
@@ -288,11 +292,13 @@ export default {
 ![](./img/2023-07-21-14-34-38.png)
 
 为什么点之前按钮的innerText打印null？
+
 因为事实就是默认先执行监听器，然后更新DOM，此时DOM还未生成，当然是null。
 当第1和2次点击完，会发现：document.querySelector('#value').innerText 获取到的总是点击之前DOM的内容。
+
 这也说明，默认Vue先执行监听器，所以取到了上一次的内容，然后执行组件 update。
 
-Vue 2其实也是这种机制，Vue 2使用 this.nextTick()去获取组件更新完成之后的DOM，在watchEffect里就不需要用this. nextTick() 去获取组件更新完成之后的 DOM，在watchEffect里就不需要用this.nextTick()（也没法用），有一个办法能获取组件更新完成之后的DOM，就是使用：
+Vue 2其实也是这种机制，Vue 2使用 this.nextTick()去获取组件更新完成之后的DOM，在watchEffect里就不需要用this. nextTick() 去获取组件更新完成之后的 DOM，（也没法用），有一个办法能获取组件更新完成之后的DOM，就是使用：
 
 ```sh
 // 在组件更新后触发，这样你就可以访问更新的 DOM。
@@ -308,13 +314,15 @@ watchEffect(
 ```
 ![](./img/2023-07-21-14-35-39.png)
 
-所以结论是，如果要操作“更新之后的DOM”，就要配置 flush: 'post'。
+所以结论是:
 
 如果要操作“更新之后的DOM ”，就要配置 flush: 'post'。
+
 flush 取值：
-	pre （默认）
-	post （在组件更新后触发，这样你就可以访问更新的 DOM。这也将推迟副作用的初始运行，直到组件的首次渲染完成。）
-	sync （与watch一样使其为每个更改都强制触发侦听器，然而，这是低效的，应该很少需要）
+
+- pre （默认）
+- post （在组件更新后触发，这样你就可以访问更新的 DOM。这也将推迟副作用的初始运行，直到组件的首次渲染完成。）
+- sync （与watch一样使其为每个更改都强制触发侦听器，然而，这是低效的，应该很少需要）
 
 
 # watchEffect与computed
@@ -326,3 +334,63 @@ watchEffect与computed有点像：
 2. 而watchEffect更注重的是过程（回调函数的函数体），所以不用写返回值。
 
 3. computed若是值没有被使用时不会调用，但是watchEffect始终会调用一次
+
+
+# 解除监听
+
+## vue2
+
+vue 的 watch 除了可以使用声明式的配置项以外，还可以通过命令式 this.$watch 方法，如下是我们比较少用的命令式（想要初始只监听一次，必须命令式写法）。
+
+```sh
+export default {
+  data: {
+    isReady: false
+  },
+  mounted() {
+      const unwatch = this.$watch('isReady', function(newValue, oldValue){
+        console.log(newValue);
+        unwatch()
+      });
+   },
+   created() {
+      setTimeout(() =>  {
+        this.isReady = 5
+      }, 2000）
+      setTimeout(() =>  {
+        this.isReady = 7
+      }, 5000)
+   }
+}
+```
+
+- 命令式好处是，可以得到一个取消监听的函数，在需要时取消监听，比如你想要只监听一次，可以像下面使用：
+- 这里只能打印 5 false（第一次改变值）
+
+
+## vue3
+
+vue3 没有提供 $watch 方法，但是提供了 watch 选项，如下：
+
+```sh
+import { ref, watch, unref } from 'vue';
+ 
+const myRef = ref('initial value');
+ 
+// 监听函数，只会被调用一次
+const stopWatcher = watch(
+  myRef,
+  (newValue, oldValue) => {
+    console.log(`The new value is ${newValue}, old value was ${oldValue}`);
+    
+    // 停止监听
+    stopWatcher();
+  },
+  { immediate: true } // 设置为立即执行
+);
+ 
+// 测试代码，修改myRef的值，watch不会再响应
+setTimeout(() => {
+  myRef.value = 'new value';
+}, 1000);
+```

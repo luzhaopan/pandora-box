@@ -1,6 +1,6 @@
 # key作用
 
-key 是给每一个 vnode 的唯一 id，也是 diff 的一种优化策略，可以根据 key，更准确， 更快的找到对应的 vnode 节点
+key 是给每一个 vnode 的唯一id，也是 diff 的一种优化策略，可以根据 key，更准确、更快的找到对应的 vnode 节点
 
 ## 为什么不推荐使用 index 作为 key？
 

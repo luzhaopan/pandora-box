@@ -55,7 +55,7 @@
 
 
     // call和apply实现方式类似，只是传参的区别
-    // 基本思想是把fn.call(obj,args)中的fn赋值为obj的属性，然后调用obj.fn即可实现fn中this指向的改变
+    // 基本思想是把fn.call(obj,args)中的fn赋值为obj的属性，然后调用obj.fn即可实现fn中this指向的改变(谁调用指向谁)
 
     // call 实现
     Function.prototype.myCall = function (context = window) { //myCall函数的参数，没有传参默认是指向window

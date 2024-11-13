@@ -44,6 +44,7 @@ callbacks新增回调函数后又执行了timerFunc函数，pending用来标识�
 等待下一次事件循环时来执行。MutationObserver是Html5的一个新特性，用来监听目标DOM结构是否改变，也就是代码中新建的textNode；如果改变了就执行MutationObserver构造函数中的回调函数，不过是它是在微任务中执行的。
 
 关键函数 nextTickHandler
+
 nextTick不顾一切的要把它放入微任务或者宏任务中去执行，
 它其实就是把callbacks数组复制一份，然后把callbacks置为空，最后把复制出来的数组中的每个函数依次执行一遍；所以它的作用仅仅是用来执行callbacks中的回调函数。
 

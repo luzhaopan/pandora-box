@@ -75,8 +75,10 @@ methods: {
 
 # 四、vue3与vue2关于v-model的区别
 
-1. vue3默认prop、event为：modelValue和update:modelValue
+1. vue3默认prop、event为：modelValue和update:modelValue;
+
 vue2默认prop、event为：value和input
 
-2. vue3直接通过v-model后面参数v-model:msg来指定属性名，并且支持绑定多个v-model
+2. vue3直接通过v-model后面参数v-model:msg来指定属性名，并且支持绑定多个v-model;
+
 vue2通过子组件的model属性中的prop值和event值来指定属性名和事件名。

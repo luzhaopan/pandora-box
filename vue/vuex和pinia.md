@@ -97,5 +97,6 @@ const storeA = useStoreA();
 
 4. 完整的 TypeScript 支持：与在 Vuex 中添加 TypeScript 相比，添加 TypeScript 更容易
    
-5. 
+5. 更好的类型推断：Pinia 自动从 state 推断出 getter 的返回类型
+
    

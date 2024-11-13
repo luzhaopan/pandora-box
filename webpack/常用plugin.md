@@ -44,4 +44,4 @@
 
 ### uglifyjs-webpack-plugin
 
-在项目发布之前，我们必然需要对js等文件进行压缩处理,这里，我们使用一个第三方的插件uglifyjs-webpack-plugin
+在项目发布之前，我们必然需要对js等文件进行压缩处理，我们使用一个第三方的插件uglifyjs-webpack-plugin
