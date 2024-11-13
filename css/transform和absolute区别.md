@@ -2,7 +2,7 @@
 
 下⾯让我们来看⼀个动画效果，在该动画中包含了⼏个堆叠在⼀起的球并让它们沿相同路径移动。最简单的⽅式就是实时调整它们的left 和 top 属性，使⽤ css 动画实现。
 
-```sh
+```js
 <style>
     html,
     body {
@@ -51,7 +51,7 @@
 
 为了解决这个问题，我们使⽤ transform 中的 translate() 来替换 top 和 left ，重写⼀下这个动画效果。
 
-```sh
+```html
 <style>
     html,
     body {
