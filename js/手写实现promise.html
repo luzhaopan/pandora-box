@@ -9,7 +9,11 @@
             constructor(process) {
                 this.status = 'pending'
                 this.msg = ''
-                process(this.resolve.bind(this), this.reject.bind(this))
+                try {
+                    process(this.resolve.bind(this), this.reject.bind(this))
+                } catch (err) {
+                    this.reject(err)
+                }
                 return this
             }
             resolve(val) {
@@ -21,11 +25,17 @@
                 this.msg = err
             }
             then(resolve, reject) {
+                resolve = typeof resolve === 'function' ? resolve :  () => { }
+                reject = typeof reject === 'function' ? reject :  () => { }
                 if (this.status === 'fulfilled') {
-                    resolve(this.msg)
+                    setTimeout(() => {
+                        resolve(this.msg)
+                    })
                 }
                 if (this.status === 'rejected') {
-                    reject(this.msg)
+                    setTimeout(() => {
+                        reject(this.msg)
+                    })
                 }
             }
         }
