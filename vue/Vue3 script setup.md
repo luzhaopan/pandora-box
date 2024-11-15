@@ -115,9 +115,8 @@ export default {
 
 # script setup 语法糖
 
-1. <script setup> 语法糖并不是新增的功能模块，它只是简化了以往的组合API（compositionApi）的必须返回（return）的写法，并且有更好的运行时性能。
-2. 
-3. 在 setup 函数中：所有 ES 模块导出都被认为是暴露给上下文的值，并包含在 ​​setup()​​ 返回对象中。相对于之前的写法，使用后，语法也变得更简单。
+1. `<script setup>` 语法糖并不是新增的功能模块，它只是简化了以往的组合API（compositionApi）的必须返回（return）的写法，并且有更好的运行时性能。
+2. 在 setup 函数中：所有 ES 模块导出都被认为是暴露给上下文的值，并包含在 ​​setup()​​ 返回对象中。相对于之前的写法，使用后，语法也变得更简单。
 
 # 组件核心 API 的使用
 

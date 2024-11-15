@@ -61,11 +61,41 @@ Object.defineProperty无法监听数组数据的变化，但是为什么数组�
 
 # proxy
 
+## proxy实现原理
+Proxy 是 ES6 中新增的功能，它可以用来自定义对象中的操作。
+Vue3.x 使用 Proxy 替代了 Object.defineProperty 来实现数据响应式。
+```sh
+const handler = {
+  get: function(target, prop) {
+    return prop in target ? target[prop] : 'undefined';
+  },
+  set: function(target, prop, value) {
+    target[prop] = value;
+    return true;
+  }
+};
+ 
+const proxy = new Proxy({}, handler);
+ 
+proxy.name = 'John Doe';
+console.log(proxy.name); // 输出: John Doe
+console.log(proxy.age);  // 输出: undefined
+```
+
+实现原理主要包括以下几个方面：
+
+- 目标对象（target）：需要被代理的对象，所有的属性查询和操作都会被代理。
+
+- 处理器对象（handler）：定义了代理的行为，包括 get、set、apply 等方法。
+
+- 代理（proxy）：通过 new Proxy(target, handler) 创建的对象，它会按照 handler 定义的行为去代理对 target 对象的操作。
+
+
 Proxy 相对 defineProperty，不在局限某个属性，而是直接对整个对象进行代理.
 Proxy可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，
 都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写
 
-Proxy 的优势如下:
+## Proxy 的优势如下:
 1. Proxy 可以直接监听对象而非属性；
 2. Proxy 可以直接监听数组的变化；
 3. Proxy 有多达 13 种拦截方法,不限于 apply、ownKeys、deleteProperty、has 等等是Object。defineProperty 不具备的；
