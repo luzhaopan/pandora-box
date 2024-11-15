@@ -3,7 +3,7 @@
 其实现原理是对data的getter/setter方法进行拦截（Object.defineProperty或者Proxy），
 利用发布订阅的设计模式，在getter方法中进行订阅，在setter方法中发布通知，让所有订阅者完成响应。
 
-# Object.defineProperty
+# 一、Object.defineProperty
 
 Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。
 
@@ -59,7 +59,7 @@ Object.defineProperty无法监听数组数据的变化，但是为什么数组�
   });
 ```
 
-# proxy
+# 二、proxy
 
 ## proxy实现原理
 Proxy 是 ES6 中新增的功能，它可以用来自定义对象中的操作。
